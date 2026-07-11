@@ -1,0 +1,1257 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>전략 페르소나 플래너</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #171717;
+      --muted: #6b665f;
+      --line: #ddd5ca;
+      --paper: #f8f3eb;
+      --panel: #fffaf2;
+      --accent: #b33d25;
+      --accent-2: #165c64;
+      --accent-3: #76633f;
+      --good: #217354;
+      --shadow: 0 18px 50px rgba(36, 26, 14, .12);
+      --radius: 8px;
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        linear-gradient(135deg, rgba(179, 61, 37, .10), transparent 32%),
+        linear-gradient(315deg, rgba(22, 92, 100, .13), transparent 34%),
+        var(--paper);
+    }
+
+    button, input, textarea, select {
+      font: inherit;
+    }
+
+    button {
+      border: 1px solid transparent;
+      border-radius: 7px;
+      min-height: 40px;
+      padding: 0 14px;
+      color: #fff;
+      background: var(--ink);
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+
+    button:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0, 0, 0, .13); }
+    button:active { transform: translateY(0); }
+    button.secondary { color: var(--ink); background: transparent; border-color: var(--line); }
+    button.ghost { color: var(--accent-2); background: transparent; border-color: transparent; padding-inline: 8px; }
+    button.danger { background: var(--accent); }
+    button.good { background: var(--good); }
+
+    .app {
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 40px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 22px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .mark {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(135deg, var(--ink), var(--accent-2));
+      border-radius: 8px;
+      font-weight: 800;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: clamp(24px, 3vw, 38px); letter-spacing: 0; }
+    .subtle { color: var(--muted); line-height: 1.55; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 410px minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      background: rgba(255, 250, 242, .88);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .panel-inner { padding: 18px; }
+    .sticky { position: sticky; top: 18px; }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .section-title h2 { font-size: 18px; }
+
+    label {
+      display: block;
+      margin: 14px 0 7px;
+      color: #3b332c;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fffdf9;
+      color: var(--ink);
+      padding: 11px 12px;
+      outline: none;
+    }
+
+    textarea { min-height: 96px; resize: vertical; line-height: 1.55; }
+    input:focus, textarea:focus, select:focus { border-color: var(--accent-2); box-shadow: 0 0 0 3px rgba(22, 92, 100, .13); }
+
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+
+    .battle-map {
+      min-height: 280px;
+      padding: 22px;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(23, 23, 23, .04) 1px, transparent 1px),
+        linear-gradient(rgba(23, 23, 23, .04) 1px, transparent 1px),
+        rgba(255, 250, 242, .82);
+      background-size: 36px 36px;
+    }
+
+    .map-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .meter-wrap {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .meter {
+      min-height: 86px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: rgba(255,255,255,.64);
+    }
+
+    .meter strong {
+      display: block;
+      margin-bottom: 9px;
+      font-size: 13px;
+    }
+
+    .bar {
+      height: 8px;
+      background: #e9dfd2;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      width: var(--w, 40%);
+      background: var(--accent);
+      border-radius: inherit;
+    }
+
+    .meter:nth-child(2) .bar span { background: var(--accent-2); }
+    .meter:nth-child(3) .bar span { background: var(--accent-3); }
+
+    .timeline {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .event {
+      display: grid;
+      grid-template-columns: 68px minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: start;
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fffdf9;
+    }
+
+    .event time { font-weight: 800; color: var(--accent); }
+    .event h3 { font-size: 15px; margin-bottom: 4px; }
+    .event p { color: var(--muted); line-height: 1.45; font-size: 13px; }
+
+    .persona-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .persona {
+      position: relative;
+      min-height: 218px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fffdf9;
+    }
+
+    .persona.selected { border-color: var(--accent-2); box-shadow: inset 0 0 0 2px rgba(22, 92, 100, .14); }
+    .avatar {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #241d18;
+      color: #fff;
+      font-weight: 800;
+    }
+
+    .persona h3 { font-size: 17px; }
+    .tagline { min-height: 43px; color: var(--muted); line-height: 1.45; font-size: 13px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+    .chip {
+      border: 1px solid #e5d8c8;
+      border-radius: 99px;
+      padding: 5px 8px;
+      background: #fbf4e9;
+      color: #53473b;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .playbook {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fffdf9;
+      padding: 15px;
+    }
+
+    .card h3 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 16px;
+      margin-bottom: 9px;
+    }
+
+    .card ul { margin: 10px 0 0; padding-left: 18px; color: #302923; line-height: 1.62; }
+    .script {
+      margin-top: 10px;
+      padding: 12px;
+      border-left: 4px solid var(--accent-2);
+      background: #f3fbfa;
+      line-height: 1.55;
+    }
+
+    .alarm-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .alarm {
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fffdf9;
+    }
+
+    .alarm strong { color: var(--accent); }
+    .empty {
+      min-height: 180px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: var(--muted);
+      border: 1px dashed #d7c8b8;
+      border-radius: 7px;
+      background: rgba(255,255,255,.45);
+      padding: 22px;
+    }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      width: min(360px, calc(100vw - 36px));
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #171717;
+      color: #fff;
+      box-shadow: 0 16px 44px rgba(0, 0, 0, .24);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: opacity .2s ease, transform .2s ease;
+      z-index: 20;
+    }
+
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast p { color: #f4ede4; line-height: 1.45; margin-top: 4px; }
+
+    @media (max-width: 930px) {
+      .grid { grid-template-columns: 1fr; }
+      .sticky { position: static; }
+      .persona-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .app { width: min(100% - 20px, 1220px); padding-top: 18px; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .row, .meter-wrap { grid-template-columns: 1fr; }
+      .event, .alarm { grid-template-columns: 1fr; }
+      .map-header { flex-direction: column; }
+      button { width: 100%; }
+      .actions button { flex: 1 1 150px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="mark">策</div>
+        <div>
+          <h1>전략 페르소나 플래너</h1>
+          <p class="subtle">하루 일정을 입력하면 철학자와 문학 인물이 자기소개하고, 선택된 관점으로 행동지침과 알람을 만듭니다.</p>
+        </div>
+      </div>
+      <button id="notifyButton" class="secondary" type="button">알림 허용</button>
+    </header>
+
+    <section class="grid">
+      <aside class="panel sticky" aria-label="일정 입력">
+        <div class="panel-inner">
+          <div class="section-title">
+            <h2>내일의 전장 입력</h2>
+            <button id="sampleButton" class="ghost" type="button">예시</button>
+          </div>
+
+          <label for="eventTime">시간</label>
+          <input id="eventTime" type="time" value="09:00">
+
+          <label for="eventTitle">일정</label>
+          <input id="eventTitle" type="text" placeholder="예: 연간 예산 협의">
+
+          <div class="row">
+            <div>
+              <label for="eventPerson">상대</label>
+              <input id="eventPerson" type="text" placeholder="예: 재무팀 김팀장">
+            </div>
+            <div>
+              <label for="eventMode">난관 유형</label>
+              <select id="eventMode">
+                <option value="협상">협상</option>
+                <option value="갈등">갈등</option>
+                <option value="위기">위기</option>
+                <option value="인재">인재</option>
+                <option value="관계">관계</option>
+                <option value="결단">결단</option>
+              </select>
+            </div>
+          </div>
+
+          <label for="eventSituation">상황</label>
+          <textarea id="eventSituation" placeholder="예: 상대가 예산을 크게 깎으려 하고, 우리 팀은 신규 프로젝트 승인이 필요함"></textarea>
+
+          <div class="actions">
+            <button id="addButton" type="button">일정 추가</button>
+            <button id="clearButton" class="secondary" type="button">초기화</button>
+          </div>
+        </div>
+      </aside>
+
+      <div>
+        <section class="panel battle-map" aria-label="전략 지도">
+          <div class="map-header">
+            <div>
+              <h2>오늘의 전략 지도</h2>
+              <p class="subtle">입력된 일정의 긴장도, 관계 민감도, 결단 압력을 읽어 페르소나를 추천합니다.</p>
+            </div>
+            <button id="analyzeButton" type="button">철학자 호출</button>
+          </div>
+
+          <div class="meter-wrap" aria-label="상황 지표">
+            <div class="meter">
+              <strong>긴장도</strong>
+              <div class="bar"><span id="tensionBar"></span></div>
+              <p id="tensionText" class="subtle">일정 입력 대기</p>
+            </div>
+            <div class="meter">
+              <strong>관계 민감도</strong>
+              <div class="bar"><span id="relationBar"></span></div>
+              <p id="relationText" class="subtle">일정 입력 대기</p>
+            </div>
+            <div class="meter">
+              <strong>결단 압력</strong>
+              <div class="bar"><span id="decisionBar"></span></div>
+              <p id="decisionText" class="subtle">일정 입력 대기</p>
+            </div>
+          </div>
+
+          <div id="timeline" class="timeline"></div>
+        </section>
+
+        <section class="panel" style="margin-top:18px;" aria-label="페르소나 추천">
+          <div class="panel-inner">
+            <div class="section-title">
+              <h2>당신을 도울 페르소나</h2>
+              <span id="selectedName" class="chip">선택 대기</span>
+            </div>
+            <div id="personaGrid" class="persona-grid"></div>
+          </div>
+        </section>
+
+        <section class="panel" style="margin-top:18px;" aria-label="행동지침">
+          <div class="panel-inner">
+            <div class="section-title">
+              <h2>행동지침과 알람</h2>
+              <div class="actions" style="margin:0;">
+                <button id="scheduleButton" class="good" type="button">알람 설정</button>
+                <button id="exportButton" class="secondary" type="button">요약 복사</button>
+              </div>
+            </div>
+            <div id="playbook" class="playbook">
+              <div class="empty">일정을 추가하고 철학자를 호출하면, 선택한 페르소나가 시간대별 행동지침을 작성합니다.</div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite">
+    <strong id="toastTitle">알림</strong>
+    <p id="toastText"></p>
+  </div>
+
+  <script>
+    const personas = [
+      {
+        id: "machiavelli",
+        name: "마키아벨리",
+        short: "M",
+        tags: ["현실주의", "협상", "권력관계"],
+        intro: "감정은 약점입니다. 상대의 필요와 두려움을 먼저 읽고, 한 번에 모든 전쟁을 치르지 마십시오.",
+        fit: ["협상", "위기", "결단", "인재"],
+        principle: "호의는 점진적으로, 어려운 결정은 한 번에 끝낸다.",
+        tone: "냉정하고 짧게, 상대의 선택지를 좁히는 방식"
+      },
+      {
+        id: "confucius",
+        name: "공자",
+        short: "孔",
+        tags: ["관계", "예의", "질서"],
+        intro: "상대의 체면을 세우면 길이 열립니다. 관계를 무너뜨리지 않는 승리를 설계하십시오.",
+        fit: ["관계", "갈등", "인재"],
+        principle: "예를 잃지 않되, 기준은 흐리지 않는다.",
+        tone: "정중하고 품위 있게, 공동의 명분을 세우는 방식"
+      },
+      {
+        id: "kant",
+        name: "칸트",
+        short: "K",
+        tags: ["원칙", "공정", "책임"],
+        intro: "이번 결정이 모두에게 적용되어도 괜찮은 규칙인지 물으십시오. 원칙은 협상 카드가 아닙니다.",
+        fit: ["결단", "갈등", "협상"],
+        principle: "사람을 수단으로만 대하지 않는다.",
+        tone: "차분하고 논리적으로, 기준과 절차를 분명히 하는 방식"
+      },
+      {
+        id: "nietzsche",
+        name: "니체",
+        short: "N",
+        tags: ["의지", "돌파", "주도권"],
+        intro: "회피는 상황을 키웁니다. 당신의 의지를 선명하게 드러내고 주도권을 되찾으십시오.",
+        fit: ["위기", "결단", "갈등"],
+        principle: "나를 약하게 만드는 합의를 거절한다.",
+        tone: "강하고 직접적으로, 결정권이 내게 있음을 보이는 방식"
+      },
+      {
+        id: "sartre",
+        name: "사르트르",
+        short: "S",
+        tags: ["자유", "책임", "거리두기"],
+        intro: "타인의 시선은 압박이지만, 선택은 여전히 당신의 것입니다. 사실과 감정을 분리하십시오.",
+        fit: ["관계", "갈등", "결단"],
+        principle: "선택하지 않는 것도 하나의 선택이며, 그 책임도 내 것이다.",
+        tone: "감정을 걷어내고, 사실과 선택지를 선명히 나누는 방식"
+      },
+      {
+        id: "tolstoy",
+        name: "톨스토이",
+        short: "T",
+        tags: ["성찰", "사과", "회복"],
+        intro: "복잡한 전략보다 단순한 진실이 관계를 회복합니다. 먼저 인정할 부분을 찾으십시오.",
+        fit: ["관계", "갈등", "인재"],
+        principle: "작은 진심 하나가 큰 방어를 무너뜨린다.",
+        tone: "부드럽고 솔직하게, 자존심보다 회복을 우선하는 방식"
+      }
+    ];
+
+    const extendedPersonas = [
+      {
+        id: "socrates",
+        name: "소크라테스",
+        short: "So",
+        tags: ["질문", "무지의 자각", "대화"],
+        intro: "답을 주기 전에 질문을 정교하게 만듭니다. 상대가 스스로 모순을 보게 하십시오.",
+        fit: ["관계", "갈등", "결단"],
+        keywords: ["대화", "질문", "자녀", "학생", "오해", "설득", "가르침"],
+        principle: "좋은 질문은 방어를 낮추고 진실을 드러낸다.",
+        tone: "단정하지 않고 묻되, 핵심에서 물러서지 않는 방식",
+        moves: ["상대가 먼저 정의하게 하십시오.", "왜 그렇게 느끼는지 한 번 더 물으십시오.", "결론보다 질문의 질을 기록하십시오."]
+      },
+      {
+        id: "aristotle",
+        name: "아리스토텔레스",
+        short: "Ar",
+        tags: ["중용", "습관", "덕"],
+        intro: "극단을 피하고 반복 가능한 좋은 습관을 설계합니다. 한 번의 승리보다 품성을 보십시오.",
+        fit: ["관계", "인재", "결단"],
+        keywords: ["습관", "교육", "성장", "균형", "훈육", "팀문화"],
+        principle: "좋은 결정은 좋은 습관에서 나온다.",
+        tone: "균형 있게, 과잉과 결핍 사이의 실천점을 찾는 방식",
+        moves: ["극단적 대응 두 가지를 먼저 배제하십시오.", "반복 가능한 작은 행동을 정하십시오.", "오늘의 행동이 어떤 습관을 만드는지 점검하십시오."]
+      },
+      {
+        id: "plato",
+        name: "플라톤",
+        short: "Pl",
+        tags: ["이상", "공동선", "교육"],
+        intro: "눈앞의 갈등 너머에 있는 더 좋은 질서를 상상합니다. 모두에게 어떤 세계를 만들지 묻습니다.",
+        fit: ["결단", "관계", "인재"],
+        keywords: ["비전", "교육", "공동체", "이상", "방향", "원칙"],
+        principle: "지금의 선택이 공동체의 질서를 만든다.",
+        tone: "큰 그림을 세우고, 개인의 감정을 공동의 방향으로 연결하는 방식",
+        moves: ["이 결정이 만들 미래를 말하십시오.", "상대의 역할을 공동선 안에서 다시 설명하십시오.", "단기 감정과 장기 방향을 나누십시오."]
+      },
+      {
+        id: "seneca",
+        name: "세네카",
+        short: "Se",
+        tags: ["스토아", "감정 절제", "회고"],
+        intro: "통제할 수 있는 것과 없는 것을 나눕니다. 감정의 파도 속에서도 품위를 잃지 않게 합니다.",
+        fit: ["위기", "갈등", "관계"],
+        keywords: ["분노", "불안", "걱정", "위기", "회고", "감정", "충동"],
+        principle: "내가 통제할 수 있는 것에만 힘을 쓴다.",
+        tone: "차분하고 절제된 말투로, 반응보다 선택을 앞세우는 방식",
+        moves: ["즉시 반응하지 말고 10분 늦추십시오.", "통제 가능한 항목만 세 개 적으십시오.", "밤에 감정과 행동을 분리해 회고하십시오."]
+      },
+      {
+        id: "epictetus",
+        name: "에픽테토스",
+        short: "Ep",
+        tags: ["통제", "내면", "자유"],
+        intro: "상황이 아니라 상황에 대한 판단을 다룹니다. 빼앗기지 않는 내면의 자유를 확보하십시오.",
+        fit: ["위기", "관계", "결단"],
+        keywords: ["통제", "압박", "비난", "상처", "자유", "불공정"],
+        principle: "사건은 나를 지배하지 못한다. 내 판단이 나를 흔든다.",
+        tone: "짧고 단단하게, 외부 평가와 자기 선택을 분리하는 방식",
+        moves: ["상대의 말과 내 해석을 분리하십시오.", "내가 선택할 수 있는 행동 하나를 고르십시오.", "평판보다 원칙을 확인하십시오."]
+      },
+      {
+        id: "marcus",
+        name: "마르쿠스 아우렐리우스",
+        short: "Ma",
+        tags: ["책임", "절제", "리더십"],
+        intro: "권한이 클수록 자기 통제가 먼저입니다. 리더의 품위로 상황을 안정시키십시오.",
+        fit: ["위기", "인재", "결단"],
+        keywords: ["리더", "책임", "위기", "조직", "불안", "평정"],
+        principle: "리더의 첫 임무는 자기 마음을 다스리는 것이다.",
+        tone: "무게감 있게, 감정을 숨기기보다 질서 있게 정리하는 방식",
+        moves: ["가장 먼저 조직이 볼 신호를 정하십시오.", "말의 온도를 낮추십시오.", "결정 후 기록으로 책임을 남기십시오."]
+      },
+      {
+        id: "laozi",
+        name: "노자",
+        short: "老",
+        tags: ["무위", "흐름", "부드러움"],
+        intro: "밀어붙일수록 더 닫히는 상황에서는 힘을 빼야 합니다. 빈 공간을 만들어 상대가 움직이게 하십시오.",
+        fit: ["관계", "갈등", "협상"],
+        keywords: ["저항", "반항", "닫힘", "침묵", "사춘기", "부드럽게", "거리"],
+        principle: "부드러운 것이 단단한 것을 이긴다.",
+        tone: "낮고 느리게, 강요 대신 선택의 여지를 주는 방식",
+        moves: ["질문 수를 줄이고 침묵을 허용하십시오.", "한 걸음 물러나 선택지를 주십시오.", "오늘 해결하려는 욕심을 내려놓으십시오."]
+      },
+      {
+        id: "zhuangzi",
+        name: "장자",
+        short: "莊",
+        tags: ["관점 전환", "자유", "여백"],
+        intro: "정답 싸움에서 벗어나 관점을 바꿉니다. 상대의 세계가 어떻게 보이는지 먼저 상상하십시오.",
+        fit: ["관계", "갈등", "결단"],
+        keywords: ["관점", "자유", "답답함", "비교", "자녀", "창의", "고집"],
+        principle: "내가 보는 세계만 세계의 전부는 아니다.",
+        tone: "가볍고 넓게, 판단을 늦추고 다른 시야를 여는 방식",
+        moves: ["상대 입장에서 같은 장면을 다시 쓰십시오.", "한 가지 정답을 내려놓으십시오.", "웃을 수 있는 여지를 남기십시오."]
+      },
+      {
+        id: "buddha",
+        name: "붓다",
+        short: "B",
+        tags: ["집착 내려놓기", "자비", "고통 이해"],
+        intro: "고통의 뿌리를 봅니다. 이기려는 마음보다 고통을 덜어내는 말을 찾으십시오.",
+        fit: ["관계", "갈등", "위기"],
+        keywords: ["고통", "집착", "불안", "상처", "용서", "자비", "화"],
+        principle: "고통을 이해하면 반응이 달라진다.",
+        tone: "다정하지만 흐리지 않게, 상처의 원인을 조용히 비추는 방식",
+        moves: ["상대가 두려워하는 것을 추측해보십시오.", "내 집착을 하나 내려놓으십시오.", "비난 대신 고통을 확인하는 말을 하십시오."]
+      },
+      {
+        id: "mencius",
+        name: "맹자",
+        short: "孟",
+        tags: ["측은지심", "도덕적 용기", "양육"],
+        intro: "사람 안의 선한 싹을 믿고 키웁니다. 꾸짖기보다 부끄러움과 가능성을 함께 다룹니다.",
+        fit: ["관계", "인재", "갈등"],
+        keywords: ["아이", "학생", "양육", "교육", "가능성", "격려", "부모"],
+        principle: "사람은 밀어붙이는 만큼보다 믿어주는 만큼 자란다.",
+        tone: "따뜻하게 기대를 드러내고, 기준은 분명히 남기는 방식",
+        moves: ["상대의 선한 의도를 먼저 가정하십시오.", "실망보다 기대를 말하십시오.", "작은 회복 행동을 함께 정하십시오."]
+      },
+      {
+        id: "hanfeizi",
+        name: "한비자",
+        short: "韓",
+        tags: ["규칙", "시스템", "상벌"],
+        intro: "사람의 선의에만 기대지 않습니다. 감정이 아니라 규칙과 구조로 문제를 풀어야 합니다.",
+        fit: ["인재", "갈등", "결단"],
+        keywords: ["규칙", "반복", "약속", "책임", "조직", "위반", "상벌"],
+        principle: "불명확한 규칙은 갈등을 키운다.",
+        tone: "건조하고 명확하게, 예외보다 기준을 앞세우는 방식",
+        moves: ["문제를 성격이 아니라 규칙으로 바꾸십시오.", "측정 가능한 약속을 정하십시오.", "후속 결과를 미리 합의하십시오."]
+      },
+      {
+        id: "sunzi",
+        name: "손자",
+        short: "孫",
+        tags: ["전략", "정보", "우회"],
+        intro: "이기기 전에 싸울 필요가 있는지 묻습니다. 정보와 지형을 읽고 불필요한 충돌을 피하십시오.",
+        fit: ["협상", "위기", "결단"],
+        keywords: ["경쟁", "협상", "정보", "전략", "우회", "시장", "고객"],
+        principle: "가장 좋은 승리는 싸우지 않고 목적을 얻는 것이다.",
+        tone: "냉정하게 지형을 읽고, 직접 충돌보다 우회로를 찾는 방식",
+        moves: ["상대의 보급선이 무엇인지 찾으십시오.", "정면충돌 대신 우회 선택지를 만드십시오.", "오늘 싸우지 않아도 되는 전투를 지우십시오."]
+      },
+      {
+        id: "montaigne",
+        name: "몽테뉴",
+        short: "Mo",
+        tags: ["자기 성찰", "회의", "품위"],
+        intro: "확신을 조금 낮추고 나를 관찰합니다. 내가 틀릴 가능성을 남기면 대화가 살아납니다.",
+        fit: ["관계", "갈등", "결단"],
+        keywords: ["확신", "오해", "대화", "성찰", "부모", "관계", "자기점검"],
+        principle: "내가 무엇을 아는가, 그리고 무엇을 모르는가.",
+        tone: "부드럽게 의심하고, 자기 성찰을 먼저 꺼내는 방식",
+        moves: ["내가 잘못 본 부분을 먼저 말하십시오.", "판단 대신 관찰을 공유하십시오.", "상대의 설명을 고칠 기회를 주십시오."]
+      },
+      {
+        id: "spinoza",
+        name: "스피노자",
+        short: "Sp",
+        tags: ["감정 이해", "필연", "평정"],
+        intro: "감정은 비난할 대상이 아니라 이해할 대상입니다. 원인을 알면 감정이 덜 지배합니다.",
+        fit: ["관계", "갈등", "위기"],
+        keywords: ["감정", "분노", "원인", "이해", "불안", "반응", "상처"],
+        principle: "이해는 감정의 노예 상태를 줄인다.",
+        tone: "분석적이되 차갑지 않게, 감정의 원인을 함께 찾는 방식",
+        moves: ["상대 감정의 원인을 세 가지 가설로 적으십시오.", "비난어를 원인어로 바꾸십시오.", "반응보다 이해 확인 문장을 먼저 말하십시오."]
+      },
+      {
+        id: "rousseau",
+        name: "루소",
+        short: "R",
+        tags: ["자연성", "교육", "자율"],
+        intro: "통제보다 자율을 봅니다. 사람은 명령보다 스스로 선택할 때 더 깊이 배웁니다.",
+        fit: ["관계", "인재", "갈등"],
+        keywords: ["자녀", "학생", "교육", "자율", "간섭", "성장", "사춘기"],
+        principle: "억지로 만든 순종은 성장을 대신하지 못한다.",
+        tone: "통제 욕구를 낮추고, 선택의 책임을 돌려주는 방식",
+        moves: ["상대가 고를 수 있는 선택지를 두 개만 주십시오.", "결과의 책임도 함께 설명하십시오.", "감시보다 약속을 제안하십시오."]
+      },
+      {
+        id: "mill",
+        name: "존 스튜어트 밀",
+        short: "Mi",
+        tags: ["자유", "토론", "해악 원칙"],
+        intro: "간섭의 기준을 분명히 합니다. 자유를 존중하되 타인에게 해가 되는 지점은 다룹니다.",
+        fit: ["관계", "갈등", "결단"],
+        keywords: ["자유", "간섭", "토론", "권리", "책임", "자율", "규칙"],
+        principle: "자유는 책임의 언어와 함께 갈 때 성숙해진다.",
+        tone: "자유를 인정하고, 필요한 경계만 또렷하게 세우는 방식",
+        moves: ["간섭해야 하는 이유가 해악인지 불안인지 구분하십시오.", "상대의 자유를 먼저 인정하십시오.", "최소한의 경계만 제안하십시오."]
+      },
+      {
+        id: "camus",
+        name: "카뮈",
+        short: "Ca",
+        tags: ["부조리", "반항", "존엄"],
+        intro: "이해되지 않는 상황에서도 품위를 잃지 않는 반항을 선택합니다. 체념하지 않는 태도가 필요합니다.",
+        fit: ["위기", "관계", "결단"],
+        keywords: ["무기력", "부조리", "반항", "의미", "체념", "우울", "존엄"],
+        principle: "상황이 부조리해도 내 태도까지 부조리할 필요는 없다.",
+        tone: "담담하지만 단단하게, 체념 대신 작은 반항을 택하는 방식",
+        moves: ["오늘 지킬 존엄 하나를 정하십시오.", "상황을 과장하지 말고 있는 그대로 말하십시오.", "작은 행동으로 체념을 끊으십시오."]
+      },
+      {
+        id: "dewey",
+        name: "존 듀이",
+        short: "D",
+        tags: ["실험", "교육", "경험"],
+        intro: "정답을 선포하지 말고 작은 실험을 설계합니다. 배움은 말보다 경험에서 일어납니다.",
+        fit: ["인재", "관계", "결단"],
+        keywords: ["교육", "학생", "실험", "경험", "학습", "개선", "피드백"],
+        principle: "작은 실험은 큰 설교보다 강하다.",
+        tone: "실용적으로, 한 번에 끝내기보다 다음 실험을 정하는 방식",
+        moves: ["일주일짜리 작은 실험을 제안하십시오.", "평가 기준을 함께 정하십시오.", "결과보다 배운 점을 물으십시오."]
+      },
+      {
+        id: "arendt",
+        name: "한나 아렌트",
+        short: "Ha",
+        tags: ["판단", "공적 책임", "사유"],
+        intro: "생각 없이 따르는 흐름을 멈춥니다. 내가 하는 행동이 어떤 세계를 만드는지 판단해야 합니다.",
+        fit: ["결단", "갈등", "위기"],
+        keywords: ["책임", "판단", "조직", "침묵", "권위", "순응", "정치"],
+        principle: "생각하지 않는 순응이 가장 위험하다.",
+        tone: "날카롭게 판단하되, 개인의 책임을 공적 결과와 연결하는 방식",
+        moves: ["내가 침묵하면 생길 결과를 적으십시오.", "권위 뒤에 숨은 판단을 분리하십시오.", "공개되어도 견딜 수 있는 결정을 하십시오."]
+      },
+      {
+        id: "simoneweil",
+        name: "시몬 베유",
+        short: "We",
+        tags: ["주의", "고통", "연민"],
+        intro: "진짜 도움은 충고보다 주의 깊은 바라봄에서 시작합니다. 상대의 고통을 서둘러 해석하지 마십시오.",
+        fit: ["관계", "갈등", "위기"],
+        keywords: ["고통", "돌봄", "상처", "아이", "경청", "침묵", "연민"],
+        principle: "주의 깊게 바라보는 것이 첫 번째 사랑이다.",
+        tone: "조용하고 깊게, 판단보다 경청의 밀도를 높이는 방식",
+        moves: ["조언을 5분 늦추십시오.", "상대의 말을 끊지 않고 반복해 확인하십시오.", "도울 방법을 묻기 전에 고통의 이름을 확인하십시오."]
+      },
+      {
+        id: "virginiawoolf",
+        name: "버지니아 울프",
+        short: "VW",
+        tags: ["내면", "자기 공간", "섬세함"],
+        intro: "말하지 못한 내면과 자기만의 방을 봅니다. 침묵은 거절이 아니라 공간 요청일 수 있습니다.",
+        fit: ["관계", "갈등", "인재"],
+        keywords: ["방", "침묵", "내면", "사춘기", "자기공간", "예민", "창작"],
+        principle: "사람에게는 말하기 전에 머물 자기만의 방이 필요하다.",
+        tone: "섬세하게, 침묵을 공격으로 해석하지 않는 방식",
+        moves: ["상대의 공간을 인정하는 문장으로 시작하십시오.", "대답을 강요하지 마십시오.", "나중에 말해도 된다는 출구를 주십시오."]
+      },
+      {
+        id: "dostoevsky",
+        name: "도스토옙스키",
+        short: "Do",
+        tags: ["죄책감", "양심", "모순"],
+        intro: "사람 안의 모순을 정면으로 봅니다. 비난 대신 양심이 말할 수 있는 틈을 여십시오.",
+        fit: ["갈등", "관계", "위기"],
+        keywords: ["죄책감", "거짓말", "모순", "고백", "수치", "양심", "갈등"],
+        principle: "사람은 모순을 인정할 때 다시 시작할 수 있다.",
+        tone: "깊고 진지하게, 회피하던 진실을 안전하게 꺼내는 방식",
+        moves: ["상대의 모순을 몰아붙이지 말고 비춰주십시오.", "고백해도 무너지지 않는 분위기를 만드십시오.", "책임과 구원을 함께 말하십시오."]
+      },
+      {
+        id: "tolkien",
+        name: "톨킨",
+        short: "Tk",
+        tags: ["작은 용기", "동료", "긴 여정"],
+        intro: "거대한 문제를 한 번에 해결하려 하지 않습니다. 작은 용기와 동료의 힘으로 다음 걸음을 갑니다.",
+        fit: ["위기", "관계", "인재"],
+        keywords: ["두려움", "여정", "친구", "용기", "작은", "포기", "회복"],
+        principle: "큰 어둠은 작은 충실함으로 건넌다.",
+        tone: "격려하되 과장하지 않고, 다음 한 걸음을 함께 정하는 방식",
+        moves: ["오늘 할 수 있는 가장 작은 용기를 정하십시오.", "혼자 짊어지지 않을 동료를 찾으십시오.", "긴 여정임을 인정하십시오."]
+      },
+      {
+        id: "luxun",
+        name: "루쉰의 아큐",
+        short: "AQ",
+        tags: ["자기기만", "체면", "현실 직시"],
+        intro: "정신승리와 자기합리화를 거울처럼 비춥니다. 체면을 지키려다 현실을 놓치지 않게 합니다.",
+        fit: ["갈등", "관계", "결단"],
+        keywords: ["체면", "억울", "합리화", "핑계", "자존심", "정신승리", "모욕"],
+        principle: "체면을 이기는 것보다 현실을 보는 것이 먼저다.",
+        tone: "약간 풍자적으로, 그러나 현실을 보게 하는 방식",
+        moves: ["내가 합리화하는 문장을 하나 찾으십시오.", "체면 때문에 놓친 사실을 적으십시오.", "품위 있는 현실 대응 문장을 쓰십시오."]
+      },
+      {
+        id: "hamlet",
+        name: "햄릿",
+        short: "Hm",
+        tags: ["망설임", "의심", "결단"],
+        intro: "너무 오래 생각하면 상황이 나를 끌고 갑니다. 의심을 충분히 보되 결정의 시간을 정해야 합니다.",
+        fit: ["결단", "갈등", "위기"],
+        keywords: ["망설임", "의심", "결정", "복수", "불신", "증거", "지연"],
+        principle: "생각은 필요하지만 끝없는 유예는 또 다른 선택이다.",
+        tone: "내면의 갈등을 인정하고, 결정 시한을 세우는 방식",
+        moves: ["더 필요한 증거와 이미 충분한 증거를 나누십시오.", "결정 시간을 못박으십시오.", "망설임의 비용을 계산하십시오."]
+      },
+      {
+        id: "antigone",
+        name: "안티고네",
+        short: "An",
+        tags: ["양심", "불복종", "가족"],
+        intro: "법과 명령보다 양심이 앞서는 순간을 봅니다. 감수할 대가까지 포함해 선택하십시오.",
+        fit: ["결단", "갈등", "관계"],
+        keywords: ["가족", "양심", "불복종", "원칙", "금지", "희생", "권위"],
+        principle: "양심의 선택은 대가를 외면하지 않는다.",
+        tone: "단호하고 비장하게, 지킬 가치와 감수할 대가를 함께 말하는 방식",
+        moves: ["무엇을 지키려는지 한 문장으로 쓰십시오.", "감수할 대가를 현실적으로 적으십시오.", "상대에게 원칙의 이유를 짧게 말하십시오."]
+      },
+      {
+        id: "atticus",
+        name: "애티커스 핀치",
+        short: "At",
+        tags: ["공정", "부모", "용기"],
+        intro: "아이에게 보여줄 수 있는 어른의 품위를 선택합니다. 이기는 말보다 공정한 태도가 오래 남습니다.",
+        fit: ["관계", "갈등", "인재"],
+        keywords: ["부모", "아이", "공정", "용기", "모범", "차별", "교육"],
+        principle: "아이들은 말보다 어른의 태도를 오래 배운다.",
+        tone: "담담하고 공정하게, 모범을 보이는 어른의 방식",
+        moves: ["아이 앞에서 지킬 태도 하나를 정하십시오.", "상대 입장을 상상하게 하는 질문을 하십시오.", "공정하지 않은 말은 바로잡되 모욕하지 마십시오."]
+      },
+      {
+        id: "janeeyre",
+        name: "제인 에어",
+        short: "Je",
+        tags: ["자존", "경계", "독립"],
+        intro: "사랑과 인정 욕구 속에서도 자기 존엄을 잃지 않습니다. 관계 안의 경계를 세우십시오.",
+        fit: ["관계", "갈등", "결단"],
+        keywords: ["자존감", "경계", "독립", "인정", "관계", "상처", "선택"],
+        principle: "사랑받고 싶어도 나를 버릴 수는 없다.",
+        tone: "부드럽지만 자기 경계를 잃지 않는 방식",
+        moves: ["내가 넘기면 안 되는 경계를 정하십시오.", "상대에게 원하는 인정과 실제 필요한 행동을 구분하십시오.", "존엄을 지키는 짧은 문장을 준비하십시오."]
+      }
+    ];
+
+    const allPersonas = [...personas, ...extendedPersonas];
+
+    const state = {
+      events: JSON.parse(localStorage.getItem("strategy-events") || "[]"),
+      selectedPersonaId: localStorage.getItem("strategy-persona") || "",
+      timers: []
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    function save() {
+      localStorage.setItem("strategy-events", JSON.stringify(state.events));
+      localStorage.setItem("strategy-persona", state.selectedPersonaId);
+    }
+
+    function toast(title, text) {
+      $("toastTitle").textContent = title;
+      $("toastText").textContent = text;
+      $("toast").classList.add("show");
+      window.clearTimeout(toast.timer);
+      toast.timer = window.setTimeout(() => $("toast").classList.remove("show"), 4200);
+    }
+
+    function scoreEvents() {
+      const text = state.events.map(e => `${e.title} ${e.person} ${e.mode} ${e.situation}`).join(" ");
+      const count = state.events.length || 1;
+      const has = (words) => words.some(w => text.includes(w));
+      const tension = Math.min(95, 22 + count * 12 + (has(["위기", "삭감", "사직", "손실", "경쟁", "압박"]) ? 28 : 0));
+      const relation = Math.min(95, 20 + count * 10 + (has(["갈등", "상대", "팀", "임원", "고객", "사과"]) ? 30 : 0));
+      const decision = Math.min(95, 24 + count * 11 + (has(["결정", "협상", "승인", "계약", "예산", "선택"]) ? 27 : 0));
+      return { tension, relation, decision };
+    }
+
+    function labelScore(score) {
+      if (score >= 75) return "높음";
+      if (score >= 48) return "중간";
+      return "낮음";
+    }
+
+    function renderMeters() {
+      const s = scoreEvents();
+      $("tensionBar").style.setProperty("--w", `${s.tension}%`);
+      $("relationBar").style.setProperty("--w", `${s.relation}%`);
+      $("decisionBar").style.setProperty("--w", `${s.decision}%`);
+      $("tensionText").textContent = labelScore(s.tension);
+      $("relationText").textContent = labelScore(s.relation);
+      $("decisionText").textContent = labelScore(s.decision);
+    }
+
+    function renderTimeline() {
+      const wrap = $("timeline");
+      if (!state.events.length) {
+        wrap.innerHTML = `<div class="empty">아직 일정이 없습니다. 왼쪽에서 시간, 상대, 상황을 입력해 주세요.</div>`;
+        return;
+      }
+      wrap.innerHTML = state.events
+        .slice()
+        .sort((a, b) => a.time.localeCompare(b.time))
+        .map((event) => `
+          <article class="event">
+            <time>${event.time}</time>
+            <div>
+              <h3>${escapeHtml(event.title)} <span class="chip">${escapeHtml(event.mode)}</span></h3>
+              <p>상대: ${escapeHtml(event.person || "미정")}</p>
+              <p>${escapeHtml(event.situation || "상황 설명 없음")}</p>
+            </div>
+            <button class="secondary" type="button" data-remove="${event.id}">삭제</button>
+          </article>
+        `).join("");
+    }
+
+    function recommendedPersonas() {
+      const modes = state.events.map(e => e.mode);
+      const text = state.events.map(e => `${e.title} ${e.person} ${e.mode} ${e.situation}`).join(" ").toLowerCase();
+      return allPersonas
+        .map(p => {
+          const modeScore = p.fit.reduce((sum, fit) => sum + (modes.includes(fit) ? 4 : 0), 0);
+          const keywordScore = (p.keywords || []).reduce((sum, keyword) => {
+            return sum + (text.includes(String(keyword).toLowerCase()) ? 3 : 0);
+          }, 0);
+          const tagScore = p.tags.reduce((sum, tag) => {
+            return sum + (text.includes(String(tag).toLowerCase()) ? 1 : 0);
+          }, 0);
+          return {
+            ...p,
+            score: modeScore + keywordScore + tagScore + (p.id === state.selectedPersonaId ? 1 : 0)
+          };
+        })
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 3);
+    }
+
+    function renderPersonas(forceRecommend = false) {
+      if (forceRecommend && state.events.length) {
+        state.selectedPersonaId = recommendedPersonas()[0].id;
+        save();
+      }
+      const list = state.events.length ? recommendedPersonas() : allPersonas.slice(0, 3);
+      const selected = allPersonas.find(p => p.id === state.selectedPersonaId);
+      $("selectedName").textContent = selected ? `${selected.name} 선택됨 · 전체 ${allPersonas.length}명 중` : `선택 대기 · 전체 ${allPersonas.length}명`;
+      $("personaGrid").innerHTML = list.map((p) => `
+        <article class="persona ${p.id === state.selectedPersonaId ? "selected" : ""}">
+          <div class="avatar">${p.short}</div>
+          <h3>${p.name}</h3>
+          <p class="tagline">${p.intro}</p>
+          <div class="chips">${p.tags.map(tag => `<span class="chip">${tag}</span>`).join("")}</div>
+          <button type="button" data-persona="${p.id}">${p.id === state.selectedPersonaId ? "선택됨" : "선택"}</button>
+        </article>
+      `).join("");
+      renderPlaybook();
+    }
+
+    function instructionFor(event, persona) {
+      const base = {
+        machiavelli: {
+          before: "상대가 잃기 싫어하는 것과 반드시 얻고 싶은 것을 각각 하나씩 적으십시오.",
+          during: "먼저 양보하지 말고, 상대의 첫 요구를 끝까지 듣고 조건부 역제안을 하십시오.",
+          after: "회의 직후 플랜 B 담당자와 다음 조치를 확정하십시오.",
+          script: `"${event.person || "상대"}님, 그 조건은 이해했습니다. 대신 우리가 지켜야 할 기준이 있습니다. 이 기준을 만족한다면 오늘 바로 결정하겠습니다."`
+        },
+        confucius: {
+          before: "상대가 체면을 잃지 않고 물러날 수 있는 표현을 준비하십시오.",
+          during: "공동의 목표를 먼저 말하고, 반대 의견은 사람보다 절차의 문제로 다루십시오.",
+          after: "감사와 합의 내용을 짧게 정리해 보내 관계의 잔열을 남기십시오.",
+          script: `"${event.person || "상대"}님 의견을 존중합니다. 다만 모두가 납득할 기준으로 보면 이 부분은 함께 조정해야겠습니다."`
+        },
+        kant: {
+          before: "이번 결정에 적용할 원칙 3개를 적고, 예외를 만들 경우의 위험을 확인하십시오.",
+          during: "감정이나 압박보다 절차, 공정성, 재현 가능한 기준을 중심으로 말하십시오.",
+          after: "합의가 원칙을 해치지 않았는지 기록하고, 후속 절차를 명확히 하십시오.",
+          script: `"${event.person || "상대"}님, 저는 이 사안을 예외로 처리하기보다 모두에게 적용 가능한 기준으로 판단하고 싶습니다."`
+        },
+        nietzsche: {
+          before: "오늘 절대 물러서지 않을 한 문장을 정하십시오.",
+          during: "회피성 표현을 버리고 원하는 결과를 직접 말하십시오.",
+          after: "결정 후 남는 불편함을 핑계로 되돌리지 말고 다음 행동으로 옮기십시오.",
+          script: `"저는 이 방향으로 결정하겠습니다. 우려는 듣겠습니다. 하지만 오늘은 결정을 미루지 않겠습니다."`
+        },
+        sartre: {
+          before: "사실, 감정, 추측을 세 줄로 분리하십시오.",
+          during: "상대가 만든 프레임에 들어가지 말고 선택 가능한 두 가지 길을 제시하십시오.",
+          after: "내가 선택한 것과 선택하지 않은 것을 기록해 책임의 경계를 분명히 하십시오.",
+          script: `"지금 확인된 사실은 여기까지입니다. 저는 두 가지 선택지를 보고 있고, 오늘은 첫 번째 방식으로 진행하겠습니다."`
+        },
+        tolstoy: {
+          before: "내가 먼저 인정할 수 있는 작은 잘못 하나를 찾으십시오.",
+          during: "방어보다 진심을 먼저 말하고, 상대가 말할 시간을 남겨두십시오.",
+          after: "짧은 사과나 감사 메시지로 관계 회복의 문을 열어두십시오.",
+          script: `"제가 놓친 부분이 있었습니다. 그 점은 인정합니다. 다시 정리해서 서로 불편하지 않은 방식으로 풀고 싶습니다."`
+        }
+      };
+      if (base[persona.id]) return base[persona.id];
+
+      const moves = persona.moves || [
+        "상황을 사실, 감정, 선택으로 나누십시오.",
+        "상대가 방어하지 않고 받을 수 있는 첫 문장을 준비하십시오.",
+        "결과를 기록하고 다음 행동 하나를 정하십시오."
+      ];
+      const subject = event.person || "상대";
+      return {
+        before: `${persona.name}의 관점으로 ${moves[0]}`,
+        during: moves[1],
+        after: moves[2],
+        script: `"${subject}님, 지금 이 상황을 ${persona.name}의 원칙처럼 보고 싶습니다. ${persona.principle} 그래서 오늘은 서로를 몰아붙이기보다 다음 한 걸음을 함께 정하고 싶습니다."`
+      };
+    }
+
+    function renderPlaybook() {
+      const persona = allPersonas.find(p => p.id === state.selectedPersonaId);
+      const wrap = $("playbook");
+      if (!state.events.length || !persona) {
+        wrap.innerHTML = `<div class="empty">일정을 추가하고 페르소나를 선택하면 실행 카드가 생성됩니다.</div>`;
+        return;
+      }
+      const sorted = state.events.slice().sort((a, b) => a.time.localeCompare(b.time));
+      const cards = sorted.map((event) => {
+        const i = instructionFor(event, persona);
+        const alarmTime = offsetTime(event.time, -10);
+        return `
+          <article class="card">
+            <h3>${event.time} ${escapeHtml(event.title)} <span class="chip">${persona.name}</span></h3>
+            <p class="subtle">상대: ${escapeHtml(event.person || "미정")} · 상황: ${escapeHtml(event.situation || "상황 설명 없음")}</p>
+            <ul>
+              <li>${alarmTime} 알람: ${i.before}</li>
+              <li>진행 중: ${i.during}</li>
+              <li>종료 후: ${i.after}</li>
+            </ul>
+            <div class="script">${i.script}<br><strong>최종 책임은 당신에게 있습니다.</strong></div>
+          </article>
+        `;
+      }).join("");
+      const alarms = sorted.map(event => `
+        <div class="alarm">
+          <strong>${offsetTime(event.time, -10)}</strong>
+          <span>${escapeHtml(event.title)} 직전 행동지침</span>
+          <span class="chip">${persona.name}</span>
+        </div>
+      `).join("");
+      wrap.innerHTML = `
+        <div class="card">
+          <h3>${persona.name}의 오늘 원칙</h3>
+          <p class="script">${persona.principle}</p>
+          <p class="subtle" style="margin-top:10px;">말투: ${persona.tone}</p>
+        </div>
+        ${cards}
+        <div class="card">
+          <h3>알람 큐</h3>
+          <div class="alarm-list">${alarms}</div>
+        </div>
+      `;
+    }
+
+    function offsetTime(time, minutes) {
+      const [h, m] = time.split(":").map(Number);
+      const date = new Date();
+      date.setHours(h, m + minutes, 0, 0);
+      return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
+    }
+
+    function scheduleAlarms() {
+      const persona = allPersonas.find(p => p.id === state.selectedPersonaId);
+      if (!persona || !state.events.length) {
+        toast("알람 설정 실패", "먼저 일정과 페르소나를 선택해 주세요.");
+        return;
+      }
+      state.timers.forEach(window.clearTimeout);
+      state.timers = [];
+      const now = new Date();
+      state.events.forEach(event => {
+        const [h, m] = offsetTime(event.time, -10).split(":").map(Number);
+        const alarmDate = new Date();
+        alarmDate.setHours(h, m, 0, 0);
+        if (alarmDate <= now) alarmDate.setDate(alarmDate.getDate() + 1);
+        const delay = alarmDate - now;
+        const i = instructionFor(event, persona);
+        const timer = window.setTimeout(() => {
+          const title = `[${persona.name}] ${event.title}`;
+          const body = i.before;
+          if ("Notification" in window && Notification.permission === "granted") {
+            new Notification(title, { body });
+          }
+          toast(title, body);
+        }, delay);
+        state.timers.push(timer);
+      });
+      toast("알람 설정 완료", "브라우저가 열려 있는 동안 일정 10분 전에 행동지침을 알려드립니다.");
+    }
+
+    async function copySummary() {
+      const persona = allPersonas.find(p => p.id === state.selectedPersonaId);
+      if (!persona || !state.events.length) {
+        toast("복사 실패", "요약할 전략이 아직 없습니다.");
+        return;
+      }
+      const lines = [`전략 페르소나: ${persona.name}`, `오늘 원칙: ${persona.principle}`, ""];
+      state.events.slice().sort((a, b) => a.time.localeCompare(b.time)).forEach(event => {
+        const i = instructionFor(event, persona);
+        lines.push(`${event.time} ${event.title}`);
+        lines.push(`상대: ${event.person || "미정"}`);
+        lines.push(`상황: ${event.situation || "상황 설명 없음"}`);
+        lines.push(`행동: ${i.before} / ${i.during} / ${i.after}`);
+        lines.push(`대사: ${i.script}`);
+        lines.push("");
+      });
+      try {
+        await navigator.clipboard.writeText(lines.join("\n"));
+        toast("요약 복사 완료", "전략 요약을 클립보드에 담았습니다.");
+      } catch {
+        toast("복사 제한", "브라우저 권한 때문에 자동 복사가 막혔습니다. 화면의 내용을 직접 선택해 복사해 주세요.");
+      }
+    }
+
+    function addEvent() {
+      const title = $("eventTitle").value.trim();
+      if (!title) {
+        toast("일정 필요", "일정 이름을 입력해 주세요.");
+        $("eventTitle").focus();
+        return;
+      }
+      state.events.push({
+        id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
+        time: $("eventTime").value || "09:00",
+        title,
+        person: $("eventPerson").value.trim(),
+        mode: $("eventMode").value,
+        situation: $("eventSituation").value.trim()
+      });
+      $("eventTitle").value = "";
+      $("eventPerson").value = "";
+      $("eventSituation").value = "";
+      save();
+      renderAll();
+      toast("일정 추가", "전략 지도에 새 일정이 반영되었습니다.");
+    }
+
+    function loadSample() {
+      state.events = [
+        { id: "s1", time: "09:00", title: "연간 예산 협의", person: "재무팀 김팀장", mode: "협상", situation: "상대가 예산을 20% 깎으려 하고 신규 프로젝트 승인이 걸려 있음" },
+        { id: "s2", time: "14:00", title: "핵심 개발자 면담", person: "개발자 A", mode: "인재", situation: "경쟁사 스카우트 제안을 받고 사직서를 고민 중" },
+        { id: "s3", time: "18:00", title: "고객사 석식", person: "주요 고객사 대표", mode: "관계", situation: "계약 연장 조건이 까다롭고 신뢰 회복이 필요함" }
+      ];
+      state.selectedPersonaId = "machiavelli";
+      save();
+      renderAll();
+      toast("예시 입력", "마키아벨리 모드 예시를 불러왔습니다.");
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, (m) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      })[m]);
+    }
+
+    function renderAll() {
+      renderMeters();
+      renderTimeline();
+      renderPersonas(false);
+    }
+
+    $("addButton").addEventListener("click", addEvent);
+    $("sampleButton").addEventListener("click", loadSample);
+    $("clearButton").addEventListener("click", () => {
+      state.events = [];
+      state.selectedPersonaId = "";
+      save();
+      renderAll();
+      toast("초기화", "입력된 일정과 선택을 비웠습니다.");
+    });
+    $("analyzeButton").addEventListener("click", () => {
+      if (!state.events.length) {
+        toast("일정 필요", "먼저 내일의 전장을 하나 이상 입력해 주세요.");
+        return;
+      }
+      renderPersonas(true);
+      toast("철학자 호출", "현재 일정에 맞는 페르소나 3명을 추천했습니다.");
+    });
+    $("personaGrid").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-persona]");
+      if (!button) return;
+      state.selectedPersonaId = button.dataset.persona;
+      save();
+      renderPersonas(false);
+    });
+    $("timeline").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-remove]");
+      if (!button) return;
+      state.events = state.events.filter(item => item.id !== button.dataset.remove);
+      save();
+      renderAll();
+    });
+    $("scheduleButton").addEventListener("click", scheduleAlarms);
+    $("exportButton").addEventListener("click", copySummary);
+    $("notifyButton").addEventListener("click", async () => {
+      if (!("Notification" in window)) {
+        toast("알림 미지원", "이 브라우저에서는 데스크톱 알림을 지원하지 않습니다.");
+        return;
+      }
+      const result = await Notification.requestPermission();
+      toast("알림 권한", result === "granted" ? "알림을 보낼 수 있습니다." : "권한이 허용되지 않았습니다.");
+    });
+
+    renderAll();
+  </script>
+</body>
+</html>
