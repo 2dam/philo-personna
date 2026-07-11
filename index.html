@@ -888,9 +888,25 @@
 
     const allPersonas = [...personas, ...extendedPersonas];
 
+    const defaultParentTeenScenario = [
+      {
+        id: "parent-teen-demo",
+        time: "21:00",
+        title: "사춘기 자녀와 대화",
+        person: "중학교 2학년 자녀",
+        mode: "관계",
+        situation: "최근 아이가 방에만 있고 대화를 피한다. 성적이 떨어졌다는 연락을 학교에서 받았지만, 바로 추궁하면 더 닫힐 것 같다. 부모는 걱정이 크지만 아이는 “내 인생인데 왜 간섭하냐”고 반응할 가능성이 높다. 오늘은 성적보다 아이가 요즘 무엇 때문에 힘든지 듣고 싶다. 사춘기 자녀의 자기공간과 자율성을 존중하면서도 관계의 문을 열고 싶다. 첫 문장: “오늘은 성적 얘기부터 하지 않을게. 요즘 네가 많이 예민해 보였는데, 내가 뭘 잘못 보고 있는지 먼저 듣고 싶어.”"
+      }
+    ];
+
+    const storedEvents = localStorage.getItem("strategy-events");
+    const storedPersona = localStorage.getItem("strategy-persona");
+    const parsedEvents = storedEvents ? JSON.parse(storedEvents) : [];
+    const initialEvents = parsedEvents.length ? parsedEvents : defaultParentTeenScenario;
+
     const state = {
-      events: JSON.parse(localStorage.getItem("strategy-events") || "[]"),
-      selectedPersonaId: localStorage.getItem("strategy-persona") || "",
+      events: initialEvents,
+      selectedPersonaId: storedPersona || (parsedEvents.length ? "" : "rousseau"),
       timers: []
     };
 
