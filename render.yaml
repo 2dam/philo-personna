@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: mindset1000
+    runtime: node
+    plan: free
+    buildCommand: npm ci
+    startCommand: node server.mjs
+    healthCheckPath: /
+    autoDeployTrigger: commit
+
