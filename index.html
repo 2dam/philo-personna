@@ -3,1271 +3,209 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>전략 페르소나 플래너</title>
+  <meta name="theme-color" content="#1d1814">
+  <title>吏?쒖쓽 ?쒖옱 ???몃쪟 理쒓퀬???먮Ц?꾩썝??/title>
+  <meta name="description" content="??궗 ???꾨???吏?깆쓽 愿?먯쑝濡??ㅻ뒛??怨좊???諛붾씪蹂대뒗 ?붿????꾩꽌愿">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      color-scheme: light;
-      --ink: #171717;
-      --muted: #6b665f;
-      --line: #ddd5ca;
-      --paper: #f8f3eb;
-      --panel: #fffaf2;
-      --accent: #b33d25;
-      --accent-2: #165c64;
-      --accent-3: #76633f;
-      --good: #217354;
-      --shadow: 0 18px 50px rgba(36, 26, 14, .12);
-      --radius: 8px;
-      font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      color: var(--ink);
-      background:
-        linear-gradient(135deg, rgba(179, 61, 37, .10), transparent 32%),
-        linear-gradient(315deg, rgba(22, 92, 100, .13), transparent 34%),
-        var(--paper);
-    }
-
-    button, input, textarea, select {
-      font: inherit;
-    }
-
-    button {
-      border: 1px solid transparent;
-      border-radius: 7px;
-      min-height: 40px;
-      padding: 0 14px;
-      color: #fff;
-      background: var(--ink);
-      cursor: pointer;
-      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
-    }
-
-    button:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0, 0, 0, .13); }
-    button:active { transform: translateY(0); }
-    button.secondary { color: var(--ink); background: transparent; border-color: var(--line); }
-    button.ghost { color: var(--accent-2); background: transparent; border-color: transparent; padding-inline: 8px; }
-    button.danger { background: var(--accent); }
-    button.good { background: var(--good); }
-
-    .app {
-      width: min(1220px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 28px 0 40px;
-    }
-
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding-bottom: 22px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
-
-    .mark {
-      width: 44px;
-      height: 44px;
-      display: grid;
-      place-items: center;
-      color: #fff;
-      background: linear-gradient(135deg, var(--ink), var(--accent-2));
-      border-radius: 8px;
-      font-weight: 800;
-    }
-
-    h1, h2, h3, p { margin: 0; }
-    h1 { font-size: clamp(24px, 3vw, 38px); letter-spacing: 0; }
-    .subtle { color: var(--muted); line-height: 1.55; }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 410px minmax(0, 1fr);
-      gap: 18px;
-      align-items: start;
-    }
-
-    .panel {
-      background: rgba(255, 250, 242, .88);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    .panel-inner { padding: 18px; }
-    .sticky { position: sticky; top: 18px; }
-
-    .section-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
-    .section-title h2 { font-size: 18px; }
-
-    label {
-      display: block;
-      margin: 14px 0 7px;
-      color: #3b332c;
-      font-weight: 700;
-      font-size: 13px;
-    }
-
-    input, textarea, select {
-      width: 100%;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      background: #fffdf9;
-      color: var(--ink);
-      padding: 11px 12px;
-      outline: none;
-    }
-
-    textarea { min-height: 96px; resize: vertical; line-height: 1.55; }
-    input:focus, textarea:focus, select:focus { border-color: var(--accent-2); box-shadow: 0 0 0 3px rgba(22, 92, 100, .13); }
-
-    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
-
-    .battle-map {
-      min-height: 280px;
-      padding: 22px;
-      overflow: hidden;
-      background:
-        linear-gradient(90deg, rgba(23, 23, 23, .04) 1px, transparent 1px),
-        linear-gradient(rgba(23, 23, 23, .04) 1px, transparent 1px),
-        rgba(255, 250, 242, .82);
-      background-size: 36px 36px;
-    }
-
-    .map-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 16px;
-      margin-bottom: 18px;
-    }
-
-    .meter-wrap {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .meter {
-      min-height: 86px;
-      padding: 12px;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      background: rgba(255,255,255,.64);
-    }
-
-    .meter strong {
-      display: block;
-      margin-bottom: 9px;
-      font-size: 13px;
-    }
-
-    .bar {
-      height: 8px;
-      background: #e9dfd2;
-      border-radius: 99px;
-      overflow: hidden;
-    }
-
-    .bar span {
-      display: block;
-      height: 100%;
-      width: var(--w, 40%);
-      background: var(--accent);
-      border-radius: inherit;
-    }
-
-    .meter:nth-child(2) .bar span { background: var(--accent-2); }
-    .meter:nth-child(3) .bar span { background: var(--accent-3); }
-
-    .timeline {
-      display: grid;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .event {
-      display: grid;
-      grid-template-columns: 68px minmax(0, 1fr) auto;
-      gap: 12px;
-      align-items: start;
-      padding: 13px;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      background: #fffdf9;
-    }
-
-    .event time { font-weight: 800; color: var(--accent); }
-    .event h3 { font-size: 15px; margin-bottom: 4px; }
-    .event p { color: var(--muted); line-height: 1.45; font-size: 13px; }
-
-    .persona-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 14px;
-    }
-
-    .persona {
-      position: relative;
-      min-height: 218px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      padding: 14px;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      background: #fffdf9;
-    }
-
-    .persona.selected { border-color: var(--accent-2); box-shadow: inset 0 0 0 2px rgba(22, 92, 100, .14); }
-    .avatar {
-      width: 48px;
-      height: 48px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: #241d18;
-      color: #fff;
-      font-weight: 800;
-    }
-
-    .persona h3 { font-size: 17px; }
-    .tagline { min-height: 43px; color: var(--muted); line-height: 1.45; font-size: 13px; }
-    .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
-    .chip {
-      border: 1px solid #e5d8c8;
-      border-radius: 99px;
-      padding: 5px 8px;
-      background: #fbf4e9;
-      color: #53473b;
-      font-size: 12px;
-      white-space: nowrap;
-    }
-
-    .playbook {
-      display: grid;
-      gap: 12px;
-      margin-top: 14px;
-    }
-
-    .card {
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      background: #fffdf9;
-      padding: 15px;
-    }
-
-    .card h3 {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      font-size: 16px;
-      margin-bottom: 9px;
-    }
-
-    .card ul { margin: 10px 0 0; padding-left: 18px; color: #302923; line-height: 1.62; }
-    .script {
-      margin-top: 10px;
-      padding: 12px;
-      border-left: 4px solid var(--accent-2);
-      background: #f3fbfa;
-      line-height: 1.55;
-    }
-
-    .alarm-list {
-      display: grid;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .alarm {
-      display: grid;
-      grid-template-columns: 72px minmax(0, 1fr) auto;
-      gap: 10px;
-      align-items: center;
-      padding: 10px;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      background: #fffdf9;
-    }
-
-    .alarm strong { color: var(--accent); }
-    .empty {
-      min-height: 180px;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      color: var(--muted);
-      border: 1px dashed #d7c8b8;
-      border-radius: 7px;
-      background: rgba(255,255,255,.45);
-      padding: 22px;
-    }
-
-    .toast {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      width: min(360px, calc(100vw - 36px));
-      padding: 14px;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      background: #171717;
-      color: #fff;
-      box-shadow: 0 16px 44px rgba(0, 0, 0, .24);
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(10px);
-      transition: opacity .2s ease, transform .2s ease;
-      z-index: 20;
-    }
-
-    .toast.show { opacity: 1; transform: translateY(0); }
-    .toast p { color: #f4ede4; line-height: 1.45; margin-top: 4px; }
-
-    @media (max-width: 930px) {
-      .grid { grid-template-columns: 1fr; }
-      .sticky { position: static; }
-      .persona-grid { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 640px) {
-      .app { width: min(100% - 20px, 1220px); padding-top: 18px; }
-      .topbar { align-items: flex-start; flex-direction: column; }
-      .row, .meter-wrap { grid-template-columns: 1fr; }
-      .event, .alarm { grid-template-columns: 1fr; }
-      .map-header { flex-direction: column; }
-      button { width: 100%; }
-      .actions button { flex: 1 1 150px; }
-    }
+    :root{--paper:#f7f4ed;--paper2:#eee8da;--ink:#40362f;--muted:#7e7167;--gold:#c9a55b;--gold2:#967432;--dark:#1d1814;--line:#d8cdb9;--serif:"Noto Serif KR",serif;--sans:Pretendard,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);word-break:keep-all}.hidden{display:none!important}button,input{font:inherit}button{cursor:pointer}.screen{min-height:100svh}
+    .grain{position:fixed;inset:0;z-index:50;opacity:.032;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.88' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E")}
+    .intro{position:relative;display:grid;place-items:center;color:#f8f1e5;background:#15110e url("https://wisdom-library-kr.edam2665.chatgpt.site/assets/library-hero.png") center/cover no-repeat;overflow:hidden}.intro:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,10,8,.35),rgba(13,10,8,.24) 48%,rgba(13,10,8,.78)),radial-gradient(circle at 50% 42%,transparent,rgba(10,7,5,.25))}
+    .intro-content{position:relative;text-align:center;width:min(780px,90vw);padding:56px 24px 34vh}.eyebrow{font-family:var(--serif);font-size:12px;letter-spacing:.34em;color:#d6b874;margin:0 0 26px}.intro h1{font-family:var(--serif);font-weight:500;font-size:clamp(31px,4.7vw,64px);line-height:1.45;margin:0;text-shadow:0 3px 24px #000}.intro .question{font-family:var(--serif);font-size:clamp(17px,2vw,23px);line-height:1.75;margin:23px 0 34px;color:#e7ddcf}.label-btn{position:relative;border:1px solid #d2b873;background:linear-gradient(#5a472a,#392a1a);color:#f5e8ca;padding:14px 42px;min-width:174px;font-family:var(--serif);letter-spacing:.12em;box-shadow:0 0 0 3px #2a2118,0 0 0 4px rgba(210,184,115,.4),0 12px 30px #0008;transition:.25s}.label-btn:before,.label-btn:after{content:"";position:absolute;top:5px;bottom:5px;width:1px;background:#a98a4d}.label-btn:before{left:7px}.label-btn:after{right:7px}.label-btn:hover{transform:translateY(-3px);filter:brightness(1.14)}
+    .topbar{height:78px;padding:0 clamp(20px,5vw,72px);display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);background:rgba(247,244,237,.94);position:sticky;top:0;z-index:20;backdrop-filter:blur(10px)}.brand{display:flex;align-items:center;gap:13px;font-family:var(--serif);font-weight:700}.brand-mark{width:35px;height:40px;border:1px solid var(--gold2);display:grid;place-items:center;color:var(--gold2);font-family:var(--serif);position:relative}.brand-mark:after{content:"";position:absolute;inset:3px;border:1px solid #c8b07a}.count{font-size:12px;color:var(--muted);letter-spacing:.1em}.ghost-btn{border:0;background:none;color:var(--ink);padding:8px;font-size:13px}.ghost-btn:hover{color:var(--gold2)}
+    .library{background:linear-gradient(90deg,rgba(201,165,91,.045) 1px,transparent 1px),var(--paper);background-size:64px 100%}.library-main{max-width:1180px;margin:auto;padding:72px 24px 90px}.section-kicker{text-align:center;font-family:var(--serif);color:var(--gold2);font-size:12px;letter-spacing:.3em;margin:0 0 13px}.library h2{text-align:center;font-family:var(--serif);font-weight:600;font-size:clamp(28px,4vw,46px);margin:0 0 34px}.search-wrap{max-width:820px;margin:0 auto 24px;position:relative}.search-wrap input{width:100%;border:1px solid #b8a88e;background:#fffdf7;padding:21px 145px 21px 25px;color:var(--ink);font-family:var(--serif);font-size:17px;outline:none;box-shadow:0 14px 40px #5b493414}.search-wrap input:focus{border-color:var(--gold2);box-shadow:0 0 0 3px #c9a55b22,0 14px 40px #5b493414}.search-wrap button{position:absolute;right:7px;top:7px;bottom:7px;border:0;background:var(--ink);color:#fff4dd;padding:0 24px;font-family:var(--serif)}.suggestions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}.suggestions button{border:1px solid var(--line);background:#f2ede2;color:var(--muted);padding:8px 12px;font-size:12px}.suggestions button:hover{border-color:var(--gold);color:var(--ink)}
+    .shelf-title{display:flex;align-items:end;justify-content:space-between;margin:68px 0 20px;border-bottom:1px solid var(--line);padding-bottom:13px}.shelf-title h3{font-family:var(--serif);font-size:22px;margin:0}.shelf-title span{font-size:12px;color:var(--muted)}.portraits{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.portrait-card{appearance:none;text-align:left;border:0;background:#e9e2d4;padding:0;position:relative;overflow:hidden;min-height:350px;transition:.3s}.portrait-card:after{content:"";position:absolute;inset:0;border:1px solid #afa187;pointer-events:none}.portrait-card:hover{transform:translateY(-7px);box-shadow:0 18px 30px #4d3e271e}.portrait{height:260px;background-image:url("https://wisdom-library-kr.edam2665.chatgpt.site/assets/portraits-atlas.png");background-repeat:no-repeat;background-size:200% 200%;filter:grayscale(1) contrast(1.06)}.p-sun{background-position:0 0}.p-nie{background-position:100% 0}.p-adler{background-position:0 100%}.p-lincoln{background-position:100% 100%}.portrait-meta{padding:18px 20px 22px;background:linear-gradient(#f7f2e8,#ebe3d5)}.portrait-meta b{display:block;font-family:var(--serif);font-size:20px;margin-bottom:6px}.portrait-meta small{color:var(--muted);font-size:12px}.roman{position:absolute;top:12px;left:13px;background:#332820;color:#e6ca88;padding:5px 9px;font-family:serif;font-size:11px}.unlock{margin-top:40px;border:1px solid var(--line);background:#f1ecdf;padding:20px 24px;display:flex;gap:18px;align-items:center}.unlock-icon{width:42px;height:48px;border:1px solid var(--gold2);display:grid;place-items:center;font-family:var(--serif);color:var(--gold2)}.unlock b{font-family:var(--serif)}.unlock p{margin:5px 0 0;color:var(--muted);font-size:13px}.unlock .progress{height:3px;background:#ded4c1;margin-top:12px;width:min(420px,55vw)}.unlock .progress i{display:block;width:24%;height:100%;background:var(--gold)}
+    .thinking{position:fixed;inset:0;background:#17120fee;z-index:60;color:#f0e5d4;display:grid;place-items:center;text-align:center}.book-loader{width:90px;height:62px;margin:auto;position:relative;perspective:500px}.book-loader:before,.book-loader:after{content:"";position:absolute;width:44px;height:58px;top:0;background:#e7dac4;border:1px solid #a88c57;animation:page 1.3s infinite ease-in-out;transform-origin:right}.book-loader:after{right:0;transform-origin:left;animation-delay:.18s}.book-loader:before{left:0}.thinking p{font-family:var(--serif);letter-spacing:.08em;margin-top:23px}.thinking small{color:#ae9d89}@keyframes page{0%,100%{transform:rotateY(0)}50%{transform:rotateY(-38deg)}}@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+    .results{background:var(--paper)}.result-wrap{max-width:1120px;margin:auto;padding:62px 24px 90px}.back{border:0;background:none;color:var(--muted);padding:0 0 30px}.back:hover{color:var(--ink)}.result-head{text-align:center}.result-head h2{font-family:var(--serif);font-size:clamp(28px,4vw,44px);margin:10px 0}.result-head p{color:var(--muted);margin:0 0 42px}.recommend-list{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.recommend{border:1px solid var(--line);background:#fffdf8;text-align:left;padding:0;animation:rise .7s both}.recommend:nth-child(2){animation-delay:.1s}.recommend:nth-child(3){animation-delay:.2s}.recommend:nth-child(4){animation-delay:.3s}.recommend .portrait{height:225px}.recommend-body{padding:17px}.recommend b{font-family:var(--serif);font-size:19px}.recommend q{display:block;margin-top:11px;color:var(--muted);font-family:var(--serif);font-size:13px;line-height:1.7}.recommend:hover{border-color:var(--gold2);transform:translateY(-4px)}.why{margin-top:34px;padding:25px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);text-align:center;font-family:var(--serif);color:var(--muted)}.why strong{color:var(--ink)}
+    .counsel{background:var(--paper)}.counsel-grid{max-width:1150px;margin:auto;padding:58px 24px 100px;display:grid;grid-template-columns:330px 1fr;gap:56px}.advisor-panel{position:sticky;top:110px;align-self:start}.advisor-panel .portrait{height:380px;border:1px solid #a99b83}.advisor-panel h1{font-family:var(--serif);font-size:48px;margin:20px 0 6px}.advisor-panel p{color:var(--muted);margin:0}.seal{display:inline-grid;place-items:center;margin-top:22px;width:42px;height:42px;background:#8b3929;color:#f3dbc9;font-family:var(--serif)}.advice{padding-top:20px}.advice .quote{font-family:var(--serif);font-size:clamp(25px,3.4vw,42px);line-height:1.55;margin:0 0 42px}.advice .quote:before{content:"??;color:var(--gold);font-size:70px;display:block;height:46px}.advice h3{font-family:var(--serif);font-size:20px;margin:32px 0 13px}.advice p{font-family:var(--serif);line-height:2;color:#5a4e45}.action-card{background:#eee7d9;border-left:3px solid var(--gold);padding:22px 25px;margin:30px 0}.action-card b{font-family:var(--serif)}.action-card ol{margin:14px 0 0;padding-left:20px;line-height:1.9}.advice-actions{display:flex;gap:10px;margin-top:38px;flex-wrap:wrap}.paper-btn{border:1px solid #9f8e70;background:#f8f4eb;color:var(--ink);padding:13px 21px;font-family:var(--serif)}.paper-btn.primary{background:var(--ink);color:#f8edd9}.paper-btn:hover{border-color:var(--gold2);box-shadow:0 6px 16px #6e5b3c17}
+    .roundtable{position:fixed;inset:0;background:#17120f;color:#eee3d2;z-index:55;overflow:auto}.round-inner{max-width:1000px;margin:auto;padding:58px 24px 100px}.round-head{text-align:center}.round-head .brand-mark{margin:auto;color:#d4b568;border-color:#d4b568}.round-head h2{font-family:var(--serif);font-size:36px;margin:16px 0 8px}.round-head p{color:#a89986}.dialogue{margin:52px auto 0;max-width:780px}.speech{display:grid;grid-template-columns:90px 1fr;gap:22px;padding:25px 0;border-bottom:1px solid #40372f;animation:rise .5s both}.speaker{font-family:var(--serif);color:#d2ae61}.speech p{margin:0;line-height:1.9;color:#d9cfc0}.verdict{margin-top:45px;border:1px solid #8f7444;padding:32px;background:#211a15}.verdict small{color:#c7a65e;letter-spacing:.22em}.verdict h3{font-family:var(--serif);font-size:25px;line-height:1.6;margin:14px 0}.verdict p{line-height:1.8;color:#bfb1a0}.round-actions{text-align:center;margin-top:30px}
+    .app-home{background:var(--paper);display:grid;grid-template-columns:238px minmax(0,1fr);min-height:100svh;color:var(--ink)}.side-nav{background:#241d18;color:#d8cdbd;padding:30px 20px;display:flex;flex-direction:column;position:sticky;top:0;height:100svh}.side-brand{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-weight:700;color:#f3e8d4;padding:0 8px 35px}.side-brand .brand-mark{color:#d2ae61;border-color:#9f8248}.nav-label{font-size:10px;letter-spacing:.2em;color:#897b6c;padding:10px 12px}.nav-item{border:0;background:transparent;color:#bfb3a5;text-align:left;padding:12px;border-left:2px solid transparent;display:flex;align-items:center;gap:12px;font-size:13px}.nav-item:hover,.nav-item.active{color:#f7ecd7;background:#302720;border-left-color:var(--gold)}.nav-ink{width:22px;font-family:var(--serif);font-size:16px;color:#c6a663;text-align:center}.side-bottom{margin-top:auto;border-top:1px solid #40362f;padding:18px 8px 0}.reader{display:flex;align-items:center;gap:10px}.reader-seal{width:34px;height:34px;border:1px solid #806b48;display:grid;place-items:center;font-family:var(--serif);font-size:12px}.reader b{font-size:12px;color:#e5d9c8}.reader small{display:block;color:#887b6d;margin-top:3px;font-size:10px}
+    .home-content{min-width:0}.home-top{height:72px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 clamp(22px,4vw,54px);background:#faf7f0}.home-top p{margin:0;font-family:var(--serif);font-size:13px}.home-top p span{color:var(--muted)}.top-actions{display:flex;gap:8px}.icon-button{width:36px;height:36px;border:1px solid var(--line);background:#f7f3ea;color:var(--ink);font-family:var(--serif)}.home-main{padding:34px clamp(22px,4vw,54px) 60px;max-width:1450px;margin:auto}.welcome{display:flex;align-items:end;justify-content:space-between;margin-bottom:20px}.welcome h1{font-family:var(--serif);font-weight:600;font-size:clamp(25px,3vw,37px);margin:0 0 5px}.welcome p{margin:0;color:var(--muted);font-size:13px}.date-stamp{font-family:var(--serif);font-size:12px;color:var(--gold2);letter-spacing:.08em}
+    .home-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(280px,.75fr);gap:18px}.ask-panel{position:relative;min-height:350px;background:#17120f url("https://wisdom-library-kr.edam2665.chatgpt.site/assets/library-hero.png") center 57%/cover no-repeat;color:white;overflow:hidden;padding:38px}.ask-panel:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(17,12,9,.9),rgba(17,12,9,.36)),linear-gradient(0deg,rgba(14,10,8,.45),transparent)}.ask-content{position:relative;max-width:620px}.ask-content .eyebrow{text-align:left;margin-bottom:15px}.ask-content h2{font-family:var(--serif);text-align:left;font-size:clamp(25px,3vw,40px);line-height:1.45;margin:0 0 9px;font-weight:500}.ask-content>p{color:#c9bdae;margin:0 0 24px;font-size:13px}.home-search{display:flex;background:#f8f3e8;border:1px solid #d5bd83;padding:6px;box-shadow:0 14px 35px #0006}.home-search input{border:0;background:transparent;min-width:0;flex:1;padding:13px 15px;font-family:var(--serif);color:var(--ink);outline:0}.home-search button{border:0;background:var(--ink);color:#f7ead1;padding:0 20px;font-family:var(--serif);white-space:nowrap}.quick-prompts{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}.quick-prompts button{border:1px solid #8f7d684d;background:#17120f99;color:#d8cdbd;padding:7px 10px;font-size:11px}.quick-prompts button:hover{border-color:#c9a55b;color:white}
+    .daily-advisor{border:1px solid var(--line);background:#eee7da;display:grid;grid-template-rows:1fr auto;min-height:350px;overflow:hidden}.daily-visual{position:relative;min-height:250px}.daily-visual .portrait{position:absolute;inset:0;height:auto;background-size:200% 200%;filter:grayscale(1) contrast(1.05)}.daily-badge{position:absolute;top:14px;left:14px;background:#44372d;color:#e6c477;padding:6px 9px;font-size:10px;letter-spacing:.12em}.daily-copy{position:relative;background:linear-gradient(#f7f2e8,#ece4d7);padding:17px 20px}.daily-copy b{font-family:var(--serif);font-size:18px}.daily-copy p{font-family:var(--serif);font-size:12px;line-height:1.65;margin:6px 0 0;color:var(--muted)}
+    .home-lower{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(310px,.75fr);gap:18px;margin-top:18px}.home-card{border:1px solid var(--line);background:#fcfaf5;padding:22px}.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:17px}.card-head h3{font-family:var(--serif);margin:0;font-size:18px}.card-head button{border:0;background:none;color:var(--gold2);font-size:11px}.recent-list{display:grid;gap:9px}.recent-item{border:1px solid #e1d7c6;background:#f7f3ea;padding:14px;display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;gap:13px;text-align:left;color:var(--ink)}.recent-mini{width:42px;height:42px;background:#40362f;color:#e7ca87;display:grid;place-items:center;font-family:var(--serif)}.recent-item b{font-family:var(--serif);font-size:13px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.recent-item small{color:var(--muted);font-size:10px}.recent-item time{color:#9d8e7f;font-size:10px}.recent-item:hover{border-color:var(--gold)}
+    .open-shelf{display:grid;grid-template-columns:88px 1fr;gap:17px;align-items:center}.shelf-emblem{height:105px;border:1px solid #9a8256;background:#eee5d4;display:grid;place-items:center;font-family:var(--serif);font-size:31px;color:#98763a;box-shadow:inset 0 0 0 5px #f8f3e8}.shelf-copy b{font-family:var(--serif);font-size:16px}.shelf-copy p{font-size:11px;color:var(--muted);line-height:1.6;margin:6px 0 12px}.shelf-progress{height:4px;background:#e2d7c3}.shelf-progress i{display:block;width:24%;height:100%;background:var(--gold)}.shelf-meta{display:flex;justify-content:space-between;margin-top:7px;color:#928373;font-size:9px}.mobile-nav{display:none}
+    .advisor-match{min-height:100svh;background:var(--paper);display:grid;grid-template-columns:238px minmax(0,1fr)}.match-sidebar{background:#241d18;color:#c8bbac;padding:30px 20px;display:flex;flex-direction:column}.match-sidebar .side-brand{padding-bottom:44px}.match-step{display:grid;grid-template-columns:28px 1fr;gap:11px;position:relative;padding:0 5px 29px}.match-step:not(:last-child):after{content:"";position:absolute;left:18px;top:28px;bottom:1px;width:1px;background:#4a3e34}.step-no{width:28px;height:28px;border:1px solid #6e5c47;display:grid;place-items:center;font-family:var(--serif);font-size:11px;color:#8e7f70;background:#241d18;z-index:1}.match-step.done .step-no,.match-step.active .step-no{border-color:#c7a45b;color:#e5c77f}.match-step b{display:block;font-size:12px;color:#8d8072;margin:2px 0 4px}.match-step.active b{color:#f1e5d3}.match-step small{font-size:9px;color:#76695e}.match-help{margin-top:auto;border:1px solid #4c4036;padding:14px;font-family:var(--serif);font-size:11px;line-height:1.7;color:#9f9182}.match-main{min-width:0}.match-top{height:72px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 clamp(22px,4vw,54px);background:#faf7f0}.match-back{border:0;background:none;color:var(--muted);font-size:12px}.match-top .step-caption{font-family:var(--serif);font-size:12px;color:var(--gold2)}.match-body{max-width:1220px;margin:auto;padding:38px clamp(22px,4vw,54px) 70px}.match-title{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:24px}.match-title h1{font-family:var(--serif);font-size:clamp(27px,3vw,39px);margin:5px 0 7px}.match-title p{margin:0;color:var(--muted);font-size:13px}.match-count{font-family:var(--serif);color:var(--gold2);font-size:11px;white-space:nowrap}.question-paper{border:1px solid var(--line);background:#efe9dc;padding:17px 22px;margin-bottom:17px;display:flex;gap:15px;align-items:start}.question-paper .nav-ink{flex:0 0 25px}.question-paper p{font-family:var(--serif);margin:0;line-height:1.7;font-size:14px}.reading{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:25px}.reading-item{border:1px solid #e0d6c4;background:#fbf8f1;padding:12px 13px}.reading-item small{display:block;color:#9a8c7d;font-size:9px;margin-bottom:5px}.reading-item b{font-family:var(--serif);font-size:12px;font-weight:500}.match-recommend{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.match-card{border:1px solid var(--line);background:#fffdf8;text-align:left;padding:0;position:relative;overflow:hidden;color:var(--ink);transition:.25s}.match-card:first-child{border-color:#a78645;box-shadow:0 10px 28px #51401e15}.match-card .portrait{height:220px}.match-rank{position:absolute;top:10px;left:10px;background:#352a22;color:#e7c876;width:31px;height:31px;display:grid;place-items:center;font-family:var(--serif);z-index:2}.best-mark{position:absolute;top:0;right:0;background:#b08a3f;color:#fff6e1;padding:6px 10px;font-size:9px;letter-spacing:.08em;z-index:2}.match-copy{padding:16px}.match-copy h3{font-family:var(--serif);font-size:18px;margin:0 0 4px}.match-copy>small{color:#978879;font-size:9px}.match-copy q{display:block;font-family:var(--serif);font-size:12px;line-height:1.7;color:#6d6056;margin:12px 0}.reason-tag{border-top:1px solid #e6ddce;padding-top:10px;font-size:9px;color:#a07b38}.match-card:hover{transform:translateY(-5px);border-color:var(--gold2)}.match-note{margin-top:24px;border-top:1px solid var(--line);padding-top:16px;display:flex;align-items:center;justify-content:space-between;gap:18px;color:var(--muted);font-size:10px}.match-note button{border:0;background:none;color:var(--gold2);font-family:var(--serif)}
+    @media(max-width:1000px){.app-home{grid-template-columns:76px minmax(0,1fr)}.side-nav{padding:25px 12px}.side-brand span:last-child,.nav-item span:last-child,.nav-label,.side-bottom{display:none}.side-brand{padding:0 7px 30px}.nav-item{justify-content:center;padding:13px 7px}.home-grid,.home-lower{grid-template-columns:1fr}.daily-advisor{grid-template-columns:180px 1fr;grid-template-rows:1fr;min-height:180px}.daily-visual{min-height:180px}.advisor-match{grid-template-columns:76px 1fr}.match-sidebar{padding:25px 12px}.match-sidebar .side-brand span:last-child,.match-step div:last-child,.match-help{display:none}.match-step{display:block;padding:0 12px 27px}.match-step:not(:last-child):after{left:25px}.match-recommend{grid-template-columns:repeat(2,1fr)}}@media(max-width:700px){.app-home{display:block;padding-bottom:66px}.side-nav{display:none}.home-top{height:60px;padding:0 16px}.home-main{padding:25px 15px 40px}.welcome{align-items:start}.date-stamp{display:none}.ask-panel{padding:28px 22px;min-height:360px}.home-search{display:grid}.home-search button{padding:13px}.daily-advisor{grid-template-columns:130px 1fr}.home-lower{grid-template-columns:1fr}.mobile-nav{position:fixed;z-index:45;bottom:0;left:0;right:0;height:66px;background:#241d18;display:flex;justify-content:space-around;padding:7px 4px;color:#bfb3a5}.mobile-nav button{border:0;background:none;color:inherit;font-size:9px;display:grid;gap:3px;place-items:center}.mobile-nav b{font-family:var(--serif);font-size:16px;color:#d0ad63}.advisor-match{display:block}.match-sidebar{display:none}.match-top{height:60px;padding:0 15px}.match-body{padding:27px 15px 55px}.match-title{align-items:start}.match-count{display:none}.reading{grid-template-columns:repeat(2,1fr)}.match-recommend{grid-template-columns:1fr}.match-card{display:grid;grid-template-columns:120px 1fr;min-height:170px}.match-card .portrait{height:100%}.match-rank{width:26px;height:26px}.match-note{align-items:start}.question-paper{padding:14px}}
+    @media(max-width:850px){.portraits,.recommend-list{grid-template-columns:repeat(2,1fr)}.counsel-grid{grid-template-columns:1fr}.advisor-panel{position:static;display:grid;grid-template-columns:180px 1fr;gap:22px;align-items:end}.advisor-panel .portrait{height:230px;grid-row:1/4}.advisor-panel h1{font-size:38px}}@media(max-width:540px){.topbar{height:66px;padding:0 16px}.count{display:none}.library-main,.result-wrap{padding:50px 16px 70px}.search-wrap input{padding-right:92px;font-size:14px}.search-wrap button{padding:0 14px}.portraits,.recommend-list{gap:8px}.portrait-card{min-height:270px}.portrait,.recommend .portrait{height:180px}.portrait-meta{padding:13px}.portrait-meta b{font-size:17px}.unlock{align-items:flex-start}.counsel-grid{padding:35px 16px 70px;gap:25px}.advisor-panel{grid-template-columns:120px 1fr}.advisor-panel .portrait{height:170px}.advisor-panel h1{font-size:31px;margin:0}.speech{grid-template-columns:62px 1fr;gap:12px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
   </style>
 </head>
 <body>
-  <main class="app">
+  <div class="grain"></div>
+  <section id="intro" class="screen app-home" aria-label="吏?쒖쓽 ?쒖옱 ??>
+    <aside class="side-nav">
+      <div class="side-brand"><span class="brand-mark">??/span><span>吏?쒖쓽 ?쒖옱</span></div>
+      <span class="nav-label">LIBRARY</span>
+      <button class="nav-item active"><span class="nav-ink">??/span><span>?ㅻ뒛???먮Ц</span></button>
+      <button class="nav-item" id="sideRound"><span class="nav-ink">鈺?/span><span>?먰긽?뚯쓽</span></button>
+      <button class="nav-item" id="sidePeople"><span class="nav-ink">雅?/span><span>?몃Ъ?꾧컧</span></button>
+      <button class="nav-item" id="sideShelf"><span class="nav-ink">??/span><span>?쒓? ?먰뿕</span></button>
+      <span class="nav-label" style="margin-top:16px">MY ARCHIVE</span>
+      <button class="nav-item"><span class="nav-ink">鼇?/span><span>?섏쓽 湲곕줉</span></button>
+      <button class="nav-item"><span class="nav-ink">與?/span><span>蹂닿???臾몄옣</span></button>
+      <div class="side-bottom"><div class="reader"><span class="reader-seal">??/span><div><b>吏?쒖쓽 ?ы뻾??/b><small>?꾩꽌愿 媛쒕갑 24%</small></div></div></div>
+    </aside>
+    <div class="home-content">
+      <header class="home-top">
+        <p>吏?쒖쓽 ?쒖옱 <span>쨌 ?ㅻ뒛???대엺??/span></p>
+        <div class="top-actions"><button class="icon-button" aria-label="?뚮┝">??/button><button class="icon-button" aria-label="?ㅼ젙">鼇?/button></div>
+      </header>
+      <main class="home-main">
+        <div class="welcome"><div><h1>醫뗭? ?꾩묠?낅땲?? ?ы뻾?먮떂.</h1><p>?ㅻ뒛 留덉쓬??嫄몃━????媛吏瑜??꾩옄?ㅺ낵 ?섎닠蹂댁꽭??</p></div><span class="date-stamp">訝껅쐢 雅뚦뛻訝됪뿥 쨌 ??/span></div>
+        <div class="home-grid">
+          <section class="ask-panel">
+            <div class="ask-content">
+              <p class="eyebrow">ASK THE WISE</p>
+              <h2>?ㅻ뒛? ?대뼡 愿?먯쓣<br>鍮뚮━怨??띠뒿?덇퉴?</h2>
+              <p>??臾몄옣?쇰줈 ?곸쑝硫?媛???곹빀???먮Ц?꾩썝??李얠븘?쒕┰?덈떎.</p>
+              <div class="home-search"><input id="homeQuestion" aria-label="?ㅻ뒛??怨좊?" placeholder="?? ??μ씠 ???꾩씠?붿뼱瑜?怨꾩냽 臾댁떆?⑸땲??"><button id="homeAsk">?꾩옄?먭쾶 臾산린</button></div>
+              <div class="quick-prompts"><button>愿怨꾩쓽 媛덈벑</button><button>?대젮??寃곗젙</button><button>由щ뜑??怨좊?</button></div>
+            </div>
+          </section>
+          <button class="daily-advisor" id="dailyAdvisor">
+            <div class="daily-visual"><div class="portrait p-sun"></div><span class="daily-badge">?ㅻ뒛???꾩옄</span></div>
+            <div class="daily-copy"><b>?먯옄 쨌 ?꾨왂媛</b><p>?쒖듅由щ뒗 ?몄????쒖옉?섍린 ?꾩뿉 寃곗젙?쒕떎.??/p></div>
+          </button>
+        </div>
+        <div class="home-lower">
+          <section class="home-card">
+            <div class="card-head"><h3>理쒓렐 ?먮Ц</h3><button id="allRecords">紐⑤몢 蹂닿린 ??/button></div>
+            <div class="recent-list">
+              <button class="recent-item" data-home-person="sun"><span class="recent-mini">嶺?/span><span><b>??μ씠 ???꾩씠?붿뼱瑜?怨꾩냽 臾댁떆?쒕떎</b><small>?먯옄? ?섎늿 ?꾨왂 ?먮Ц</small></span><time>?댁젣</time></button>
+              <button class="recent-item" data-home-person="adler"><span class="recent-mini">恙?/span><span><b>?숇즺??留먯뿉 ?먭씀 媛먯젙???붾뱾由곕떎</b><small>?꾨뱾?ъ? ?섎늿 愿怨??먮Ц</small></span><time>3????/time></button>
+            </div>
+          </section>
+          <section class="home-card">
+            <div class="card-head"><h3>?꾩꽌愿 媛쒕갑</h3><button id="exploreShelf">?쒓? 蹂닿린 ??/button></div>
+            <div class="open-shelf"><div class="shelf-emblem">??/div><div class="shelf-copy"><b>?ㅼ쓬 ?쒓? 쨌 ?숈뼇 ?ъ긽愿</b><p>?먮Ц????踰???留덉튂硫?怨듭옄, ?몄옄, ?뺤뼇紐낆쓣 留뚮궇 ???덉뒿?덈떎.</p><div class="shelf-progress"><i></i></div><div class="shelf-meta"><span>?꾩옱 24%</span><span>1???⑥쓬</span></div></div></div>
+          </section>
+        </div>
+      </main>
+    </div>
+    <nav class="mobile-nav"><button><b>??/b>?먮Ц</button><button id="mobilePeople"><b>雅?/b>?몃Ъ</button><button id="mobileRound"><b>鈺?/b>?뚯쓽</button><button><b>鼇?/b>湲곕줉</button></nav>
+  </section>
+
+  <section id="library" class="screen library hidden">
     <header class="topbar">
-      <div class="brand">
-        <div class="mark">策</div>
-        <div>
-          <h1>전략 페르소나 플래너</h1>
-          <p class="subtle">하루 일정을 입력하면 철학자와 문학 인물이 자기소개하고, 선택된 관점으로 행동지침과 알람을 만듭니다.</p>
-        </div>
-      </div>
-      <button id="notifyButton" class="secondary" type="button">알림 허용</button>
+      <div class="brand"><span class="brand-mark">??/span><span>吏?쒖쓽 ?쒖옱</span></div>
+      <span class="count">1,248紐낆쓽 ?몃Ъ 쨌 怨꾩냽 異붽??⑸땲??/span>
+      <button class="ghost-btn" id="homeBtn">泥섏쓬?쇰줈</button>
     </header>
-
-    <section class="grid">
-      <aside class="panel sticky" aria-label="일정 입력">
-        <div class="panel-inner">
-          <div class="section-title">
-            <h2>내일의 전장 입력</h2>
-            <button id="sampleButton" class="ghost" type="button">예시</button>
-          </div>
-
-          <label for="eventTime">시간</label>
-          <input id="eventTime" type="time" value="09:00">
-
-          <label for="eventTitle">일정</label>
-          <input id="eventTitle" type="text" placeholder="예: 연간 예산 협의">
-
-          <div class="row">
-            <div>
-              <label for="eventPerson">상대</label>
-              <input id="eventPerson" type="text" placeholder="예: 재무팀 김팀장">
-            </div>
-            <div>
-              <label for="eventMode">난관 유형</label>
-              <select id="eventMode">
-                <option value="협상">협상</option>
-                <option value="갈등">갈등</option>
-                <option value="위기">위기</option>
-                <option value="인재">인재</option>
-                <option value="관계">관계</option>
-                <option value="결단">결단</option>
-              </select>
-            </div>
-          </div>
-
-          <label for="eventSituation">상황</label>
-          <textarea id="eventSituation" placeholder="예: 상대가 예산을 크게 깎으려 하고, 우리 팀은 신규 프로젝트 승인이 필요함"></textarea>
-
-          <div class="actions">
-            <button id="addButton" type="button">일정 추가</button>
-            <button id="clearButton" class="secondary" type="button">초기화</button>
-          </div>
-        </div>
-      </aside>
-
-      <div>
-        <section class="panel battle-map" aria-label="전략 지도">
-          <div class="map-header">
-            <div>
-              <h2>오늘의 전략 지도</h2>
-              <p class="subtle">입력된 일정의 긴장도, 관계 민감도, 결단 압력을 읽어 페르소나를 추천합니다.</p>
-            </div>
-            <button id="analyzeButton" type="button">철학자 호출</button>
-          </div>
-
-          <div class="meter-wrap" aria-label="상황 지표">
-            <div class="meter">
-              <strong>긴장도</strong>
-              <div class="bar"><span id="tensionBar"></span></div>
-              <p id="tensionText" class="subtle">일정 입력 대기</p>
-            </div>
-            <div class="meter">
-              <strong>관계 민감도</strong>
-              <div class="bar"><span id="relationBar"></span></div>
-              <p id="relationText" class="subtle">일정 입력 대기</p>
-            </div>
-            <div class="meter">
-              <strong>결단 압력</strong>
-              <div class="bar"><span id="decisionBar"></span></div>
-              <p id="decisionText" class="subtle">일정 입력 대기</p>
-            </div>
-          </div>
-
-          <div id="timeline" class="timeline"></div>
-        </section>
-
-        <section class="panel" style="margin-top:18px;" aria-label="페르소나 추천">
-          <div class="panel-inner">
-            <div class="section-title">
-              <h2>당신을 도울 페르소나</h2>
-              <span id="selectedName" class="chip">선택 대기</span>
-            </div>
-            <div id="personaGrid" class="persona-grid"></div>
-          </div>
-        </section>
-
-        <section class="panel" style="margin-top:18px;" aria-label="행동지침">
-          <div class="panel-inner">
-            <div class="section-title">
-              <h2>행동지침과 알람</h2>
-              <div class="actions" style="margin:0;">
-                <button id="scheduleButton" class="good" type="button">알람 설정</button>
-                <button id="exportButton" class="secondary" type="button">요약 복사</button>
-              </div>
-            </div>
-            <div id="playbook" class="playbook">
-              <div class="empty">일정을 추가하고 철학자를 호출하면, 선택한 페르소나가 시간대별 행동지침을 작성합니다.</div>
-            </div>
-          </div>
-        </section>
+    <main class="library-main">
+      <p class="section-kicker">?ㅻ뒛??吏덈Ц</p>
+      <h2>吏湲??대뼡 怨좊????덈굹??</h2>
+      <div class="search-wrap">
+        <input id="questionInput" aria-label="怨좊? ?낅젰" placeholder="?? ??μ씠 ???꾩씠?붿뼱瑜?怨꾩냽 臾댁떆?쒕떎." value="??μ씠 ???꾩씠?붿뼱瑜?怨꾩냽 臾댁떆?쒕떎.">
+        <button id="askBtn">?꾩옄 李얘린</button>
       </div>
-    </section>
-  </main>
+      <div class="suggestions">
+        <button>以묒슂??寃곗젙???먭씀 誘몃（寃??⑸땲??</button>
+        <button>???媛덈벑???대뼸寃???댁빞 ?좉퉴??</button>
+        <button>??湲곗???吏?ㅻ㈃???ㅻ뱷?섍퀬 ?띠뒿?덈떎.</button>
+      </div>
+      <div class="shelf-title"><h3>?대젮 ?덈뒗 ?쒓?</h3><span>泥?諛⑸Ц 쨌 20紐??댁슜 媛??/span></div>
+      <div class="portraits">
+        <button class="portrait-card" data-person="sun"><span class="roman">?꾨왂媛愿 01</span><div class="portrait p-sun"></div><div class="portrait-meta"><b>?먯옄</b><small>?꾨왂媛 쨌 湲곗썝??544</small></div></button>
+        <button class="portrait-card" data-person="nietzsche"><span class="roman">泥좏븰愿 07</span><div class="portrait p-nie"></div><div class="portrait-meta"><b>?꾨━?쒕━???덉껜</b><small>泥좏븰??쨌 1844??900</small></div></button>
+        <button class="portrait-card" data-person="adler"><span class="roman">?щ━?숆? 03</span><div class="portrait p-adler"></div><div class="portrait-meta"><b>?뚰봽?덈뱶 ?꾨뱾??/b><small>?щ━?숈옄 쨌 1870??937</small></div></button>
+        <button class="portrait-card" data-person="lincoln"><span class="roman">援곗＜愿 11</span><div class="portrait p-lincoln"></div><div class="portrait-meta"><b>?먯씠釉뚮윭??留곸빻</b><small>?뺤튂媛 쨌 1809??865</small></div></button>
+      </div>
+      <div class="unlock"><div class="unlock-icon">??/div><div><b>?ㅼ쓬 ?쒓?: ?숈뼇 ?ъ긽愿</b><p>??踰덉쓽 ?먮Ц??留덉튂硫?怨듭옄, ?몄옄, ?뺤뼇紐낆쓣 留뚮궇 ???덉뒿?덈떎.</p><div class="progress"><i></i></div></div></div>
+    </main>
+  </section>
 
-  <div id="toast" class="toast" role="status" aria-live="polite">
-    <strong id="toastTitle">알림</strong>
-    <p id="toastText"></p>
-  </div>
+  <div id="thinking" class="thinking hidden"><div><div class="book-loader"></div><p>?뱀떊??吏덈Ц??留욌뒗 ?쒓?瑜?李얘퀬 ?덉뒿?덈떎</p><small>梨낅뱾???쒖옄由щ? 李얜뒗 ?숈븞 ?좎떆 湲곕떎??二쇱꽭??/small></div></div>
+
+  <section id="results" class="screen advisor-match hidden">
+    <aside class="match-sidebar">
+      <div class="side-brand"><span class="brand-mark">??/span><span>吏?쒖쓽 ?쒖옱</span></div>
+      <div class="match-step done"><span class="step-no">訝</span><div><b>吏덈Ц?섍린</b><small>怨좊?????臾몄옣?쇰줈 ?뺣━</small></div></div>
+      <div class="match-step active"><span class="step-no">雅?/span><div><b>愿???좏깮</b><small>異붿쿇 ?먮Ц?꾩썝 鍮꾧탳</small></div></div>
+      <div class="match-step"><span class="step-no">訝?/span><div><b>媛쒕퀎 ?먮Ц</b><small>???몃Ъ??源딆? 議곗뼵</small></div></div>
+      <div class="match-step"><span class="step-no">??/span><div><b>?먰긽?뚯쓽</b><small>?щ윭 愿?먯쓽 ?좊줎怨?寃곕줎</small></div></div>
+      <div class="match-help">?대뼡 ?몃Ъ???좏깮?대룄<br>?섏쨷???ㅻⅨ 愿?먭낵 鍮꾧탳?????덉뒿?덈떎.</div>
+    </aside>
+    <div class="match-main">
+      <header class="match-top"><button class="match-back" data-go="intro">???ㅻ뒛???대엺??/button><span class="step-caption">2 / 4 쨌 愿???좏깮</span><button class="icon-button" aria-label="?꾩?留?>?</button></header>
+      <main class="match-body">
+        <div class="match-title"><div><p class="section-kicker" style="text-align:left;margin-bottom:5px">?뱀떊???꾪븳 ?먮Ц?꾩썝??/p><h1>??愿?먮뱾???꾩?????寃?媛숈뒿?덈떎.</h1><p>媛??癒쇱? ?ｊ퀬 ?띠? ?몃Ъ???좏깮?섏꽭??</p></div><span class="match-count">1,248紐?以?4紐??좎젙</span></div>
+        <div class="question-paper"><span class="nav-ink">??/span><p id="questionEcho">?쒗??μ씠 ???꾩씠?붿뼱瑜?怨꾩냽 臾댁떆?쒕떎.??/p></div>
+        <div class="reading">
+          <div class="reading-item"><small>?듭떖 ?곹솴</small><b>議곗쭅 ???ㅻ뱷</b></div>
+          <div class="reading-item"><small>媛먯젙??寃?/small><b>醫뚯젅怨??몄젙 ?뺢뎄</b></div>
+          <div class="reading-item"><small>?꾩슂??愿??/small><b>?꾨왂 쨌 ?먭린 湲곗?</b></div>
+          <div class="reading-item"><small>?됰룞 ?쒖젏</small><b>?ㅼ쓬 ?????/b></div>
+        </div>
+        <div class="match-recommend">
+          <button class="match-card" data-person="sun"><span class="match-rank">訝</span><span class="best-mark">媛???곹빀</span><div class="portrait p-sun"></div><div class="match-copy"><h3>?먯옄</h3><small>?꾨왂媛 쨌 湲곗썝??544</small><q>?곷????섏쓣 ?뺣㈃?쇰줈 ?닿린???섏? ?딅뒗??</q><div class="reason-tag">?꾩옣??諛붽씀???꾨왂 쨌 96% ?곹빀</div></div></button>
+          <button class="match-card" data-person="nietzsche"><span class="match-rank">雅?/span><div class="portrait p-nie"></div><div class="match-copy"><h3>?덉껜</h3><small>泥좏븰??쨌 1844??900</small><q>?⑥쓽 ?됯?蹂대떎 ?먯떊??湲곗????몄슫??</q><div class="reason-tag">?먭린 湲곗????뚮났 쨌 89% ?곹빀</div></div></button>
+          <button class="match-card" data-person="adler"><span class="match-rank">訝?/span><div class="portrait p-adler"></div><div class="match-copy"><h3>?꾨뱾??/h3><small>?щ━?숈옄 쨌 1870??937</small><q>臾몄젣瑜??щ엺怨?遺꾨━?댁꽌 蹂몃떎.</q><div class="reason-tag">愿怨꾩? 怨쇱젣??遺꾨━ 쨌 84% ?곹빀</div></div></button>
+          <button class="match-card" data-person="lincoln"><span class="match-rank">??/span><div class="portrait p-lincoln"></div><div class="match-copy"><h3>留곸빻</h3><small>?뺤튂媛 쨌 1809??865</small><q>諛섎??먮? ?곸씠 ?꾨땶 ?먯썝?쇰줈 諛붽씔??</q><div class="reason-tag">諛섎??먯쓽 李몄뿬 ?좊룄 쨌 78% ?곹빀</div></div></button>
+        </div>
+        <div class="match-note"><span>異붿쿇? 吏덈Ц??留λ씫怨?媛??몃Ъ???ш퀬諛⑹떇??鍮꾧탳??援ъ꽦?덉뒿?덈떎.</span><button data-go="library">?ㅻⅨ ?몃Ъ??吏곸젒 李얠븘蹂닿린 ??/button></div>
+      </main>
+    </div>
+  </section>
+
+  <section id="counsel" class="screen counsel hidden">
+    <div class="counsel-grid">
+      <aside class="advisor-panel"><div id="counselPortrait" class="portrait p-sun"></div><div><button class="back" data-go="results">???ㅻⅨ 愿??蹂닿린</button><h1 id="counselName">?먯옄</h1><p id="counselMeta">?꾨왂媛 쨌 湲곗썝??544</p><span class="seal">嶺?/span></div></aside>
+      <article class="advice">
+        <p id="mainQuote" class="quote">?곴낵 ?몄슦湲??꾩뿉<br>?꾩옣???좏깮?섎씪.</p>
+        <p class="section-kicker" style="text-align:left">?뱀떊???곹솴?대씪硫?/p>
+        <div id="adviceText"></div>
+        <div class="action-card"><b>?댁씪 諛붾줈 ?ㅽ뻾????媛吏</b><ol id="actionList"></ol></div>
+        <div class="advice-actions"><button class="paper-btn" data-go="results">?ㅻⅨ ?몃Ъ??</button><button class="paper-btn primary" id="roundBtn">?????щ엺???뚯쓽瑜??쒕떎硫?</button></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="roundtable" class="roundtable hidden">
+    <div class="round-inner">
+      <header class="round-head"><span class="brand-mark">鈺?/span><h2>?먰긽?뚯쓽</h2><p id="roundQuestion"></p></header>
+      <div class="dialogue">
+        <div class="speech"><div class="speaker">?먯옄</div><p>?뺣㈃ ?寃곗? ?곷?媛 媛??以鍮꾪븳 ?꾩옣?낅땲?? ?꾩씠?붿뼱 ?먯껜瑜??ㅼ떆 二쇱옣?섏? 留먭퀬, ??μ씠 嫄곗젅?섍린 ?대젮???묒? ?ㅽ뿕怨?痢≪젙 湲곗???癒쇱? ?쒖븞?섏떗?쒖삤.</p></div>
+        <div class="speech"><div class="speaker">?덉껜</div><p>洹몃윭???몄젙諛쏄린 ?꾪빐 ?먯떊??吏?섏튂寃?異뺤냼?댁꽌?????⑸땲?? 臾댁뾿???산퀬 ?띠?吏, ?대뼡 媛移섎? ?ш린?섏? ?딆쓣吏 癒쇱? ?ㅼ뒪濡??뺥빐???⑸땲??</p></div>
+        <div class="speech"><div class="speaker">?꾨뱾??/div><p>??μ쓽 諛섏쓳? ??μ쓽 怨쇱젣?닿퀬, 紐낅즺?섍쾶 ?쒖븞?섎뒗 寃껋? ?뱀떊??怨쇱젣?낅땲?? ?섎Т?쒕떦?덈떎?숇뒗 ?댁꽍怨??ㅼ젣濡?踰뚯뼱吏??됰룞??遺꾨━??蹂댁떗?쒖삤.</p></div>
+        <div class="speech"><div class="speaker">留곸빻</div><p>諛섎????댁쑀瑜?怨듦컻?곸쑝濡?臾산린蹂대떎 ?쇰??쇰줈 議곗뼵??援ы븯??떆?? ?щ엺? ?먯떊??湲곗뿬???앷컖??吏吏?⑸땲?? ?곷?瑜?怨듬룞 ?ㅺ퀎?먮줈 珥덈??섏꽭??</p></div>
+        <div class="verdict"><small>??????쨌 ????寃?怨?/small><h3>媛???꾩떎?곸씤 ?됰룞?<br>?섏옉? ?ㅽ뿕??怨듬룞 ?ㅺ퀎?숇? ?쒖븞?섎뒗 寃껋엯?덈떎.</h3><p>?댁씪 ??μ뿉寃?15遺꾨쭔 ?붿껌?섏꽭?? ?쒖????쒖븞?먯꽌 媛???곕젮?섎뒗 吏?먯씠 臾댁뾿?몄? 議곗뼵??援ы븯怨??띠뒿?덈떎. 洹?湲곗???諛섏쁺??2二쇱쭨由??묒? ?ㅽ뿕?쇰줈 寃利앺빐 蹂대㈃ ?대뼥源뚯슂??앸씪怨?留먰븯??떆?? ?먯〈?ъ쓽 ?寃곗쓣 利앷굅????붾줈 諛붽씀??寃껋씠 ?듭떖?낅땲??</p></div>
+      </div>
+      <div class="round-actions"><button class="label-btn" id="closeRound">?쒖옱濡??뚯븘媛湲?/button></div>
+    </div>
+  </section>
 
   <script>
-    const personas = [
-      {
-        id: "machiavelli",
-        name: "마키아벨리",
-        short: "M",
-        tags: ["현실주의", "협상", "권력관계"],
-        intro: "감정은 약점입니다. 상대의 필요와 두려움을 먼저 읽고, 한 번에 모든 전쟁을 치르지 마십시오.",
-        fit: ["협상", "위기", "결단", "인재"],
-        principle: "호의는 점진적으로, 어려운 결정은 한 번에 끝낸다.",
-        tone: "냉정하고 짧게, 상대의 선택지를 좁히는 방식"
-      },
-      {
-        id: "confucius",
-        name: "공자",
-        short: "孔",
-        tags: ["관계", "예의", "질서"],
-        intro: "상대의 체면을 세우면 길이 열립니다. 관계를 무너뜨리지 않는 승리를 설계하십시오.",
-        fit: ["관계", "갈등", "인재"],
-        principle: "예를 잃지 않되, 기준은 흐리지 않는다.",
-        tone: "정중하고 품위 있게, 공동의 명분을 세우는 방식"
-      },
-      {
-        id: "kant",
-        name: "칸트",
-        short: "K",
-        tags: ["원칙", "공정", "책임"],
-        intro: "이번 결정이 모두에게 적용되어도 괜찮은 규칙인지 물으십시오. 원칙은 협상 카드가 아닙니다.",
-        fit: ["결단", "갈등", "협상"],
-        principle: "사람을 수단으로만 대하지 않는다.",
-        tone: "차분하고 논리적으로, 기준과 절차를 분명히 하는 방식"
-      },
-      {
-        id: "nietzsche",
-        name: "니체",
-        short: "N",
-        tags: ["의지", "돌파", "주도권"],
-        intro: "회피는 상황을 키웁니다. 당신의 의지를 선명하게 드러내고 주도권을 되찾으십시오.",
-        fit: ["위기", "결단", "갈등"],
-        principle: "나를 약하게 만드는 합의를 거절한다.",
-        tone: "강하고 직접적으로, 결정권이 내게 있음을 보이는 방식"
-      },
-      {
-        id: "sartre",
-        name: "사르트르",
-        short: "S",
-        tags: ["자유", "책임", "거리두기"],
-        intro: "타인의 시선은 압박이지만, 선택은 여전히 당신의 것입니다. 사실과 감정을 분리하십시오.",
-        fit: ["관계", "갈등", "결단"],
-        principle: "선택하지 않는 것도 하나의 선택이며, 그 책임도 내 것이다.",
-        tone: "감정을 걷어내고, 사실과 선택지를 선명히 나누는 방식"
-      },
-      {
-        id: "tolstoy",
-        name: "톨스토이",
-        short: "T",
-        tags: ["성찰", "사과", "회복"],
-        intro: "복잡한 전략보다 단순한 진실이 관계를 회복합니다. 먼저 인정할 부분을 찾으십시오.",
-        fit: ["관계", "갈등", "인재"],
-        principle: "작은 진심 하나가 큰 방어를 무너뜨린다.",
-        tone: "부드럽고 솔직하게, 자존심보다 회복을 우선하는 방식"
-      }
-    ];
-
-    const extendedPersonas = [
-      {
-        id: "socrates",
-        name: "소크라테스",
-        short: "So",
-        tags: ["질문", "무지의 자각", "대화"],
-        intro: "답을 주기 전에 질문을 정교하게 만듭니다. 상대가 스스로 모순을 보게 하십시오.",
-        fit: ["관계", "갈등", "결단"],
-        keywords: ["대화", "질문", "자녀", "학생", "오해", "설득", "가르침"],
-        principle: "좋은 질문은 방어를 낮추고 진실을 드러낸다.",
-        tone: "단정하지 않고 묻되, 핵심에서 물러서지 않는 방식",
-        moves: ["상대가 먼저 정의하게 하십시오.", "왜 그렇게 느끼는지 한 번 더 물으십시오.", "결론보다 질문의 질을 기록하십시오."]
-      },
-      {
-        id: "aristotle",
-        name: "아리스토텔레스",
-        short: "Ar",
-        tags: ["중용", "습관", "덕"],
-        intro: "극단을 피하고 반복 가능한 좋은 습관을 설계합니다. 한 번의 승리보다 품성을 보십시오.",
-        fit: ["관계", "인재", "결단"],
-        keywords: ["습관", "교육", "성장", "균형", "훈육", "팀문화"],
-        principle: "좋은 결정은 좋은 습관에서 나온다.",
-        tone: "균형 있게, 과잉과 결핍 사이의 실천점을 찾는 방식",
-        moves: ["극단적 대응 두 가지를 먼저 배제하십시오.", "반복 가능한 작은 행동을 정하십시오.", "오늘의 행동이 어떤 습관을 만드는지 점검하십시오."]
-      },
-      {
-        id: "plato",
-        name: "플라톤",
-        short: "Pl",
-        tags: ["이상", "공동선", "교육"],
-        intro: "눈앞의 갈등 너머에 있는 더 좋은 질서를 상상합니다. 모두에게 어떤 세계를 만들지 묻습니다.",
-        fit: ["결단", "관계", "인재"],
-        keywords: ["비전", "교육", "공동체", "이상", "방향", "원칙"],
-        principle: "지금의 선택이 공동체의 질서를 만든다.",
-        tone: "큰 그림을 세우고, 개인의 감정을 공동의 방향으로 연결하는 방식",
-        moves: ["이 결정이 만들 미래를 말하십시오.", "상대의 역할을 공동선 안에서 다시 설명하십시오.", "단기 감정과 장기 방향을 나누십시오."]
-      },
-      {
-        id: "seneca",
-        name: "세네카",
-        short: "Se",
-        tags: ["스토아", "감정 절제", "회고"],
-        intro: "통제할 수 있는 것과 없는 것을 나눕니다. 감정의 파도 속에서도 품위를 잃지 않게 합니다.",
-        fit: ["위기", "갈등", "관계"],
-        keywords: ["분노", "불안", "걱정", "위기", "회고", "감정", "충동"],
-        principle: "내가 통제할 수 있는 것에만 힘을 쓴다.",
-        tone: "차분하고 절제된 말투로, 반응보다 선택을 앞세우는 방식",
-        moves: ["즉시 반응하지 말고 10분 늦추십시오.", "통제 가능한 항목만 세 개 적으십시오.", "밤에 감정과 행동을 분리해 회고하십시오."]
-      },
-      {
-        id: "epictetus",
-        name: "에픽테토스",
-        short: "Ep",
-        tags: ["통제", "내면", "자유"],
-        intro: "상황이 아니라 상황에 대한 판단을 다룹니다. 빼앗기지 않는 내면의 자유를 확보하십시오.",
-        fit: ["위기", "관계", "결단"],
-        keywords: ["통제", "압박", "비난", "상처", "자유", "불공정"],
-        principle: "사건은 나를 지배하지 못한다. 내 판단이 나를 흔든다.",
-        tone: "짧고 단단하게, 외부 평가와 자기 선택을 분리하는 방식",
-        moves: ["상대의 말과 내 해석을 분리하십시오.", "내가 선택할 수 있는 행동 하나를 고르십시오.", "평판보다 원칙을 확인하십시오."]
-      },
-      {
-        id: "marcus",
-        name: "마르쿠스 아우렐리우스",
-        short: "Ma",
-        tags: ["책임", "절제", "리더십"],
-        intro: "권한이 클수록 자기 통제가 먼저입니다. 리더의 품위로 상황을 안정시키십시오.",
-        fit: ["위기", "인재", "결단"],
-        keywords: ["리더", "책임", "위기", "조직", "불안", "평정"],
-        principle: "리더의 첫 임무는 자기 마음을 다스리는 것이다.",
-        tone: "무게감 있게, 감정을 숨기기보다 질서 있게 정리하는 방식",
-        moves: ["가장 먼저 조직이 볼 신호를 정하십시오.", "말의 온도를 낮추십시오.", "결정 후 기록으로 책임을 남기십시오."]
-      },
-      {
-        id: "laozi",
-        name: "노자",
-        short: "老",
-        tags: ["무위", "흐름", "부드러움"],
-        intro: "밀어붙일수록 더 닫히는 상황에서는 힘을 빼야 합니다. 빈 공간을 만들어 상대가 움직이게 하십시오.",
-        fit: ["관계", "갈등", "협상"],
-        keywords: ["저항", "반항", "닫힘", "침묵", "사춘기", "부드럽게", "거리"],
-        principle: "부드러운 것이 단단한 것을 이긴다.",
-        tone: "낮고 느리게, 강요 대신 선택의 여지를 주는 방식",
-        moves: ["질문 수를 줄이고 침묵을 허용하십시오.", "한 걸음 물러나 선택지를 주십시오.", "오늘 해결하려는 욕심을 내려놓으십시오."]
-      },
-      {
-        id: "zhuangzi",
-        name: "장자",
-        short: "莊",
-        tags: ["관점 전환", "자유", "여백"],
-        intro: "정답 싸움에서 벗어나 관점을 바꿉니다. 상대의 세계가 어떻게 보이는지 먼저 상상하십시오.",
-        fit: ["관계", "갈등", "결단"],
-        keywords: ["관점", "자유", "답답함", "비교", "자녀", "창의", "고집"],
-        principle: "내가 보는 세계만 세계의 전부는 아니다.",
-        tone: "가볍고 넓게, 판단을 늦추고 다른 시야를 여는 방식",
-        moves: ["상대 입장에서 같은 장면을 다시 쓰십시오.", "한 가지 정답을 내려놓으십시오.", "웃을 수 있는 여지를 남기십시오."]
-      },
-      {
-        id: "buddha",
-        name: "붓다",
-        short: "B",
-        tags: ["집착 내려놓기", "자비", "고통 이해"],
-        intro: "고통의 뿌리를 봅니다. 이기려는 마음보다 고통을 덜어내는 말을 찾으십시오.",
-        fit: ["관계", "갈등", "위기"],
-        keywords: ["고통", "집착", "불안", "상처", "용서", "자비", "화"],
-        principle: "고통을 이해하면 반응이 달라진다.",
-        tone: "다정하지만 흐리지 않게, 상처의 원인을 조용히 비추는 방식",
-        moves: ["상대가 두려워하는 것을 추측해보십시오.", "내 집착을 하나 내려놓으십시오.", "비난 대신 고통을 확인하는 말을 하십시오."]
-      },
-      {
-        id: "mencius",
-        name: "맹자",
-        short: "孟",
-        tags: ["측은지심", "도덕적 용기", "양육"],
-        intro: "사람 안의 선한 싹을 믿고 키웁니다. 꾸짖기보다 부끄러움과 가능성을 함께 다룹니다.",
-        fit: ["관계", "인재", "갈등"],
-        keywords: ["아이", "학생", "양육", "교육", "가능성", "격려", "부모"],
-        principle: "사람은 밀어붙이는 만큼보다 믿어주는 만큼 자란다.",
-        tone: "따뜻하게 기대를 드러내고, 기준은 분명히 남기는 방식",
-        moves: ["상대의 선한 의도를 먼저 가정하십시오.", "실망보다 기대를 말하십시오.", "작은 회복 행동을 함께 정하십시오."]
-      },
-      {
-        id: "hanfeizi",
-        name: "한비자",
-        short: "韓",
-        tags: ["규칙", "시스템", "상벌"],
-        intro: "사람의 선의에만 기대지 않습니다. 감정이 아니라 규칙과 구조로 문제를 풀어야 합니다.",
-        fit: ["인재", "갈등", "결단"],
-        keywords: ["규칙", "반복", "약속", "책임", "조직", "위반", "상벌"],
-        principle: "불명확한 규칙은 갈등을 키운다.",
-        tone: "건조하고 명확하게, 예외보다 기준을 앞세우는 방식",
-        moves: ["문제를 성격이 아니라 규칙으로 바꾸십시오.", "측정 가능한 약속을 정하십시오.", "후속 결과를 미리 합의하십시오."]
-      },
-      {
-        id: "sunzi",
-        name: "손자",
-        short: "孫",
-        tags: ["전략", "정보", "우회"],
-        intro: "이기기 전에 싸울 필요가 있는지 묻습니다. 정보와 지형을 읽고 불필요한 충돌을 피하십시오.",
-        fit: ["협상", "위기", "결단"],
-        keywords: ["경쟁", "협상", "정보", "전략", "우회", "시장", "고객"],
-        principle: "가장 좋은 승리는 싸우지 않고 목적을 얻는 것이다.",
-        tone: "냉정하게 지형을 읽고, 직접 충돌보다 우회로를 찾는 방식",
-        moves: ["상대의 보급선이 무엇인지 찾으십시오.", "정면충돌 대신 우회 선택지를 만드십시오.", "오늘 싸우지 않아도 되는 전투를 지우십시오."]
-      },
-      {
-        id: "montaigne",
-        name: "몽테뉴",
-        short: "Mo",
-        tags: ["자기 성찰", "회의", "품위"],
-        intro: "확신을 조금 낮추고 나를 관찰합니다. 내가 틀릴 가능성을 남기면 대화가 살아납니다.",
-        fit: ["관계", "갈등", "결단"],
-        keywords: ["확신", "오해", "대화", "성찰", "부모", "관계", "자기점검"],
-        principle: "내가 무엇을 아는가, 그리고 무엇을 모르는가.",
-        tone: "부드럽게 의심하고, 자기 성찰을 먼저 꺼내는 방식",
-        moves: ["내가 잘못 본 부분을 먼저 말하십시오.", "판단 대신 관찰을 공유하십시오.", "상대의 설명을 고칠 기회를 주십시오."]
-      },
-      {
-        id: "spinoza",
-        name: "스피노자",
-        short: "Sp",
-        tags: ["감정 이해", "필연", "평정"],
-        intro: "감정은 비난할 대상이 아니라 이해할 대상입니다. 원인을 알면 감정이 덜 지배합니다.",
-        fit: ["관계", "갈등", "위기"],
-        keywords: ["감정", "분노", "원인", "이해", "불안", "반응", "상처"],
-        principle: "이해는 감정의 노예 상태를 줄인다.",
-        tone: "분석적이되 차갑지 않게, 감정의 원인을 함께 찾는 방식",
-        moves: ["상대 감정의 원인을 세 가지 가설로 적으십시오.", "비난어를 원인어로 바꾸십시오.", "반응보다 이해 확인 문장을 먼저 말하십시오."]
-      },
-      {
-        id: "rousseau",
-        name: "루소",
-        short: "R",
-        tags: ["자연성", "교육", "자율"],
-        intro: "통제보다 자율을 봅니다. 사람은 명령보다 스스로 선택할 때 더 깊이 배웁니다.",
-        fit: ["관계", "인재", "갈등"],
-        keywords: ["자녀", "학생", "교육", "자율", "간섭", "성장", "사춘기"],
-        principle: "억지로 만든 순종은 성장을 대신하지 못한다.",
-        tone: "통제 욕구를 낮추고, 선택의 책임을 돌려주는 방식",
-        moves: ["상대가 고를 수 있는 선택지를 두 개만 주십시오.", "결과의 책임도 함께 설명하십시오.", "감시보다 약속을 제안하십시오."]
-      },
-      {
-        id: "mill",
-        name: "존 스튜어트 밀",
-        short: "Mi",
-        tags: ["자유", "토론", "해악 원칙"],
-        intro: "간섭의 기준을 분명히 합니다. 자유를 존중하되 타인에게 해가 되는 지점은 다룹니다.",
-        fit: ["관계", "갈등", "결단"],
-        keywords: ["자유", "간섭", "토론", "권리", "책임", "자율", "규칙"],
-        principle: "자유는 책임의 언어와 함께 갈 때 성숙해진다.",
-        tone: "자유를 인정하고, 필요한 경계만 또렷하게 세우는 방식",
-        moves: ["간섭해야 하는 이유가 해악인지 불안인지 구분하십시오.", "상대의 자유를 먼저 인정하십시오.", "최소한의 경계만 제안하십시오."]
-      },
-      {
-        id: "camus",
-        name: "카뮈",
-        short: "Ca",
-        tags: ["부조리", "반항", "존엄"],
-        intro: "이해되지 않는 상황에서도 품위를 잃지 않는 반항을 선택합니다. 체념하지 않는 태도가 필요합니다.",
-        fit: ["위기", "관계", "결단"],
-        keywords: ["무기력", "부조리", "반항", "의미", "체념", "우울", "존엄"],
-        principle: "상황이 부조리해도 내 태도까지 부조리할 필요는 없다.",
-        tone: "담담하지만 단단하게, 체념 대신 작은 반항을 택하는 방식",
-        moves: ["오늘 지킬 존엄 하나를 정하십시오.", "상황을 과장하지 말고 있는 그대로 말하십시오.", "작은 행동으로 체념을 끊으십시오."]
-      },
-      {
-        id: "dewey",
-        name: "존 듀이",
-        short: "D",
-        tags: ["실험", "교육", "경험"],
-        intro: "정답을 선포하지 말고 작은 실험을 설계합니다. 배움은 말보다 경험에서 일어납니다.",
-        fit: ["인재", "관계", "결단"],
-        keywords: ["교육", "학생", "실험", "경험", "학습", "개선", "피드백"],
-        principle: "작은 실험은 큰 설교보다 강하다.",
-        tone: "실용적으로, 한 번에 끝내기보다 다음 실험을 정하는 방식",
-        moves: ["일주일짜리 작은 실험을 제안하십시오.", "평가 기준을 함께 정하십시오.", "결과보다 배운 점을 물으십시오."]
-      },
-      {
-        id: "arendt",
-        name: "한나 아렌트",
-        short: "Ha",
-        tags: ["판단", "공적 책임", "사유"],
-        intro: "생각 없이 따르는 흐름을 멈춥니다. 내가 하는 행동이 어떤 세계를 만드는지 판단해야 합니다.",
-        fit: ["결단", "갈등", "위기"],
-        keywords: ["책임", "판단", "조직", "침묵", "권위", "순응", "정치"],
-        principle: "생각하지 않는 순응이 가장 위험하다.",
-        tone: "날카롭게 판단하되, 개인의 책임을 공적 결과와 연결하는 방식",
-        moves: ["내가 침묵하면 생길 결과를 적으십시오.", "권위 뒤에 숨은 판단을 분리하십시오.", "공개되어도 견딜 수 있는 결정을 하십시오."]
-      },
-      {
-        id: "simoneweil",
-        name: "시몬 베유",
-        short: "We",
-        tags: ["주의", "고통", "연민"],
-        intro: "진짜 도움은 충고보다 주의 깊은 바라봄에서 시작합니다. 상대의 고통을 서둘러 해석하지 마십시오.",
-        fit: ["관계", "갈등", "위기"],
-        keywords: ["고통", "돌봄", "상처", "아이", "경청", "침묵", "연민"],
-        principle: "주의 깊게 바라보는 것이 첫 번째 사랑이다.",
-        tone: "조용하고 깊게, 판단보다 경청의 밀도를 높이는 방식",
-        moves: ["조언을 5분 늦추십시오.", "상대의 말을 끊지 않고 반복해 확인하십시오.", "도울 방법을 묻기 전에 고통의 이름을 확인하십시오."]
-      },
-      {
-        id: "virginiawoolf",
-        name: "버지니아 울프",
-        short: "VW",
-        tags: ["내면", "자기 공간", "섬세함"],
-        intro: "말하지 못한 내면과 자기만의 방을 봅니다. 침묵은 거절이 아니라 공간 요청일 수 있습니다.",
-        fit: ["관계", "갈등", "인재"],
-        keywords: ["방", "침묵", "내면", "사춘기", "자기공간", "예민", "창작"],
-        principle: "사람에게는 말하기 전에 머물 자기만의 방이 필요하다.",
-        tone: "섬세하게, 침묵을 공격으로 해석하지 않는 방식",
-        moves: ["상대의 공간을 인정하는 문장으로 시작하십시오.", "대답을 강요하지 마십시오.", "나중에 말해도 된다는 출구를 주십시오."]
-      },
-      {
-        id: "dostoevsky",
-        name: "도스토옙스키",
-        short: "Do",
-        tags: ["죄책감", "양심", "모순"],
-        intro: "사람 안의 모순을 정면으로 봅니다. 비난 대신 양심이 말할 수 있는 틈을 여십시오.",
-        fit: ["갈등", "관계", "위기"],
-        keywords: ["죄책감", "거짓말", "모순", "고백", "수치", "양심", "갈등"],
-        principle: "사람은 모순을 인정할 때 다시 시작할 수 있다.",
-        tone: "깊고 진지하게, 회피하던 진실을 안전하게 꺼내는 방식",
-        moves: ["상대의 모순을 몰아붙이지 말고 비춰주십시오.", "고백해도 무너지지 않는 분위기를 만드십시오.", "책임과 구원을 함께 말하십시오."]
-      },
-      {
-        id: "tolkien",
-        name: "톨킨",
-        short: "Tk",
-        tags: ["작은 용기", "동료", "긴 여정"],
-        intro: "거대한 문제를 한 번에 해결하려 하지 않습니다. 작은 용기와 동료의 힘으로 다음 걸음을 갑니다.",
-        fit: ["위기", "관계", "인재"],
-        keywords: ["두려움", "여정", "친구", "용기", "작은", "포기", "회복"],
-        principle: "큰 어둠은 작은 충실함으로 건넌다.",
-        tone: "격려하되 과장하지 않고, 다음 한 걸음을 함께 정하는 방식",
-        moves: ["오늘 할 수 있는 가장 작은 용기를 정하십시오.", "혼자 짊어지지 않을 동료를 찾으십시오.", "긴 여정임을 인정하십시오."]
-      },
-      {
-        id: "luxun",
-        name: "루쉰의 아큐",
-        short: "AQ",
-        tags: ["자기기만", "체면", "현실 직시"],
-        intro: "정신승리와 자기합리화를 거울처럼 비춥니다. 체면을 지키려다 현실을 놓치지 않게 합니다.",
-        fit: ["갈등", "관계", "결단"],
-        keywords: ["체면", "억울", "합리화", "핑계", "자존심", "정신승리", "모욕"],
-        principle: "체면을 이기는 것보다 현실을 보는 것이 먼저다.",
-        tone: "약간 풍자적으로, 그러나 현실을 보게 하는 방식",
-        moves: ["내가 합리화하는 문장을 하나 찾으십시오.", "체면 때문에 놓친 사실을 적으십시오.", "품위 있는 현실 대응 문장을 쓰십시오."]
-      },
-      {
-        id: "hamlet",
-        name: "햄릿",
-        short: "Hm",
-        tags: ["망설임", "의심", "결단"],
-        intro: "너무 오래 생각하면 상황이 나를 끌고 갑니다. 의심을 충분히 보되 결정의 시간을 정해야 합니다.",
-        fit: ["결단", "갈등", "위기"],
-        keywords: ["망설임", "의심", "결정", "복수", "불신", "증거", "지연"],
-        principle: "생각은 필요하지만 끝없는 유예는 또 다른 선택이다.",
-        tone: "내면의 갈등을 인정하고, 결정 시한을 세우는 방식",
-        moves: ["더 필요한 증거와 이미 충분한 증거를 나누십시오.", "결정 시간을 못박으십시오.", "망설임의 비용을 계산하십시오."]
-      },
-      {
-        id: "antigone",
-        name: "안티고네",
-        short: "An",
-        tags: ["양심", "불복종", "가족"],
-        intro: "법과 명령보다 양심이 앞서는 순간을 봅니다. 감수할 대가까지 포함해 선택하십시오.",
-        fit: ["결단", "갈등", "관계"],
-        keywords: ["가족", "양심", "불복종", "원칙", "금지", "희생", "권위"],
-        principle: "양심의 선택은 대가를 외면하지 않는다.",
-        tone: "단호하고 비장하게, 지킬 가치와 감수할 대가를 함께 말하는 방식",
-        moves: ["무엇을 지키려는지 한 문장으로 쓰십시오.", "감수할 대가를 현실적으로 적으십시오.", "상대에게 원칙의 이유를 짧게 말하십시오."]
-      },
-      {
-        id: "atticus",
-        name: "애티커스 핀치",
-        short: "At",
-        tags: ["공정", "부모", "용기"],
-        intro: "아이에게 보여줄 수 있는 어른의 품위를 선택합니다. 이기는 말보다 공정한 태도가 오래 남습니다.",
-        fit: ["관계", "갈등", "인재"],
-        keywords: ["부모", "아이", "공정", "용기", "모범", "차별", "교육"],
-        principle: "아이들은 말보다 어른의 태도를 오래 배운다.",
-        tone: "담담하고 공정하게, 모범을 보이는 어른의 방식",
-        moves: ["아이 앞에서 지킬 태도 하나를 정하십시오.", "상대 입장을 상상하게 하는 질문을 하십시오.", "공정하지 않은 말은 바로잡되 모욕하지 마십시오."]
-      },
-      {
-        id: "janeeyre",
-        name: "제인 에어",
-        short: "Je",
-        tags: ["자존", "경계", "독립"],
-        intro: "사랑과 인정 욕구 속에서도 자기 존엄을 잃지 않습니다. 관계 안의 경계를 세우십시오.",
-        fit: ["관계", "갈등", "결단"],
-        keywords: ["자존감", "경계", "독립", "인정", "관계", "상처", "선택"],
-        principle: "사랑받고 싶어도 나를 버릴 수는 없다.",
-        tone: "부드럽지만 자기 경계를 잃지 않는 방식",
-        moves: ["내가 넘기면 안 되는 경계를 정하십시오.", "상대에게 원하는 인정과 실제 필요한 행동을 구분하십시오.", "존엄을 지키는 짧은 문장을 준비하십시오."]
-      }
-    ];
-
-    const allPersonas = [...personas, ...extendedPersonas];
-
-    const defaultParentTeenScenario = [
-      {
-        id: "parent-teen-demo",
-        time: "21:00",
-        title: "사춘기 자녀와 대화",
-        person: "중학교 2학년 자녀",
-        mode: "관계",
-        situation: "최근 아이가 방에만 있고 대화를 피한다. 성적이 떨어졌다는 연락을 학교에서 받았지만, 바로 추궁하면 더 닫힐 것 같다. 부모는 걱정이 크지만 아이는 “내 인생인데 왜 간섭하냐”고 반응할 가능성이 높다. 오늘은 성적보다 아이가 요즘 무엇 때문에 힘든지 듣고 싶다. 사춘기 자녀의 자기공간과 자율성을 존중하면서도 관계의 문을 열고 싶다. 첫 문장: “오늘은 성적 얘기부터 하지 않을게. 요즘 네가 많이 예민해 보였는데, 내가 뭘 잘못 보고 있는지 먼저 듣고 싶어.”"
-      }
-    ];
-
-    const storedEvents = localStorage.getItem("strategy-events");
-    const storedPersona = localStorage.getItem("strategy-persona");
-    const parsedEvents = storedEvents ? JSON.parse(storedEvents) : [];
-    const initialEvents = parsedEvents.length ? parsedEvents : defaultParentTeenScenario;
-
-    const state = {
-      events: initialEvents,
-      selectedPersonaId: storedPersona || (parsedEvents.length ? "" : "rousseau"),
-      timers: []
+    const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
+    const screens=["intro","library","results","counsel"];
+    const people={
+      sun:{name:"?먯옄",meta:"?꾨왂媛 쨌 湲곗썝??544",portrait:"p-sun",quote:"?곴낵 ?몄슦湲??꾩뿉<br>?꾩옣???좏깮?섎씪.",text:["吏湲??뱀떊??紐⑺몴????μ쓣 ?쇱웳?쇰줈 ?닿린??寃껋씠 ?꾨떃?덈떎. ?꾩씠?붿뼱媛 ?댁븘?⑥쓣 ???덈뒗 議곌굔??留뚮뱶??寃껋엯?덈떎. ?뺣㈃?쇰줈 媛숈? 二쇱옣??諛섎났?섎㈃ ?곷????먯떊??湲곗〈 ?먮떒??吏?ㅻ젮 ??媛뺥븯寃?諛⑹뼱?⑸땲??","癒쇱? 臾댁뾿??嫄곗젅?섏뿀?붿? ?뺥솗??援щ텇?섏떗?쒖삤. ?꾩씠?붿뼱??諛⑺뼢?몄?, 鍮꾩슜?몄?, ?쒓린?몄?, ?꾨땲硫??꾨떖 諛⑹떇?몄? ?뺤씤?댁빞 ?⑸땲?? 洹몃━怨?媛???묒? 洹쒕え濡?利앸챸?????덈뒗 ?ㅽ뿕??以鍮꾪븯??떆??","?꾩옣? ?뚯쓽?ㅼ씠 ?꾨땲??寃곌낵?낅땲?? ?곷?媛 ?뱀떊???쒖븞???뱀씤?섎뒗 ?щ엺???꾨땲???ㅽ뿕??湲곗????④퍡 留뚮뱶???щ엺???섍쾶 ?섏떗?쒖삤."],actions:["??μ쓽 ?곕젮瑜?異붿륫?섏? 留먭퀬 ??臾몄옣?쇰줈 吏덈Ц?쒕떎.","2二??덉뿉 寃利?媛?ν븳 理쒖냼 ?ㅽ뿕?덉쓣 ???μ쑝濡?留뚮뱺??","?뱀씤 ?붿껌 ????깃났 湲곗????④퍡 ?뺥빐 ?щ씪怨??쒖븞?쒕떎."]},
+      nietzsche:{name:"?덉껜",meta:"泥좏븰??쨌 1844??900",portrait:"p-nie",quote:"??몄쓽 ?됯?媛<br>?뱀떊??湲곗????섍쾶 ?섏? 留덈씪.",text:["臾댁떆?뱁뻽?ㅻ뒗 媛먯젙 ?ㅼ뿉???몄젙諛쏄퀬 ?띠? ?뺣쭩???덉뒿?덈떎. 洹??뺣쭩??遺?꾨윭?뚰븷 ?꾩슂???놁?留? 洹??뺣쭩???뱀떊???먮떒????좏븯寃??먯뼱?쒕뒗 ???⑸땲??","?뱀떊??吏?ㅻ젮??媛移섍? 臾댁뾿?몄? 癒쇱? ?곸쑝??떆?? ?꾩씠?붿뼱媛 醫뗭? ?댁쑀瑜?吏곴툒?대굹 遺꾩쐞湲곗? 臾닿????뱀떊留뚯쓽 湲곗??쇰줈 ?ㅻ챸?????덉뼱???⑸땲??","?몄젙??援ш구?섏? 留먭퀬 梨낆엫吏????덈뒗 ?쒖븞???섏떗?쒖삤. 媛뺥븳 ?쒖븞? ??紐⑹냼由ш? ?꾨땲??遺꾨챸??湲곗?怨?寃곌낵瑜?媛먮떦???쒕룄?먯꽌 ?섏샃?덈떎."],actions:["?쒖븞???듭떖 媛移섎? ??臾몄옣?쇰줈 ?대떎.","?ш린?????덈뒗 寃껉낵 ?녿뒗 寃껋쓣 援щ텇?쒕떎.","寃곌낵瑜?梨낆엫吏?踰붿쐞瑜?紐낇솗?섍쾶 留먰븳??"]},
+      adler:{name:"?꾨뱾??,meta:"?щ━?숈옄 쨌 1870??937",portrait:"p-adler",quote:"臾몄젣? ?щ엺??遺꾨━?섎㈃<br>?ㅼ쓬 ?됰룞??蹂댁씤??",text:["?섑??μ씠 ?섎? 臾댁떆?쒕떎?숇뒗 臾몄옣?먮뒗 ?ъ떎怨??댁꽍???욎뿬 ?덉뒿?덈떎. ?ㅼ젣濡??쇱뼱???됰룞??愿李?媛?ν븳 ?몄뼱濡?諛붽씀硫???묓븷 ???덈뒗 ?ъ?媛 ?앷퉩?덈떎.","??μ씠 ?뱀떊???대뼸寃??됯??좎?????μ쓽 怨쇱젣?낅땲?? 洹쇨굅瑜?以鍮꾪븯怨? 吏덈Ц?섍퀬, 紐낇솗?섍쾶 ?쒖븞?섎뒗 寃껋? ?뱀떊??怨쇱젣?낅땲?? ??怨쇱젣瑜??욎쑝硫?媛먯젙? 而ㅼ?怨??됰룞? ?묒븘吏묐땲??","?곷????뱀씤???삳뒗 寃껊낫??怨듬룞??紐⑺몴??湲곗뿬?섎뒗 履쎌쓣 ?좏깮?섏떗?쒖삤. 愿怨꾨뒗 ?ㅻ뱷???꾩젣?댁? 蹂댁긽???꾨떃?덈떎."],actions:["?쇱뼱???ъ떎怨??닿? 遺숈씤 ?댁꽍????移몄뿉 ?섎닠 ?대떎.","?곷???怨쇱젣? ??怨쇱젣瑜?援щ텇?쒕떎.","怨듬룞 紐⑺몴瑜?泥?臾몄옣???볤퀬 ??붾? ?쒖옉?쒕떎."]},
+      lincoln:{name:"留곸빻",meta:"?뺤튂媛 쨌 1809??865",portrait:"p-lincoln",quote:"諛섎??먮? ?놁븷吏 留먭퀬<br>?숇즺濡?留뚮뱾?대씪.",text:["醫뗭? 吏?꾩옄??諛섎?瑜?移⑤У?쒗궎吏 ?딆뒿?덈떎. 洹?諛섎? ?덉뿉 ?덈뒗 ?꾪뿕 ?좏샇瑜?李얠븘 ??媛뺥븳 寃곗젙??留뚮벊?덈떎.","??μ씠 諛섎??섎뒗 ?댁쑀瑜?怨듦컻?앹긽?먯꽌 ?곗?吏 留덉떗?쒖삤. 癒쇱? ?곕줈 李얠븘媛 議곗뼵??援ы븯怨? 媛???곕젮?섎뒗 吏?먯쓣 臾쇱쑝??떆?? 議곗뼵??援ы븯??寃껋? 援대났???꾨땲??李몄뿬??臾몄쓣 ?щ뒗 ?쇱엯?덈떎.","?곷????몄뼱瑜??쒖븞 ?덉뿉 諛섏쁺?섍퀬 洹?湲곗뿬瑜?怨듦컻?곸쑝濡??몄젙?섏떗?쒖삤. 怨듬룞 ??먭? ???щ엺? 寃곌낵瑜??쎄쾶 ?몃㈃?섏? ?딆뒿?덈떎."],actions:["15遺꾩쭨由??쇰?????붾? ?붿껌?쒕떎.","諛섎? ?댁쑀 以???뱁븳 ??媛吏瑜?癒쇱? ?몄젙?쒕떎.","?섏젙?덉뿉 ?곷???湲곗뿬瑜?紐낆떆?쒕떎."]}
     };
-
-    const $ = (id) => document.getElementById(id);
-
-    function save() {
-      localStorage.setItem("strategy-events", JSON.stringify(state.events));
-      localStorage.setItem("strategy-persona", state.selectedPersonaId);
-    }
-
-    function toast(title, text) {
-      $("toastTitle").textContent = title;
-      $("toastText").textContent = text;
-      $("toast").classList.add("show");
-      window.clearTimeout(toast.timer);
-      toast.timer = window.setTimeout(() => $("toast").classList.remove("show"), 4200);
-    }
-
-    function scoreEvents() {
-      const text = state.events.map(e => `${e.title} ${e.person} ${e.mode} ${e.situation}`).join(" ");
-      const count = state.events.length || 1;
-      const has = (words) => words.some(w => text.includes(w));
-      const tension = Math.min(95, 22 + count * 12 + (has(["위기", "삭감", "사직", "손실", "경쟁", "압박"]) ? 28 : 0));
-      const relation = Math.min(95, 20 + count * 10 + (has(["갈등", "상대", "팀", "임원", "고객", "사과"]) ? 30 : 0));
-      const decision = Math.min(95, 24 + count * 11 + (has(["결정", "협상", "승인", "계약", "예산", "선택"]) ? 27 : 0));
-      return { tension, relation, decision };
-    }
-
-    function labelScore(score) {
-      if (score >= 75) return "높음";
-      if (score >= 48) return "중간";
-      return "낮음";
-    }
-
-    function renderMeters() {
-      const s = scoreEvents();
-      $("tensionBar").style.setProperty("--w", `${s.tension}%`);
-      $("relationBar").style.setProperty("--w", `${s.relation}%`);
-      $("decisionBar").style.setProperty("--w", `${s.decision}%`);
-      $("tensionText").textContent = labelScore(s.tension);
-      $("relationText").textContent = labelScore(s.relation);
-      $("decisionText").textContent = labelScore(s.decision);
-    }
-
-    function renderTimeline() {
-      const wrap = $("timeline");
-      if (!state.events.length) {
-        wrap.innerHTML = `<div class="empty">아직 일정이 없습니다. 왼쪽에서 시간, 상대, 상황을 입력해 주세요.</div>`;
-        return;
-      }
-      wrap.innerHTML = state.events
-        .slice()
-        .sort((a, b) => a.time.localeCompare(b.time))
-        .map((event) => `
-          <article class="event">
-            <time>${event.time}</time>
-            <div>
-              <h3>${escapeHtml(event.title)} <span class="chip">${escapeHtml(event.mode)}</span></h3>
-              <p>상대: ${escapeHtml(event.person || "미정")}</p>
-              <p>${escapeHtml(event.situation || "상황 설명 없음")}</p>
-            </div>
-            <button class="secondary" type="button" data-remove="${event.id}">삭제</button>
-          </article>
-        `).join("");
-    }
-
-    function recommendedPersonas() {
-      const modes = state.events.map(e => e.mode);
-      const text = state.events.map(e => `${e.title} ${e.person} ${e.mode} ${e.situation}`).join(" ").toLowerCase();
-      return allPersonas
-        .map(p => {
-          const modeScore = p.fit.reduce((sum, fit) => sum + (modes.includes(fit) ? 4 : 0), 0);
-          const keywordScore = (p.keywords || []).reduce((sum, keyword) => {
-            return sum + (text.includes(String(keyword).toLowerCase()) ? 3 : 0);
-          }, 0);
-          const tagScore = p.tags.reduce((sum, tag) => {
-            return sum + (text.includes(String(tag).toLowerCase()) ? 1 : 0);
-          }, 0);
-          return {
-            ...p,
-            score: modeScore + keywordScore + tagScore + (p.id === state.selectedPersonaId ? 1 : 0)
-          };
-        })
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 3);
-    }
-
-    function renderPersonas(forceRecommend = false) {
-      if (forceRecommend && state.events.length) {
-        state.selectedPersonaId = recommendedPersonas()[0].id;
-        save();
-      }
-      const list = state.events.length ? recommendedPersonas() : allPersonas.slice(0, 3);
-      const selected = allPersonas.find(p => p.id === state.selectedPersonaId);
-      $("selectedName").textContent = selected ? `${selected.name} 선택됨 · 전체 ${allPersonas.length}명 중` : `선택 대기 · 전체 ${allPersonas.length}명`;
-      $("personaGrid").innerHTML = list.map((p) => `
-        <article class="persona ${p.id === state.selectedPersonaId ? "selected" : ""}">
-          <div class="avatar">${p.short}</div>
-          <h3>${p.name}</h3>
-          <p class="tagline">${p.intro}</p>
-          <div class="chips">${p.tags.map(tag => `<span class="chip">${tag}</span>`).join("")}</div>
-          <button type="button" data-persona="${p.id}">${p.id === state.selectedPersonaId ? "선택됨" : "선택"}</button>
-        </article>
-      `).join("");
-      renderPlaybook();
-    }
-
-    function instructionFor(event, persona) {
-      const base = {
-        machiavelli: {
-          before: "상대가 잃기 싫어하는 것과 반드시 얻고 싶은 것을 각각 하나씩 적으십시오.",
-          during: "먼저 양보하지 말고, 상대의 첫 요구를 끝까지 듣고 조건부 역제안을 하십시오.",
-          after: "회의 직후 플랜 B 담당자와 다음 조치를 확정하십시오.",
-          script: `"${event.person || "상대"}님, 그 조건은 이해했습니다. 대신 우리가 지켜야 할 기준이 있습니다. 이 기준을 만족한다면 오늘 바로 결정하겠습니다."`
-        },
-        confucius: {
-          before: "상대가 체면을 잃지 않고 물러날 수 있는 표현을 준비하십시오.",
-          during: "공동의 목표를 먼저 말하고, 반대 의견은 사람보다 절차의 문제로 다루십시오.",
-          after: "감사와 합의 내용을 짧게 정리해 보내 관계의 잔열을 남기십시오.",
-          script: `"${event.person || "상대"}님 의견을 존중합니다. 다만 모두가 납득할 기준으로 보면 이 부분은 함께 조정해야겠습니다."`
-        },
-        kant: {
-          before: "이번 결정에 적용할 원칙 3개를 적고, 예외를 만들 경우의 위험을 확인하십시오.",
-          during: "감정이나 압박보다 절차, 공정성, 재현 가능한 기준을 중심으로 말하십시오.",
-          after: "합의가 원칙을 해치지 않았는지 기록하고, 후속 절차를 명확히 하십시오.",
-          script: `"${event.person || "상대"}님, 저는 이 사안을 예외로 처리하기보다 모두에게 적용 가능한 기준으로 판단하고 싶습니다."`
-        },
-        nietzsche: {
-          before: "오늘 절대 물러서지 않을 한 문장을 정하십시오.",
-          during: "회피성 표현을 버리고 원하는 결과를 직접 말하십시오.",
-          after: "결정 후 남는 불편함을 핑계로 되돌리지 말고 다음 행동으로 옮기십시오.",
-          script: `"저는 이 방향으로 결정하겠습니다. 우려는 듣겠습니다. 하지만 오늘은 결정을 미루지 않겠습니다."`
-        },
-        sartre: {
-          before: "사실, 감정, 추측을 세 줄로 분리하십시오.",
-          during: "상대가 만든 프레임에 들어가지 말고 선택 가능한 두 가지 길을 제시하십시오.",
-          after: "내가 선택한 것과 선택하지 않은 것을 기록해 책임의 경계를 분명히 하십시오.",
-          script: `"지금 확인된 사실은 여기까지입니다. 저는 두 가지 선택지를 보고 있고, 오늘은 첫 번째 방식으로 진행하겠습니다."`
-        },
-        tolstoy: {
-          before: "내가 먼저 인정할 수 있는 작은 잘못 하나를 찾으십시오.",
-          during: "방어보다 진심을 먼저 말하고, 상대가 말할 시간을 남겨두십시오.",
-          after: "짧은 사과나 감사 메시지로 관계 회복의 문을 열어두십시오.",
-          script: `"제가 놓친 부분이 있었습니다. 그 점은 인정합니다. 다시 정리해서 서로 불편하지 않은 방식으로 풀고 싶습니다."`
-        }
-      };
-      if (base[persona.id]) return base[persona.id];
-
-      const moves = persona.moves || [
-        "상황을 사실, 감정, 선택으로 나누십시오.",
-        "상대가 방어하지 않고 받을 수 있는 첫 문장을 준비하십시오.",
-        "결과를 기록하고 다음 행동 하나를 정하십시오."
-      ];
-      const subject = event.person || "상대";
-      return {
-        before: `${persona.name}의 관점으로 ${moves[0]}`,
-        during: moves[1],
-        after: moves[2],
-        script: `"${subject}님, 지금 이 상황을 ${persona.name}의 원칙처럼 보고 싶습니다. ${persona.principle} 그래서 오늘은 서로를 몰아붙이기보다 다음 한 걸음을 함께 정하고 싶습니다."`
-      };
-    }
-
-    function renderPlaybook() {
-      const persona = allPersonas.find(p => p.id === state.selectedPersonaId);
-      const wrap = $("playbook");
-      if (!state.events.length || !persona) {
-        wrap.innerHTML = `<div class="empty">일정을 추가하고 페르소나를 선택하면 실행 카드가 생성됩니다.</div>`;
-        return;
-      }
-      const sorted = state.events.slice().sort((a, b) => a.time.localeCompare(b.time));
-      const cards = sorted.map((event) => {
-        const i = instructionFor(event, persona);
-        const alarmTime = offsetTime(event.time, -10);
-        return `
-          <article class="card">
-            <h3>${event.time} ${escapeHtml(event.title)} <span class="chip">${persona.name}</span></h3>
-            <p class="subtle">상대: ${escapeHtml(event.person || "미정")} · 상황: ${escapeHtml(event.situation || "상황 설명 없음")}</p>
-            <ul>
-              <li>${alarmTime} 알람: ${i.before}</li>
-              <li>진행 중: ${i.during}</li>
-              <li>종료 후: ${i.after}</li>
-            </ul>
-            <div class="script">${i.script}<br><strong>최종 책임은 당신에게 있습니다.</strong></div>
-          </article>
-        `;
-      }).join("");
-      const alarms = sorted.map(event => `
-        <div class="alarm">
-          <strong>${offsetTime(event.time, -10)}</strong>
-          <span>${escapeHtml(event.title)} 직전 행동지침</span>
-          <span class="chip">${persona.name}</span>
-        </div>
-      `).join("");
-      wrap.innerHTML = `
-        <div class="card">
-          <h3>${persona.name}의 오늘 원칙</h3>
-          <p class="script">${persona.principle}</p>
-          <p class="subtle" style="margin-top:10px;">말투: ${persona.tone}</p>
-        </div>
-        ${cards}
-        <div class="card">
-          <h3>알람 큐</h3>
-          <div class="alarm-list">${alarms}</div>
-        </div>
-      `;
-    }
-
-    function offsetTime(time, minutes) {
-      const [h, m] = time.split(":").map(Number);
-      const date = new Date();
-      date.setHours(h, m + minutes, 0, 0);
-      return `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
-    }
-
-    function scheduleAlarms() {
-      const persona = allPersonas.find(p => p.id === state.selectedPersonaId);
-      if (!persona || !state.events.length) {
-        toast("알람 설정 실패", "먼저 일정과 페르소나를 선택해 주세요.");
-        return;
-      }
-      state.timers.forEach(window.clearTimeout);
-      state.timers = [];
-      const now = new Date();
-      state.events.forEach(event => {
-        const [h, m] = offsetTime(event.time, -10).split(":").map(Number);
-        const alarmDate = new Date();
-        alarmDate.setHours(h, m, 0, 0);
-        if (alarmDate <= now) alarmDate.setDate(alarmDate.getDate() + 1);
-        const delay = alarmDate - now;
-        const i = instructionFor(event, persona);
-        const timer = window.setTimeout(() => {
-          const title = `[${persona.name}] ${event.title}`;
-          const body = i.before;
-          if ("Notification" in window && Notification.permission === "granted") {
-            new Notification(title, { body });
-          }
-          toast(title, body);
-        }, delay);
-        state.timers.push(timer);
-      });
-      toast("알람 설정 완료", "브라우저가 열려 있는 동안 일정 10분 전에 행동지침을 알려드립니다.");
-    }
-
-    async function copySummary() {
-      const persona = allPersonas.find(p => p.id === state.selectedPersonaId);
-      if (!persona || !state.events.length) {
-        toast("복사 실패", "요약할 전략이 아직 없습니다.");
-        return;
-      }
-      const lines = [`전략 페르소나: ${persona.name}`, `오늘 원칙: ${persona.principle}`, ""];
-      state.events.slice().sort((a, b) => a.time.localeCompare(b.time)).forEach(event => {
-        const i = instructionFor(event, persona);
-        lines.push(`${event.time} ${event.title}`);
-        lines.push(`상대: ${event.person || "미정"}`);
-        lines.push(`상황: ${event.situation || "상황 설명 없음"}`);
-        lines.push(`행동: ${i.before} / ${i.during} / ${i.after}`);
-        lines.push(`대사: ${i.script}`);
-        lines.push("");
-      });
-      try {
-        await navigator.clipboard.writeText(lines.join("\n"));
-        toast("요약 복사 완료", "전략 요약을 클립보드에 담았습니다.");
-      } catch {
-        toast("복사 제한", "브라우저 권한 때문에 자동 복사가 막혔습니다. 화면의 내용을 직접 선택해 복사해 주세요.");
-      }
-    }
-
-    function addEvent() {
-      const title = $("eventTitle").value.trim();
-      if (!title) {
-        toast("일정 필요", "일정 이름을 입력해 주세요.");
-        $("eventTitle").focus();
-        return;
-      }
-      state.events.push({
-        id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
-        time: $("eventTime").value || "09:00",
-        title,
-        person: $("eventPerson").value.trim(),
-        mode: $("eventMode").value,
-        situation: $("eventSituation").value.trim()
-      });
-      $("eventTitle").value = "";
-      $("eventPerson").value = "";
-      $("eventSituation").value = "";
-      save();
-      renderAll();
-      toast("일정 추가", "전략 지도에 새 일정이 반영되었습니다.");
-    }
-
-    function loadSample() {
-      state.events = [
-        { id: "s1", time: "09:00", title: "연간 예산 협의", person: "재무팀 김팀장", mode: "협상", situation: "상대가 예산을 20% 깎으려 하고 신규 프로젝트 승인이 걸려 있음" },
-        { id: "s2", time: "14:00", title: "핵심 개발자 면담", person: "개발자 A", mode: "인재", situation: "경쟁사 스카우트 제안을 받고 사직서를 고민 중" },
-        { id: "s3", time: "18:00", title: "고객사 석식", person: "주요 고객사 대표", mode: "관계", situation: "계약 연장 조건이 까다롭고 신뢰 회복이 필요함" }
-      ];
-      state.selectedPersonaId = "machiavelli";
-      save();
-      renderAll();
-      toast("예시 입력", "마키아벨리 모드 예시를 불러왔습니다.");
-    }
-
-    function escapeHtml(value) {
-      return String(value).replace(/[&<>"']/g, (m) => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#039;"
-      })[m]);
-    }
-
-    function renderAll() {
-      renderMeters();
-      renderTimeline();
-      renderPersonas(false);
-    }
-
-    $("addButton").addEventListener("click", addEvent);
-    $("sampleButton").addEventListener("click", loadSample);
-    $("clearButton").addEventListener("click", () => {
-      state.events = [];
-      state.selectedPersonaId = "";
-      save();
-      renderAll();
-      toast("초기화", "입력된 일정과 선택을 비웠습니다.");
-    });
-    $("analyzeButton").addEventListener("click", () => {
-      if (!state.events.length) {
-        toast("일정 필요", "먼저 내일의 전장을 하나 이상 입력해 주세요.");
-        return;
-      }
-      renderPersonas(true);
-      toast("철학자 호출", "현재 일정에 맞는 페르소나 3명을 추천했습니다.");
-    });
-    $("personaGrid").addEventListener("click", (event) => {
-      const button = event.target.closest("[data-persona]");
-      if (!button) return;
-      state.selectedPersonaId = button.dataset.persona;
-      save();
-      renderPersonas(false);
-    });
-    $("timeline").addEventListener("click", (event) => {
-      const button = event.target.closest("[data-remove]");
-      if (!button) return;
-      state.events = state.events.filter(item => item.id !== button.dataset.remove);
-      save();
-      renderAll();
-    });
-    $("scheduleButton").addEventListener("click", scheduleAlarms);
-    $("exportButton").addEventListener("click", copySummary);
-    $("notifyButton").addEventListener("click", async () => {
-      if (!("Notification" in window)) {
-        toast("알림 미지원", "이 브라우저에서는 데스크톱 알림을 지원하지 않습니다.");
-        return;
-      }
-      const result = await Notification.requestPermission();
-      toast("알림 권한", result === "granted" ? "알림을 보낼 수 있습니다." : "권한이 허용되지 않았습니다.");
-    });
-
-    renderAll();
+    function show(id){screens.forEach(x=>$("#"+x).classList.toggle("hidden",x!==id));window.scrollTo(0,0)}
+    function selectPerson(id){const p=people[id];$("#counselPortrait").className="portrait "+p.portrait;$("#counselName").textContent=p.name;$("#counselMeta").textContent=p.meta;$("#mainQuote").innerHTML=p.quote;$("#adviceText").innerHTML=p.text.map((t,i)=>`<h3>${i===0?"?먯옄??愿?먯쑝濡?.replace("?먯옄",p.name):i===1?"?꾩옣??諛붽씀??踰?:"湲곗뼲???먯튃"}</h3><p>${t}</p>`).join("");$("#actionList").innerHTML=p.actions.map(x=>`<li>${x}</li>`).join("");show("counsel")}
+    $("#homeBtn").onclick=()=>show("intro");
+    function askFromHome(){const q=$("#homeQuestion").value.trim();if(!q){$("#homeQuestion").focus();return}$("#questionInput").value=q;$("#questionEcho").textContent="??+q+"??;$("#roundQuestion").textContent=q;$("#thinking").classList.remove("hidden");setTimeout(()=>{$("#thinking").classList.add("hidden");show("results")},1200)}
+    $("#homeAsk").onclick=askFromHome;$("#homeQuestion").onkeydown=e=>{if(e.key==="Enter")askFromHome()};
+    $$(".quick-prompts button").forEach(b=>b.onclick=()=>{$("#homeQuestion").value=b.textContent==="愿怨꾩쓽 媛덈벑"?"? ?덉쓽 媛덈벑??愿怨꾨? ?댁튂吏 ?딄퀬 ?怨??띠뒿?덈떎.":b.textContent==="?대젮??寃곗젙"?"以묒슂??寃곗젙???먭씀 誘몃（寃??⑸땲??":"?????諛⑺뼢??誘욧퀬 ?곕씪?ㅺ쾶 ?섎젮硫??대뼸寃??댁빞 ?좉퉴??";askFromHome()});
+    $("#dailyAdvisor").onclick=()=>selectPerson("sun");
+    $$("[data-home-person]").forEach(b=>b.onclick=()=>selectPerson(b.dataset.homePerson));
+    ["#sidePeople","#sideShelf","#mobilePeople","#exploreShelf"].forEach(s=>$(s).onclick=()=>show("library"));
+    ["#sideRound","#mobileRound"].forEach(s=>$(s).onclick=()=>{$("#roundQuestion").textContent="理쒓렐 怨좊?????吏?깆쓽 愿?먯쑝濡??ㅼ떆 ?댄렣遊낅땲??";$("#roundtable").classList.remove("hidden");document.body.style.overflow="hidden"});
+    function ask(){const q=$("#questionInput").value.trim();if(!q){$("#questionInput").focus();return}$("#questionEcho").textContent="??+q+"??;$("#roundQuestion").textContent=q;$("#thinking").classList.remove("hidden");setTimeout(()=>{$("#thinking").classList.add("hidden");show("results")},1200)}
+    $("#askBtn").onclick=ask;$("#questionInput").onkeydown=e=>{if(e.key==="Enter")ask()};
+    $$(".suggestions button").forEach(b=>b.onclick=()=>{$("#questionInput").value=b.textContent;ask()});
+    $$("[data-person]").forEach(b=>b.onclick=()=>selectPerson(b.dataset.person));
+    $$("[data-go]").forEach(b=>b.onclick=()=>show(b.dataset.go));
+    $("#roundBtn").onclick=()=>{$("#roundtable").classList.remove("hidden");document.body.style.overflow="hidden"};
+    $("#closeRound").onclick=()=>{$("#roundtable").classList.add("hidden");document.body.style.overflow=""};
+    document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("#roundtable").classList.contains("hidden"))$("#closeRound").click()});
   </script>
 </body>
 </html>
+
