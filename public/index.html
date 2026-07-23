@@ -57,7 +57,7 @@
     .welcome{margin-bottom:22px}.welcome h1{font-family:Pretendard,sans-serif;font-weight:800;letter-spacing:-.04em}
     .date-stamp{font-family:Pretendard,sans-serif;color:#62758c}
     .home-grid{grid-template-columns:minmax(0,1.55fr) minmax(260px,.65fr);gap:18px}
-    .ask-panel{min-height:490px;border:0;border-radius:28px;overflow:hidden;padding:0;background:#0c1930 url("https://wisdom-library-kr.edam2665.chatgpt.site/assets/mindset1000-hero.png") center/cover no-repeat;box-shadow:0 24px 70px #17233b24}
+    .ask-panel{min-height:490px;border:0;border-radius:28px;overflow:hidden;padding:0;background:#0c1930 url("assets/mindset1000-hero.png") center/cover no-repeat;box-shadow:0 24px 70px #17233b24}
     .ask-panel:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,19,39,.96) 0%,rgba(8,19,39,.78) 42%,rgba(8,19,39,.12) 72%)}
     .ask-content{position:relative;z-index:1;width:min(590px,68%);padding:58px 50px;color:#fff}
     .ask-content .eyebrow{color:#72dfc7;font:800 11px/1 Pretendard,sans-serif;letter-spacing:.18em}
@@ -89,10 +89,13 @@
     .advisor-catalog{margin-top:64px;border-top:1px solid #dce5eb;padding-top:34px}.catalog-head{display:flex;align-items:end;justify-content:space-between;gap:22px;margin-bottom:19px}.catalog-head h3{font:850 clamp(24px,3vw,36px) Pretendard,sans-serif;margin:0;letter-spacing:-.045em}.catalog-head p{margin:7px 0 0;color:#667085;font-size:12px}.catalog-total{padding:10px 13px;border-radius:99px;background:#e6f5f1;color:#207d71;font-size:11px;font-weight:850;white-space:nowrap}.catalog-tools{display:grid;grid-template-columns:minmax(220px,1fr) 190px;gap:9px;margin-bottom:15px}.catalog-tools input,.catalog-tools select{width:100%;border:1px solid #d8e2e9;border-radius:12px;background:#fff;padding:13px 14px;color:#17233b;outline:0}.catalog-tools input:focus,.catalog-tools select:focus{border-color:#3aa58b;box-shadow:0 0 0 3px #3aa58b20}.catalog-meta{display:flex;justify-content:space-between;color:#77869a;font-size:10px;margin:0 2px 13px}.catalog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}.catalog-card{position:relative;display:grid;grid-template-columns:58px minmax(0,1fr);gap:13px;align-items:start;border:1px solid #dce5eb;border-radius:16px;background:#fff;padding:15px;text-align:left;color:#17233b;transition:.22s}.catalog-card:hover{transform:translateY(-3px);border-color:#69b8a6;box-shadow:0 13px 32px #17233b12}.catalog-avatar{width:58px;height:68px;border-radius:12px;background-image:url("assets/portraits-atlas.png");background-size:200% 200%;filter:grayscale(.25)}.catalog-copy{min-width:0}.catalog-copy strong{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.catalog-copy em{display:inline-block;margin:5px 0 7px;padding:3px 7px;border-radius:99px;background:#eaf5f2;color:#207d71;font-size:8px;font-style:normal;font-weight:800}.catalog-copy p{margin:0;color:#667085;font-size:10px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.catalog-select{display:inline-block;margin-top:8px;color:#247f73;font-size:9px;font-weight:850}.catalog-empty{grid-column:1/-1;padding:48px;text-align:center;border:1px dashed #cbd8e1;border-radius:16px;color:#77869a}.catalog-more{display:block;margin:20px auto 0;border:1px solid #a8babf;border-radius:12px;background:#fff;color:#17233b;padding:12px 24px;font-weight:800}.catalog-more:hover{border-color:#3aa58b;color:#207d71}
     .mobile-nav{background:#111d34;color:#c2cede}.mobile-nav b{font-family:Pretendard,sans-serif;color:#67d3ba;font-size:11px}
     .mindset-gateway{position:relative;min-height:100svh;overflow:hidden;background:#071225;color:#fff;isolation:isolate}
-    .gateway-backdrop{position:absolute;inset:0;background:url("https://wisdom-library-kr.edam2665.chatgpt.site/assets/mindset1000-hero.png") center/cover no-repeat;opacity:.32;filter:saturate(.8)}
+    .gateway-backdrop{position:absolute;inset:0;background:url("assets/mindset1000-hero.png") center/cover no-repeat;opacity:.32;filter:saturate(.8)}
     .gateway-backdrop:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 46%,transparent 0 18%,#07122545 47%,#071225 88%),linear-gradient(90deg,#071225e8 0%,transparent 48%,#0712259c)}
+    .gallery-tunnel{position:absolute;z-index:1;inset:0;background:#071225}
+    .gallery-tunnel canvas{display:block;width:100%;height:100%}
     .tunnel-stage{position:absolute;inset:-8%;perspective:900px;transform-style:preserve-3d;pointer-events:none}
-    .tunnel-stage:before{content:"";position:absolute;left:50%;top:50%;width:72vmin;height:72vmin;border-radius:50%;transform:translate(-50%,-50%);background:repeating-radial-gradient(circle,transparent 0 8%,#8be2d12c 8.5% 9%,transparent 9.5% 16%);box-shadow:inset 0 0 90px #79d8c72b,0 0 120px #76cbbb24;animation:tunnelRings 2.4s linear infinite}
+    .tunnel-stage:before{content:"";position:absolute;left:50%;top:50%;width:46vw;height:48vh;transform:translate(-50%,-50%) scale(.38);border:2px solid #a8fff0aa;background:#071225;box-shadow:0 0 0 7vmin #5ed0b70c,0 0 0 14vmin #5ed0b716,0 0 0 21vmin #5ed0b70c,0 0 0 28vmin #5ed0b714,0 0 90px 35px #79d8c72b,inset 0 0 90px #79d8c72b;animation:squareTunnelPulse 1.15s linear infinite}
+    .tunnel-stage:after{content:"";position:absolute;inset:0;background:linear-gradient(27deg,#071225 0 24%,transparent 24.2% 75.8%,#071225 76%),linear-gradient(153deg,#071225 0 24%,transparent 24.2% 75.8%,#071225 76%);opacity:.44;mix-blend-mode:multiply}
     .tunnel-ring{position:absolute;left:50%;top:50%;width:1px;height:1px;transform-style:preserve-3d;animation:tunnelDrift 5.5s ease-in-out infinite alternate}
     .mind-card{position:absolute;width:clamp(115px,12vw,190px);height:clamp(150px,17vw,250px);margin:-100px 0 0 -75px;border:1px solid #ffffff35;border-radius:18px;overflow:hidden;background:#16263f;box-shadow:0 18px 60px #0008;backdrop-filter:blur(10px);transform-style:preserve-3d;will-change:transform,opacity;animation:tunnelCardFly 7.2s linear infinite}
     .mind-card .portrait{height:100%;filter:grayscale(.35) contrast(1.05);opacity:.9}
@@ -130,17 +133,22 @@
     .mindset-gateway.entering .gateway-copy-inner{animation:gatewayCopyOut .85s cubic-bezier(.4,0,.8,.2) forwards}
     .mindset-gateway.entering .gateway-nav,.mindset-gateway.entering .gateway-foot{animation:gatewayUiOut .5s ease forwards}
     .mindset-gateway.entering .tunnel-stage{animation:tunnelDive 3.15s cubic-bezier(.42,.02,.22,1) forwards}
-    .mindset-gateway.entering .tunnel-stage:before{animation:tunnelRingsFast .72s linear infinite}
+    .mindset-gateway.entering .tunnel-stage:before{animation:squareTunnelRush .62s linear infinite}
     .mindset-gateway.entering .gateway-backdrop{animation:backdropDive 3.15s ease-in forwards}
     .mindset-gateway.entering .mind-card{transition:filter 1.1s ease;filter:blur(2px) brightness(1.2)}
     .mindset-gateway.entering:after{animation:portalFlash 3.15s cubic-bezier(.55,.02,.35,1) forwards}
     @keyframes gatewayCopyOut{0%{opacity:1;transform:scale(1);filter:blur(0)}55%{opacity:.1;transform:scale(1.16);filter:blur(2px)}100%{opacity:0;transform:scale(1.38);filter:blur(9px)}}
     @keyframes gatewayUiOut{to{opacity:0;transform:translateY(-14px)}}
-    @keyframes tunnelRings{from{transform:translate(-50%,-50%) scale(.82);opacity:.35}to{transform:translate(-50%,-50%) scale(1.22);opacity:.8}}
-    @keyframes tunnelRingsFast{from{transform:translate(-50%,-50%) scale(.55);opacity:.2}to{transform:translate(-50%,-50%) scale(1.7);opacity:.9}}
+    @keyframes squareTunnelPulse{from{transform:translate(-50%,-50%) scale(.32);opacity:.35}to{transform:translate(-50%,-50%) scale(.52);opacity:.9}}
+    @keyframes squareTunnelRush{from{transform:translate(-50%,-50%) scale(.2);opacity:.32}to{transform:translate(-50%,-50%) scale(1.7);opacity:1}}
     @keyframes tunnelDive{0%{transform:translateZ(0) scale(1)}18%{transform:translateZ(80px) scale(1.12)}72%{transform:translateZ(620px) scale(3.1)}100%{transform:translateZ(1250px) scale(7.2)}}
     @keyframes backdropDive{0%{opacity:.32;transform:scale(1)}72%{opacity:.6;transform:scale(1.45)}92%{opacity:.25}100%{opacity:0;transform:scale(2.5);filter:blur(12px)}}
     @keyframes portalFlash{0%,78%{opacity:0;transform:translate(-50%,-50%) scale(.1)}91%{opacity:.65;transform:translate(-50%,-50%) scale(6)}100%{opacity:1;transform:translate(-50%,-50%) scale(32)}}
+    .mindset-gateway.autoplay .gateway-copy,.mindset-gateway.autoplay .gateway-nav,.mindset-gateway.autoplay .gateway-foot{opacity:0;pointer-events:none}
+    .mindset-gateway.autoplay .gateway-backdrop{opacity:0}
+    .mindset-gateway.autoplay:after{display:none}
+    .mindset-gateway.autoplay .mind-card:after{display:none}
+    .mindset-gateway.autoplay .mind-card{border-radius:4px}
     @media(prefers-reduced-motion:reduce){.tunnel-ring,.mind-card{animation:none}.mindset-gateway.entering .tunnel-stage,.mindset-gateway.entering .gateway-backdrop,.mindset-gateway.entering:after{animation-duration:.01ms}}
     @media(max-width:900px){.catalog-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:700px){.ask-panel{min-height:560px;background-position:62% center}.ask-panel:before{background:linear-gradient(180deg,rgba(8,19,39,.94),rgba(8,19,39,.64))}.ask-content{width:auto;padding:40px 25px}.trust-strip{grid-template-columns:1fr}.home-grid{display:block}.daily-advisor{margin-top:16px}.mind-flow{margin:-25px -15px 24px;padding:22px 15px 25px;min-height:350px}.flow-head{padding:0 8px}.flow-head p{max-width:240px}.flow-count{display:none}.flow-viewport{height:270px}.flow-card{width:145px;height:200px;margin:-100px 0 0 -72px}.flow-arrow{top:175px;width:36px;height:36px}.flow-prev{left:8px}.flow-next{right:8px}.catalog-head{align-items:start}.catalog-tools{grid-template-columns:1fr}.catalog-grid{grid-template-columns:1fr}}
     @media(max-width:700px){.mind-card{width:105px;height:145px;margin:-72px 0 0 -52px}.mind-card:nth-child(1){transform:translate3d(-38vw,-29vh,-80px)}.mind-card:nth-child(2){transform:translate3d(38vw,-27vh,-140px)}.mind-card:nth-child(3),.mind-card:nth-child(4){opacity:.25}.mind-card:nth-child(5){transform:translate3d(-36vw,30vh,-100px)}.mind-card:nth-child(6){transform:translate3d(37vw,29vh,-150px)}.gateway-copy h1{font-size:clamp(45px,15vw,72px)}.gateway-foot{gap:11px;font-size:8px}.gateway-actions{flex-direction:column;max-width:260px;margin:auto}}
@@ -148,18 +156,9 @@
 </head>
 <body>
   <div class="grain"></div>
-  <section id="gateway" class="screen mindset-gateway" aria-label="Mindset 1000 시작 화면">
+  <section id="gateway" class="screen mindset-gateway autoplay" aria-label="Mindset 1000 현자 터널">
     <div class="gateway-backdrop"></div>
-    <div class="tunnel-stage" aria-hidden="true"><div class="tunnel-ring">
-      <div class="mind-card" data-name="니체"><div class="portrait p-nie"></div></div>
-      <div class="mind-card" data-name="아들러"><div class="portrait p-adler"></div></div>
-      <div class="mind-card" data-name="손자"><div class="portrait p-sun"></div></div>
-      <div class="mind-card" data-name="링컨"><div class="portrait p-lincoln"></div></div>
-      <div class="mind-card" data-name="세종대왕"><div class="portrait p-lincoln"></div></div>
-      <div class="mind-card" data-name="공자"><div class="portrait p-sun"></div></div>
-      <div class="mind-card" data-name="셜록 홈즈"><div class="portrait p-nie"></div></div>
-      <div class="mind-card" data-name="버지니아 울프"><div class="portrait p-adler"></div></div>
-    </div></div>
+    <div id="galleryTunnel" class="gallery-tunnel" aria-hidden="true"><canvas id="galleryTunnelCanvas"></canvas></div>
     <header class="gateway-nav">
       <div class="gateway-logo"><span class="brand-mark">1000</span><span>MINDSET 1000<small>PRIVATE ADVISORY NETWORK</small></span></div>
       <span class="gateway-status"><span class="live-dot"></span>1,000 MINDS ONLINE</span>
@@ -167,7 +166,7 @@
     <main class="gateway-copy"><div class="gateway-copy-inner">
       <span class="eyebrow">MINDSET1000.COM · INVITE ONLY</span>
       <h1>생각의 터널을 지나<span>당신에게 필요한 관점을 만나세요.</span></h1>
-      <p>1,000명의 현자와 구독 작가가 같은 맥락을 보고 함께 대화합니다. 정답을 던지는 서비스가 아니라, 다음 선택을 함께 만드는 자문 네트워크입니다.</p>
+      <p>만남과 대화에 고민이 있다면, 소개팅에서 회사 미팅, 경영 전략까지 1,000명의 현자와 함께 해결하세요.</p>
       <div class="gateway-actions"><button id="enterMindset" class="gateway-enter">나의 자문 공간으로 들어가기 →</button><button id="previewMinds" class="gateway-link">현자 네트워크 둘러보기</button></div>
     </div></main>
     <div class="gateway-foot"><span>초대 전용</span><span>작가 실시간 참여</span><span>일정·대화 맥락 보호</span></div>
@@ -567,17 +566,22 @@
     $("#catalogMore").onclick=()=>{catalogLimit+=24;renderCatalog()};
     $("#catalogGrid").onclick=e=>{const card=e.target.closest("[data-advisor-id]");if(!card)return;const profile=advisorCatalog.find(p=>p.id===Number(card.dataset.advisorId));if(profile)selectCatalogAdvisor(profile)};
     renderCatalog();
+    const finishGateway=()=>{
+      const gateway=$("#gateway");
+      window.dispatchEvent(new Event("mindset:tunnel-complete"));
+      show("intro");
+      gateway.classList.remove("entering","autoplay");
+      $("#enterMindset").disabled=false;
+    };
+    const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setTimeout(finishGateway,reducedMotion?80:3050);
     $("#enterMindset").onclick=()=>{
       const gateway=$("#gateway");
       if(gateway.classList.contains("entering"))return;
       $("#enterMindset").disabled=true;
       gateway.classList.add("entering");
       const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      setTimeout(()=>{
-        show("intro");
-        gateway.classList.remove("entering");
-        $("#enterMindset").disabled=false;
-      },reduced?40:3100);
+      setTimeout(finishGateway,reduced?40:3100);
     };
     $("#previewMinds").onclick=()=>show("library");
     const flowCards=[...$$(".flow-card")],flowViewport=$(".flow-viewport"),flowDots=$("#flowDots");
@@ -655,6 +659,7 @@
     setInterval(()=>{if(!$("#sessionRoom").classList.contains("hidden"))loadWorkspace()},5000);
     document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("#roundtable").classList.contains("hidden"))$("#closeRound").click()});
   </script>
+  <script type="module" src="gallery-tunnel.js"></script>
 </body>
 </html>
 
