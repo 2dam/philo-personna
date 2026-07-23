@@ -86,6 +86,7 @@
     .flow-card span{position:absolute;left:0;right:0;bottom:0;padding:45px 13px 13px;background:linear-gradient(transparent,#08172cf2);color:#fff;font-size:12px;font-weight:800;text-align:left}
     .flow-card small{display:block;color:#9fdccc;font-size:9px;margin-top:4px}.flow-arrow{position:absolute;z-index:14;top:200px;width:42px;height:42px;border:1px solid #d5e0e8;border-radius:50%;background:#ffffffeb;color:#17233b;box-shadow:0 8px 24px #17233b22;cursor:pointer;transition:.2s}.flow-arrow:hover{transform:scale(1.08);background:#17233b;color:#fff}.flow-prev{left:20px}.flow-next{right:20px}
     .flow-dots{position:absolute;z-index:14;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:5px}.flow-dots i{width:5px;height:5px;border-radius:99px;background:#a9b7c5;transition:.35s}.flow-dots i.active{width:22px;background:#3aa58b}
+    .advisor-catalog{margin-top:64px;border-top:1px solid #dce5eb;padding-top:34px}.catalog-head{display:flex;align-items:end;justify-content:space-between;gap:22px;margin-bottom:19px}.catalog-head h3{font:850 clamp(24px,3vw,36px) Pretendard,sans-serif;margin:0;letter-spacing:-.045em}.catalog-head p{margin:7px 0 0;color:#667085;font-size:12px}.catalog-total{padding:10px 13px;border-radius:99px;background:#e6f5f1;color:#207d71;font-size:11px;font-weight:850;white-space:nowrap}.catalog-tools{display:grid;grid-template-columns:minmax(220px,1fr) 190px;gap:9px;margin-bottom:15px}.catalog-tools input,.catalog-tools select{width:100%;border:1px solid #d8e2e9;border-radius:12px;background:#fff;padding:13px 14px;color:#17233b;outline:0}.catalog-tools input:focus,.catalog-tools select:focus{border-color:#3aa58b;box-shadow:0 0 0 3px #3aa58b20}.catalog-meta{display:flex;justify-content:space-between;color:#77869a;font-size:10px;margin:0 2px 13px}.catalog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}.catalog-card{position:relative;display:grid;grid-template-columns:58px minmax(0,1fr);gap:13px;align-items:start;border:1px solid #dce5eb;border-radius:16px;background:#fff;padding:15px;text-align:left;color:#17233b;transition:.22s}.catalog-card:hover{transform:translateY(-3px);border-color:#69b8a6;box-shadow:0 13px 32px #17233b12}.catalog-avatar{width:58px;height:68px;border-radius:12px;background-image:url("assets/portraits-atlas.png");background-size:200% 200%;filter:grayscale(.25)}.catalog-copy{min-width:0}.catalog-copy strong{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.catalog-copy em{display:inline-block;margin:5px 0 7px;padding:3px 7px;border-radius:99px;background:#eaf5f2;color:#207d71;font-size:8px;font-style:normal;font-weight:800}.catalog-copy p{margin:0;color:#667085;font-size:10px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.catalog-select{display:inline-block;margin-top:8px;color:#247f73;font-size:9px;font-weight:850}.catalog-empty{grid-column:1/-1;padding:48px;text-align:center;border:1px dashed #cbd8e1;border-radius:16px;color:#77869a}.catalog-more{display:block;margin:20px auto 0;border:1px solid #a8babf;border-radius:12px;background:#fff;color:#17233b;padding:12px 24px;font-weight:800}.catalog-more:hover{border-color:#3aa58b;color:#207d71}
     .mobile-nav{background:#111d34;color:#c2cede}.mobile-nav b{font-family:Pretendard,sans-serif;color:#67d3ba;font-size:11px}
     .mindset-gateway{position:relative;min-height:100svh;overflow:hidden;background:#071225;color:#fff;isolation:isolate}
     .gateway-backdrop{position:absolute;inset:0;background:url("https://wisdom-library-kr.edam2665.chatgpt.site/assets/mindset1000-hero.png") center/cover no-repeat;opacity:.32;filter:saturate(.8)}
@@ -141,7 +142,7 @@
     @keyframes backdropDive{0%{opacity:.32;transform:scale(1)}72%{opacity:.6;transform:scale(1.45)}92%{opacity:.25}100%{opacity:0;transform:scale(2.5);filter:blur(12px)}}
     @keyframes portalFlash{0%,78%{opacity:0;transform:translate(-50%,-50%) scale(.1)}91%{opacity:.65;transform:translate(-50%,-50%) scale(6)}100%{opacity:1;transform:translate(-50%,-50%) scale(32)}}
     @media(prefers-reduced-motion:reduce){.tunnel-ring,.mind-card{animation:none}.mindset-gateway.entering .tunnel-stage,.mindset-gateway.entering .gateway-backdrop,.mindset-gateway.entering:after{animation-duration:.01ms}}
-    @media(max-width:700px){.ask-panel{min-height:560px;background-position:62% center}.ask-panel:before{background:linear-gradient(180deg,rgba(8,19,39,.94),rgba(8,19,39,.64))}.ask-content{width:auto;padding:40px 25px}.trust-strip{grid-template-columns:1fr}.home-grid{display:block}.daily-advisor{margin-top:16px}.mind-flow{margin:-25px -15px 24px;padding:22px 15px 25px;min-height:350px}.flow-head{padding:0 8px}.flow-head p{max-width:240px}.flow-count{display:none}.flow-viewport{height:270px}.flow-card{width:145px;height:200px;margin:-100px 0 0 -72px}.flow-arrow{top:175px;width:36px;height:36px}.flow-prev{left:8px}.flow-next{right:8px}}
+    @media(max-width:900px){.catalog-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:700px){.ask-panel{min-height:560px;background-position:62% center}.ask-panel:before{background:linear-gradient(180deg,rgba(8,19,39,.94),rgba(8,19,39,.64))}.ask-content{width:auto;padding:40px 25px}.trust-strip{grid-template-columns:1fr}.home-grid{display:block}.daily-advisor{margin-top:16px}.mind-flow{margin:-25px -15px 24px;padding:22px 15px 25px;min-height:350px}.flow-head{padding:0 8px}.flow-head p{max-width:240px}.flow-count{display:none}.flow-viewport{height:270px}.flow-card{width:145px;height:200px;margin:-100px 0 0 -72px}.flow-arrow{top:175px;width:36px;height:36px}.flow-prev{left:8px}.flow-next{right:8px}.catalog-head{align-items:start}.catalog-tools{grid-template-columns:1fr}.catalog-grid{grid-template-columns:1fr}}
     @media(max-width:700px){.mind-card{width:105px;height:145px;margin:-72px 0 0 -52px}.mind-card:nth-child(1){transform:translate3d(-38vw,-29vh,-80px)}.mind-card:nth-child(2){transform:translate3d(38vw,-27vh,-140px)}.mind-card:nth-child(3),.mind-card:nth-child(4){opacity:.25}.mind-card:nth-child(5){transform:translate3d(-36vw,30vh,-100px)}.mind-card:nth-child(6){transform:translate3d(37vw,29vh,-150px)}.gateway-copy h1{font-size:clamp(45px,15vw,72px)}.gateway-foot{gap:11px;font-size:8px}.gateway-actions{flex-direction:column;max-width:260px;margin:auto}}
 </style>
 </head>
@@ -250,7 +251,7 @@
   <section id="library" class="screen library hidden">
     <header class="topbar">
       <div class="brand"><span class="brand-mark">1000</span><span>MINDSET 1000</span></div>
-      <span class="count">1,248명의 인물 · 계속 추가됩니다</span>
+      <span class="count">1,000개 현자 프로필 · 계속 확장됩니다</span>
       <button class="ghost-btn" id="homeBtn">처음으로</button>
     </header>
     <main class="library-main">
@@ -273,6 +274,19 @@
         <button class="portrait-card" data-person="lincoln"><span class="roman">군주관 11</span><div class="portrait p-lincoln"></div><div class="portrait-meta"><b>에이브러햄 링컨</b><small>정치가 · 1809—1865</small></div></button>
       </div>
       <div class="unlock"><div class="unlock-icon">NEW</div><div><b>다음 네트워크: 동양 사상</b><p>두 번의 자문을 마치면 공자, 노자, 왕양명의 관점이 연결됩니다.</p><div class="progress"><i></i></div></div></div>
+      <section class="advisor-catalog" aria-labelledby="catalogTitle">
+        <div class="catalog-head">
+          <div><h3 id="catalogTitle">1,000명의 현자 카탈로그</h3><p>이름·분야·관점을 검색하고, 원하는 현자를 구독 작가와의 공동 세션으로 초대하세요.</p></div>
+          <span class="catalog-total">1,000 PROFILES</span>
+        </div>
+        <div class="catalog-tools">
+          <input id="catalogSearch" type="search" placeholder="이름, 분야 또는 고민으로 검색" aria-label="현자 검색">
+          <select id="catalogCategory" aria-label="현자 분야"><option value="전체">전체 분야</option></select>
+        </div>
+        <div class="catalog-meta"><span id="catalogResultCount">1,000개 관점</span><span>24개씩 표시</span></div>
+        <div id="catalogGrid" class="catalog-grid"></div>
+        <button id="catalogMore" class="catalog-more">현자 더 보기</button>
+      </section>
     </main>
   </section>
 
@@ -470,9 +484,89 @@
       adler:{name:"아들러",meta:"심리학자 · 1870—1937",portrait:"p-adler",quote:"문제와 사람을 분리하면<br>다음 행동이 보인다.",text:["‘팀장이 나를 무시한다’는 문장에는 사실과 해석이 섞여 있습니다. 실제로 일어난 행동을 관찰 가능한 언어로 바꾸면 대응할 수 있는 여지가 생깁니다.","팀장이 당신을 어떻게 평가할지는 팀장의 과제입니다. 근거를 준비하고, 질문하고, 명확하게 제안하는 것은 당신의 과제입니다. 두 과제를 섞으면 감정은 커지고 행동은 작아집니다.","상대의 승인을 얻는 것보다 공동의 목표에 기여하는 쪽을 선택하십시오. 관계는 설득의 전제이지 보상이 아닙니다."],actions:["일어난 사실과 내가 붙인 해석을 두 칸에 나눠 쓴다.","상대의 과제와 내 과제를 구분한다.","공동 목표를 첫 문장에 놓고 대화를 시작한다."]},
       lincoln:{name:"링컨",meta:"정치가 · 1809—1865",portrait:"p-lincoln",quote:"반대자를 없애지 말고<br>동료로 만들어라.",text:["좋은 지도자는 반대를 침묵시키지 않습니다. 그 반대 안에 있는 위험 신호를 찾아 더 강한 결정을 만듭니다.","팀장이 반대하는 이유를 공개석상에서 따지지 마십시오. 먼저 따로 찾아가 조언을 구하고, 가장 우려하는 지점을 물으십시오. 조언을 구하는 것은 굴복이 아니라 참여의 문을 여는 일입니다.","상대의 언어를 제안 안에 반영하고 그 기여를 공개적으로 인정하십시오. 공동 저자가 된 사람은 결과를 쉽게 외면하지 않습니다."],actions:["15분짜리 일대일 대화를 요청한다.","반대 이유 중 타당한 한 가지를 먼저 인정한다.","수정안에 상대의 기여를 명시한다."]}
     };
+    const advisorSeeds=[
+      ["프리드리히 니체","철학","자기 기준과 의지, 삶의 창조적 긍정을 탐구한 철학자.","nietzsche"],
+      ["공자","동양 사상","관계 속 책임과 배움, 실천하는 품격을 강조한 사상가.","adler"],
+      ["손자","전략","충돌보다 조건과 정보, 전장의 선택을 중시한 전략가.","sun"],
+      ["알프레드 아들러","심리","열등감과 공동체 감각, 과제의 분리를 연구한 심리학자.","adler"],
+      ["세종대왕","리더십","지식과 제도를 백성의 삶에 연결한 창조적 군주.","lincoln"],
+      ["스티브 잡스","경영","집중과 단순함으로 기술을 인간 경험으로 바꾼 제품 리더.","nietzsche"],
+      ["에이브러햄 링컨","리더십","갈라진 집단을 설득과 책임의 언어로 통합한 정치 지도자.","lincoln"],
+      ["소크라테스","철학","질문을 통해 생각의 모순과 숨은 전제를 드러낸 철학자.","adler"],
+      ["플라톤","철학","정의로운 삶과 공동체, 이상과 현실의 관계를 탐구한 철학자.","nietzsche"],
+      ["아리스토텔레스","철학","관찰과 분류를 통해 좋은 삶과 실천적 지혜를 설명한 철학자.","adler"],
+      ["마르쿠스 아우렐리우스","철학","통제할 수 있는 것에 집중하며 책임을 다한 스토아 철학자.","lincoln"],
+      ["에픽테토스","철학","외부 사건보다 자신의 판단과 선택에 주의를 돌린 철학자.","nietzsche"],
+      ["세네카","철학","시간과 감정, 권력 속에서 흔들리지 않는 태도를 성찰한 철학자.","lincoln"],
+      ["노자","동양 사상","억지보다 흐름과 여백, 부드러운 힘을 강조한 사상가.","sun"],
+      ["장자","동양 사상","고정된 관점을 넘어 자유롭고 유연하게 보는 법을 탐구한 사상가.","nietzsche"],
+      ["맹자","동양 사상","인간의 선한 가능성과 지도자의 도덕적 책임을 강조한 사상가.","lincoln"],
+      ["왕양명","동양 사상","아는 것과 행동하는 것을 하나로 본 실천 철학자.","nietzsche"],
+      ["주희","동양 사상","배움과 성찰을 일상의 질서로 연결한 유학자.","adler"],
+      ["마키아벨리","전략","권력과 현실 정치의 작동 방식을 냉정하게 분석한 사상가.","sun"],
+      ["클라우제비츠","전략","목적과 수단, 불확실성 속 전략 판단을 체계화한 군사 사상가.","sun"],
+      ["갈릴레오 갈릴레이","과학","관찰과 실험으로 익숙한 믿음을 검증한 과학자.","nietzsche"],
+      ["아이작 뉴턴","과학","복잡한 현상에서 일관된 원리를 찾아낸 과학자.","sun"],
+      ["알베르트 아인슈타인","과학","사고실험과 상상력으로 시간과 공간의 관점을 바꾼 과학자.","nietzsche"],
+      ["마리 퀴리","과학","집요한 연구와 책임감으로 미지의 영역을 개척한 과학자.","lincoln"],
+      ["찰스 다윈","과학","긴 관찰과 증거를 통해 변화와 적응의 원리를 설명한 과학자.","adler"],
+      ["니콜라 테슬라","과학","미래의 시스템을 상상하고 발명으로 구현한 공학자.","nietzsche"],
+      ["앨런 튜링","과학","문제를 계산 가능한 구조로 바꾸며 컴퓨팅의 기반을 만든 수학자.","sun"],
+      ["리처드 파인만","과학","어려운 개념을 직접 이해하고 설명하는 법을 보여준 물리학자.","adler"],
+      ["대니얼 카너먼","심리","판단 편향과 빠른 사고의 오류를 연구한 심리학자.","adler"],
+      ["카를 융","심리","무의식과 상징, 자기통합의 과정을 탐구한 심리학자.","nietzsche"],
+      ["지그문트 프로이트","심리","숨겨진 욕망과 방어기제가 행동에 미치는 영향을 분석한 사상가.","adler"],
+      ["빅터 프랭클","심리","극한 상황에서도 의미를 선택하는 인간의 힘을 강조한 정신의학자.","nietzsche"],
+      ["에이브러햄 매슬로","심리","욕구와 성장, 자기실현의 조건을 설명한 심리학자.","adler"],
+      ["칼 로저스","심리","공감과 진정성, 비판단적 대화의 치유력을 강조한 심리학자.","adler"],
+      ["버지니아 울프","문학","내면의 목소리와 사회적 제약을 섬세하게 드러낸 작가.","nietzsche"],
+      ["윌리엄 셰익스피어","문학","욕망과 권력, 선택의 비극을 인물과 대화로 탐구한 극작가.","lincoln"],
+      ["요한 볼프강 폰 괴테","문학","성장과 욕망, 행동하는 인간의 가능성을 그린 작가.","nietzsche"],
+      ["표도르 도스토옙스키","문학","죄책감과 자유, 인간 내면의 모순을 깊이 탐구한 작가.","adler"],
+      ["레프 톨스토이","문학","삶의 의미와 양심, 사회적 책임을 성찰한 작가.","lincoln"],
+      ["제인 오스틴","문학","관계와 계급 속 판단 착오를 정교하게 포착한 작가.","adler"],
+      ["조지 오웰","문학","언어와 권력이 현실 인식을 바꾸는 방식을 경고한 작가.","sun"],
+      ["레오나르도 다빈치","창조","예술과 과학을 연결하며 관찰을 발명으로 확장한 창조가.","nietzsche"],
+      ["미켈란젤로","창조","재료의 한계 안에서 강렬한 형식과 완성도를 만든 예술가.","nietzsche"],
+      ["루트비히 판 베토벤","창조","상실 속에서도 새로운 표현과 구조를 창조한 음악가.","nietzsche"],
+      ["마하트마 간디","리더십","비폭력과 일관된 행동으로 거대한 변화를 이끈 지도자.","lincoln"],
+      ["넬슨 만델라","리더십","복수보다 화해와 제도적 전환을 선택한 지도자.","lincoln"],
+      ["윈스턴 처칠","리더십","위기 속에서 현실을 직시하고 언어로 용기를 조직한 지도자.","sun"],
+      ["피터 드러커","경영","목표와 책임, 성과를 중심으로 조직을 바라본 경영 사상가.","sun"],
+      ["메리 파커 폴릿","경영","권력 다툼보다 통합과 공동 창조를 강조한 조직 사상가.","adler"],
+      ["헨리 데이비드 소로","철학","자기 삶의 기준과 양심에 따른 단순한 실천을 강조한 사상가.","nietzsche"]
+    ];
+    const advisorLenses=["본질","결단","관계","갈등","리더십","창조","실행","회복","협상","윤리","집중","변화","학습","설득","권력","조직","감정","미래","전략","성찰"];
+    const advisorCatalog=advisorSeeds.flatMap((seed,seedIndex)=>advisorLenses.map((lens,lensIndex)=>({
+      id:seedIndex*advisorLenses.length+lensIndex+1,name:seed[0],category:seed[1],bio:seed[2],persona:seed[3],lens,
+      intro:`${seed[2]} ${lens}의 관점에서 지금 상황의 다음 행동을 함께 정리합니다.`
+    })));
+    let catalogLimit=24,catalogFiltered=advisorCatalog;
     function show(id){screens.forEach(x=>$("#"+x).classList.toggle("hidden",x!==id));window.scrollTo(0,0)}
     let activePersona="nietzsche";
     function selectPerson(id){const p=people[id];activePersona=id;$("#roomPersonaThumb").className="persona-thumb "+p.portrait;$("#roomPersonaName").textContent=p.name;$("#roomPersonaMeta").textContent=p.meta;$("#roomTitle").textContent=`${p.name}와의 전략 상담`;show("sessionRoom");loadWorkspace()}
+    function selectCatalogAdvisor(profile){
+      selectPerson(profile.persona);
+      $("#roomPersonaName").textContent=profile.name;
+      $("#roomPersonaMeta").textContent=`${profile.category} · ${profile.lens} 관점`;
+      $("#roomTitle").textContent=`${profile.name}와의 ${profile.lens} 자문`;
+      addBubble("persona",`${profile.name} · 연결됨`,`저는 ${profile.lens}의 관점에서 함께 보겠습니다. ${profile.intro}`);
+    }
+    function renderCatalog(reset=false){
+      if(reset)catalogLimit=24;
+      const query=$("#catalogSearch").value.trim().toLowerCase(),category=$("#catalogCategory").value;
+      catalogFiltered=advisorCatalog.filter(p=>(category==="전체"||p.category===category)&&(!query||`${p.name} ${p.category} ${p.lens} ${p.intro}`.toLowerCase().includes(query)));
+      $("#catalogResultCount").textContent=`${catalogFiltered.length.toLocaleString()}개 관점`;
+      const portraitMap={sun:"p-sun",nietzsche:"p-nie",adler:"p-adler",lincoln:"p-lincoln"};
+      $("#catalogGrid").innerHTML=catalogFiltered.length?catalogFiltered.slice(0,catalogLimit).map(p=>`<button class="catalog-card" data-advisor-id="${p.id}"><span class="catalog-avatar ${portraitMap[p.persona]}"></span><span class="catalog-copy"><strong>${p.name}</strong><em>${p.category} · ${p.lens}</em><p>${p.intro}</p><span class="catalog-select">이 현자와 대화하기 →</span></span></button>`).join(""):`<div class="catalog-empty">검색 조건에 맞는 현자가 없습니다.</div>`;
+      $("#catalogMore").classList.toggle("hidden",catalogLimit>=catalogFiltered.length);
+    }
+    [...new Set(advisorSeeds.map(s=>s[1]))].sort().forEach(category=>$("#catalogCategory").insertAdjacentHTML("beforeend",`<option value="${category}">${category}</option>`));
+    $("#catalogSearch").oninput=()=>renderCatalog(true);
+    $("#catalogCategory").onchange=()=>renderCatalog(true);
+    $("#catalogMore").onclick=()=>{catalogLimit+=24;renderCatalog()};
+    $("#catalogGrid").onclick=e=>{const card=e.target.closest("[data-advisor-id]");if(!card)return;const profile=advisorCatalog.find(p=>p.id===Number(card.dataset.advisorId));if(profile)selectCatalogAdvisor(profile)};
+    renderCatalog();
     $("#enterMindset").onclick=()=>{
       const gateway=$("#gateway");
       if(gateway.classList.contains("entering"))return;
