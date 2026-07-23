@@ -574,7 +574,7 @@
     const catalogPersona=category=>category.includes("리더십")?"lincoln":category.includes("과학")||category.includes("경영")?"sun":category.includes("철학")||category.includes("예술")?"nietzsche":"adler";
     async function loadActualAdvisors(){
       try{
-        const response=await fetch("/advisors-1000.json");
+        const response=await fetch("/advisors-1000.json?v=97bb2f2");
         if(!response.ok)throw new Error("catalog");
         const data=await response.json();
         if(data.count!==1000||data.records.length!==1000)throw new Error("count");
