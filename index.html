@@ -110,6 +110,20 @@
     .gateway-actions{display:flex;justify-content:center;gap:10px}.gateway-enter{border:0;border-radius:13px;padding:16px 24px;background:#5ed0b7;color:#09201c;font-weight:850;box-shadow:0 15px 45px #44bba35c;cursor:pointer}.gateway-enter:hover{transform:translateY(-2px)}.gateway-link{border:1px solid #ffffff2b;border-radius:13px;padding:16px 22px;background:#ffffff09;color:#fff;cursor:pointer}
     .gateway-foot{position:absolute;left:0;right:0;bottom:23px;z-index:4;display:flex;justify-content:center;gap:26px;color:#778ba2;font-size:10px;letter-spacing:.08em}
     @keyframes tunnelDrift{from{transform:translateZ(-70px) rotateZ(-1deg)}to{transform:translateZ(80px) rotateZ(1deg)}}
+    .mindset-gateway:after{content:"";position:absolute;z-index:2;left:50%;top:50%;width:8vmin;height:8vmin;border-radius:50%;background:#c8fff3;opacity:0;transform:translate(-50%,-50%) scale(.1);box-shadow:0 0 80px 35px #78dcca80;pointer-events:none}
+    .mindset-gateway.entering{cursor:wait}
+    .mindset-gateway.entering .gateway-copy-inner{animation:gatewayCopyOut .72s cubic-bezier(.4,0,.8,.2) forwards}
+    .mindset-gateway.entering .gateway-nav,.mindset-gateway.entering .gateway-foot{animation:gatewayUiOut .5s ease forwards}
+    .mindset-gateway.entering .tunnel-stage{animation:tunnelDive 1.35s cubic-bezier(.68,.02,.29,1) forwards}
+    .mindset-gateway.entering .gateway-backdrop{animation:backdropDive 1.35s ease-in forwards}
+    .mindset-gateway.entering .mind-card{transition:filter 1.1s ease;filter:blur(2px) brightness(1.2)}
+    .mindset-gateway.entering:after{animation:portalFlash 1.35s cubic-bezier(.55,.02,.35,1) forwards}
+    @keyframes gatewayCopyOut{0%{opacity:1;transform:scale(1);filter:blur(0)}55%{opacity:.1;transform:scale(1.16);filter:blur(2px)}100%{opacity:0;transform:scale(1.38);filter:blur(9px)}}
+    @keyframes gatewayUiOut{to{opacity:0;transform:translateY(-14px)}}
+    @keyframes tunnelDive{0%{transform:translateZ(0) scale(1)}32%{transform:translateZ(160px) scale(1.35)}100%{transform:translateZ(1150px) scale(6.8)}}
+    @keyframes backdropDive{0%{opacity:.32;transform:scale(1)}65%{opacity:.65;transform:scale(1.38)}100%{opacity:0;transform:scale(2.5);filter:blur(12px)}}
+    @keyframes portalFlash{0%,24%{opacity:0;transform:translate(-50%,-50%) scale(.1)}70%{opacity:.72;transform:translate(-50%,-50%) scale(5)}100%{opacity:1;transform:translate(-50%,-50%) scale(32)}}
+    @media(prefers-reduced-motion:reduce){.tunnel-ring{animation:none}.mindset-gateway.entering .tunnel-stage,.mindset-gateway.entering .gateway-backdrop,.mindset-gateway.entering:after{animation-duration:.01ms}}
     @media(max-width:700px){.ask-panel{min-height:560px;background-position:62% center}.ask-panel:before{background:linear-gradient(180deg,rgba(8,19,39,.94),rgba(8,19,39,.64))}.ask-content{width:auto;padding:40px 25px}.trust-strip{grid-template-columns:1fr}.home-grid{display:block}.daily-advisor{margin-top:16px}}
     @media(max-width:700px){.mind-card{width:105px;height:145px;margin:-72px 0 0 -52px}.mind-card:nth-child(1){transform:translate3d(-38vw,-29vh,-80px)}.mind-card:nth-child(2){transform:translate3d(38vw,-27vh,-140px)}.mind-card:nth-child(3),.mind-card:nth-child(4){opacity:.25}.mind-card:nth-child(5){transform:translate3d(-36vw,30vh,-100px)}.mind-card:nth-child(6){transform:translate3d(37vw,29vh,-150px)}.gateway-copy h1{font-size:clamp(45px,15vw,72px)}.gateway-foot{gap:11px;font-size:8px}.gateway-actions{flex-direction:column;max-width:260px;margin:auto}}
 </style>
@@ -441,7 +455,18 @@
     function show(id){screens.forEach(x=>$("#"+x).classList.toggle("hidden",x!==id));window.scrollTo(0,0)}
     let activePersona="nietzsche";
     function selectPerson(id){const p=people[id];activePersona=id;$("#roomPersonaThumb").className="persona-thumb "+p.portrait;$("#roomPersonaName").textContent=p.name;$("#roomPersonaMeta").textContent=p.meta;$("#roomTitle").textContent=`${p.name}와의 전략 상담`;show("sessionRoom");loadWorkspace()}
-    $("#enterMindset").onclick=()=>show("intro");
+    $("#enterMindset").onclick=()=>{
+      const gateway=$("#gateway");
+      if(gateway.classList.contains("entering"))return;
+      $("#enterMindset").disabled=true;
+      gateway.classList.add("entering");
+      const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      setTimeout(()=>{
+        show("intro");
+        gateway.classList.remove("entering");
+        $("#enterMindset").disabled=false;
+      },reduced?40:1320);
+    };
     $("#previewMinds").onclick=()=>show("library");
     $(".flow-prev").onclick=()=>$("#mindFlow").scrollBy({left:-300,behavior:"smooth"});
     $(".flow-next").onclick=()=>$("#mindFlow").scrollBy({left:300,behavior:"smooth"});
