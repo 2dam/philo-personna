@@ -3,8 +3,7 @@ services:
     name: mindset1000
     runtime: node
     plan: free
-    buildCommand: npm ci
+    buildCommand: echo "No build required"
     startCommand: node server.mjs
     healthCheckPath: /
     autoDeployTrigger: commit
-
