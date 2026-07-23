@@ -572,20 +572,19 @@
       show("intro");
       gateway.classList.remove("entering","autoplay");
       $("#enterMindset").disabled=false;
+      setTimeout(()=>moveFlow(1),180);
     };
-    const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let gatewayTimer=setTimeout(finishGateway,reducedMotion?80:6500);
+    let gatewayTimer=setTimeout(finishGateway,8000);
     window.addEventListener("mindset:tunnel-ready",()=>{
       clearTimeout(gatewayTimer);
-      gatewayTimer=setTimeout(finishGateway,reducedMotion?80:3050);
+      gatewayTimer=setTimeout(finishGateway,3200);
     },{once:true});
     $("#enterMindset").onclick=()=>{
       const gateway=$("#gateway");
       if(gateway.classList.contains("entering"))return;
       $("#enterMindset").disabled=true;
       gateway.classList.add("entering");
-      const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      setTimeout(finishGateway,reduced?40:3100);
+      setTimeout(finishGateway,3200);
     };
     $("#previewMinds").onclick=()=>show("library");
     const flowCards=[...$$(".flow-card")],flowViewport=$(".flow-viewport"),flowDots=$("#flowDots");
@@ -609,7 +608,7 @@
       flowDotItems.forEach((dot,index)=>dot.classList.toggle("active",index===flowIndex));
     }
     function moveFlow(step){flowIndex=(flowIndex+step+flowCards.length)%flowCards.length;renderFlow();restartFlow()}
-    function restartFlow(){clearInterval(flowTimer);flowTimer=setInterval(()=>{if(!$("#intro").classList.contains("hidden")&&!flowDragging)moveFlow(1)},2600)}
+    function restartFlow(){clearInterval(flowTimer);flowTimer=setInterval(()=>{if(!$("#intro").classList.contains("hidden")&&!flowDragging){flowIndex=(flowIndex+1)%flowCards.length;renderFlow()}},1750)}
     $(".flow-prev").onclick=()=>moveFlow(-1);
     $(".flow-next").onclick=()=>moveFlow(1);
     flowCards.forEach((card,index)=>card.onclick=()=>{
@@ -663,7 +662,7 @@
     setInterval(()=>{if(!$("#sessionRoom").classList.contains("hidden"))loadWorkspace()},5000);
     document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("#roundtable").classList.contains("hidden"))$("#closeRound").click()});
   </script>
-  <script type="module" src="gallery-tunnel.js"></script>
+  <script type="module" src="gallery-tunnel.js?v=4"></script>
 </body>
 </html>
 
