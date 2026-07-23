@@ -574,7 +574,11 @@
       $("#enterMindset").disabled=false;
     };
     const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    setTimeout(finishGateway,reducedMotion?80:3050);
+    let gatewayTimer=setTimeout(finishGateway,reducedMotion?80:6500);
+    window.addEventListener("mindset:tunnel-ready",()=>{
+      clearTimeout(gatewayTimer);
+      gatewayTimer=setTimeout(finishGateway,reducedMotion?80:3050);
+    },{once:true});
     $("#enterMindset").onclick=()=>{
       const gateway=$("#gateway");
       if(gateway.classList.contains("entering"))return;
