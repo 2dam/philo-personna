@@ -260,6 +260,7 @@ if (frame && canvas) {
     renderer.render(scene, camera);
   };
   raf = requestAnimationFrame(animate);
+  window.dispatchEvent(new Event("mindset:tunnel-ready"));
 
   window.addEventListener(
     "mindset:tunnel-complete",
