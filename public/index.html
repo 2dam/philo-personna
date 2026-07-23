@@ -74,24 +74,26 @@
     .trust-item{padding:14px 16px;border:1px solid #dfe6ee;border-radius:14px;background:#ffffffc9}
     .trust-item b{display:block;font-size:16px}.trust-item small{color:#667085}
     .live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#37b58f;box-shadow:0 0 0 5px #37b58f1f;margin-right:7px}
-    .mind-flow{position:relative;margin:-34px clamp(-54px,-4vw,-22px) 28px;padding:24px 54px 29px;min-height:390px;border-bottom:1px solid #d9e4ec;background:radial-gradient(circle at 50% 45%,#dff7f1 0,#eef5f8 27%,#f8fafc 67%);overflow:hidden;box-shadow:inset 0 -25px 55px #17233b0a}
-    .mind-flow:before{content:"";position:absolute;left:50%;bottom:48px;width:520px;height:72px;transform:translateX(-50%);border-radius:50%;background:#18324b1a;filter:blur(20px)}
-    .flow-head{position:relative;z-index:12;display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:5px}.flow-head h2{font:850 clamp(19px,2vw,27px) Pretendard,sans-serif;margin:0;letter-spacing:-.045em}.flow-head p{margin:5px 0 0;color:#718096;font-size:11px}.flow-count{font-size:10px;color:#207d71;font-weight:800;letter-spacing:.08em}
-    .flow-viewport{position:relative;height:300px;overflow:hidden;perspective:1100px;touch-action:pan-y;cursor:grab}.flow-viewport.dragging{cursor:grabbing}
-    .flow-track{position:absolute;inset:0;transform-style:preserve-3d}
-    .flow-card{position:absolute;left:50%;top:50%;width:174px;height:230px;margin:-115px 0 0 -87px;padding:0;border:0;border-radius:18px;overflow:hidden;background:#17233b;cursor:pointer;box-shadow:0 20px 46px #14213d42;transform-style:preserve-3d;transition:transform .68s cubic-bezier(.2,.75,.2,1),opacity .5s ease,filter .5s ease;will-change:transform,opacity}
-    .flow-card.active{box-shadow:0 28px 65px #12304b50,0 0 0 3px #67d3ba;filter:saturate(1.08);z-index:10}
-    .flow-card:focus-visible{outline:3px solid #247f73;outline-offset:4px}
-    .flow-card .portrait{height:100%;filter:grayscale(.18);transition:filter .4s}.flow-card.active .portrait{filter:grayscale(0)}
-    .flow-card span{position:absolute;left:0;right:0;bottom:0;padding:45px 13px 13px;background:linear-gradient(transparent,#08172cf2);color:#fff;font-size:12px;font-weight:800;text-align:left}
-    .flow-card small{display:block;color:#9fdccc;font-size:9px;margin-top:4px}.flow-arrow{position:absolute;z-index:14;top:200px;width:42px;height:42px;border:1px solid #d5e0e8;border-radius:50%;background:#ffffffeb;color:#17233b;box-shadow:0 8px 24px #17233b22;cursor:pointer;transition:.2s}.flow-arrow:hover{transform:scale(1.08);background:#17233b;color:#fff}.flow-prev{left:20px}.flow-next{right:20px}
-    .flow-dots{position:absolute;z-index:14;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:5px}.flow-dots i{width:5px;height:5px;border-radius:99px;background:#a9b7c5;transition:.35s}.flow-dots i.active{width:22px;background:#3aa58b}
+    .mind-flow{position:relative;margin:-34px clamp(-54px,-4vw,-22px) 28px;padding:27px 54px 22px;min-height:650px;border-bottom:1px solid #162335;background:#000;color:#fff;overflow:hidden;box-shadow:inset 0 -80px 100px #071225}
+    .mind-flow:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 51%,#17302d66,transparent 42%);pointer-events:none}
+    .flow-head{position:relative;z-index:12;display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:0}.flow-head h2{font:850 clamp(19px,2vw,27px) Pretendard,sans-serif;margin:0;letter-spacing:-.045em}.flow-head p{margin:5px 0 0;color:#8fa5b7;font-size:11px}.flow-count{font-size:10px;color:#72dfc7;font-weight:800;letter-spacing:.08em}
+    .flow-viewport{position:relative;height:560px;overflow:hidden;perspective:3000px;touch-action:none;cursor:grab}.flow-viewport.dragging{cursor:grabbing}
+    .flow-tilt{position:absolute;left:50%;top:50%;width:300px;height:300px;transform:translate(-50%,-50%) rotateX(-7deg);transform-style:preserve-3d}
+    .flow-track{position:relative;width:300px;height:300px;transform-style:preserve-3d;will-change:transform}
+    .flow-card{position:absolute;inset:0;width:300px;height:300px;padding:0;border:0;background:transparent;cursor:pointer;transform-style:preserve-3d;overflow:visible}
+    .flow-card:focus-visible{outline:3px solid #72dfc7;outline-offset:6px}
+    .flow-face{position:absolute;inset:0;border-radius:22px;overflow:hidden;backface-visibility:hidden;background:#17233b;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+    .flow-back{transform:rotateY(180deg);filter:brightness(.35)}
+    .flow-face>.portrait{display:block;height:100%;filter:grayscale(.08)}
+    .flow-face>span:not(.portrait){position:absolute;left:0;right:0;bottom:0;padding:58px 17px 17px;background:linear-gradient(transparent,#08172cf2);color:#fff;font-size:14px;font-weight:800;text-align:left}
+    .flow-face small{display:block;color:#9fdccc;font-size:10px;margin-top:5px}.flow-arrow,.flow-dots{display:none}
     .advisor-catalog{margin-top:64px;border-top:1px solid #dce5eb;padding-top:34px}.catalog-head{display:flex;align-items:end;justify-content:space-between;gap:22px;margin-bottom:19px}.catalog-head h3{font:850 clamp(24px,3vw,36px) Pretendard,sans-serif;margin:0;letter-spacing:-.045em}.catalog-head p{margin:7px 0 0;color:#667085;font-size:12px}.catalog-total{padding:10px 13px;border-radius:99px;background:#e6f5f1;color:#207d71;font-size:11px;font-weight:850;white-space:nowrap}.catalog-tools{display:grid;grid-template-columns:minmax(220px,1fr) 190px;gap:9px;margin-bottom:15px}.catalog-tools input,.catalog-tools select{width:100%;border:1px solid #d8e2e9;border-radius:12px;background:#fff;padding:13px 14px;color:#17233b;outline:0}.catalog-tools input:focus,.catalog-tools select:focus{border-color:#3aa58b;box-shadow:0 0 0 3px #3aa58b20}.catalog-meta{display:flex;justify-content:space-between;color:#77869a;font-size:10px;margin:0 2px 13px}.catalog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}.catalog-card{position:relative;display:grid;grid-template-columns:58px minmax(0,1fr);gap:13px;align-items:start;border:1px solid #dce5eb;border-radius:16px;background:#fff;padding:15px;text-align:left;color:#17233b;transition:.22s}.catalog-card:hover{transform:translateY(-3px);border-color:#69b8a6;box-shadow:0 13px 32px #17233b12}.catalog-avatar{width:58px;height:68px;border-radius:12px;background-image:url("assets/portraits-atlas.png");background-size:200% 200%;filter:grayscale(.25)}.catalog-copy{min-width:0}.catalog-copy strong{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.catalog-copy em{display:inline-block;margin:5px 0 7px;padding:3px 7px;border-radius:99px;background:#eaf5f2;color:#207d71;font-size:8px;font-style:normal;font-weight:800}.catalog-copy p{margin:0;color:#667085;font-size:10px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.catalog-select{display:inline-block;margin-top:8px;color:#247f73;font-size:9px;font-weight:850}.catalog-empty{grid-column:1/-1;padding:48px;text-align:center;border:1px dashed #cbd8e1;border-radius:16px;color:#77869a}.catalog-more{display:block;margin:20px auto 0;border:1px solid #a8babf;border-radius:12px;background:#fff;color:#17233b;padding:12px 24px;font-weight:800}.catalog-more:hover{border-color:#3aa58b;color:#207d71}
     .mobile-nav{background:#111d34;color:#c2cede}.mobile-nav b{font-family:Pretendard,sans-serif;color:#67d3ba;font-size:11px}
     .mindset-gateway{position:relative;min-height:100svh;overflow:hidden;background:#071225;color:#fff;isolation:isolate}
     .gateway-backdrop{position:absolute;inset:0;background:url("assets/mindset1000-hero.png") center/cover no-repeat;opacity:.32;filter:saturate(.8)}
     .gateway-backdrop:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 46%,transparent 0 18%,#07122545 47%,#071225 88%),linear-gradient(90deg,#071225e8 0%,transparent 48%,#0712259c)}
-    .gallery-tunnel{position:absolute;z-index:1;inset:0;background:#071225}
+    .gallery-tunnel{position:absolute;z-index:1;inset:0;background:#071225;opacity:0;visibility:hidden;transition:opacity .65s ease,visibility .65s}
+    .mindset-gateway.autoplay .gallery-tunnel{opacity:1;visibility:visible}
     .gallery-tunnel canvas{display:block;width:100%;height:100%}
     .tunnel-stage{position:absolute;inset:-8%;perspective:900px;transform-style:preserve-3d;pointer-events:none}
     .tunnel-stage:before{content:"";position:absolute;left:50%;top:50%;width:46vw;height:48vh;transform:translate(-50%,-50%) scale(.38);border:2px solid #a8fff0aa;background:#071225;box-shadow:0 0 0 7vmin #5ed0b70c,0 0 0 14vmin #5ed0b716,0 0 0 21vmin #5ed0b70c,0 0 0 28vmin #5ed0b714,0 0 90px 35px #79d8c72b,inset 0 0 90px #79d8c72b;animation:squareTunnelPulse 1.15s linear infinite}
@@ -152,6 +154,7 @@
     @media(prefers-reduced-motion:reduce){.tunnel-ring,.mind-card{animation:none}.mindset-gateway.entering .tunnel-stage,.mindset-gateway.entering .gateway-backdrop,.mindset-gateway.entering:after{animation-duration:.01ms}}
     @media(max-width:900px){.catalog-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:700px){.ask-panel{min-height:560px;background-position:62% center}.ask-panel:before{background:linear-gradient(180deg,rgba(8,19,39,.94),rgba(8,19,39,.64))}.ask-content{width:auto;padding:40px 25px}.trust-strip{grid-template-columns:1fr}.home-grid{display:block}.daily-advisor{margin-top:16px}.mind-flow{margin:-25px -15px 24px;padding:22px 15px 25px;min-height:350px}.flow-head{padding:0 8px}.flow-head p{max-width:240px}.flow-count{display:none}.flow-viewport{height:270px}.flow-card{width:145px;height:200px;margin:-100px 0 0 -72px}.flow-arrow{top:175px;width:36px;height:36px}.flow-prev{left:8px}.flow-next{right:8px}.catalog-head{align-items:start}.catalog-tools{grid-template-columns:1fr}.catalog-grid{grid-template-columns:1fr}}
     @media(max-width:700px){.mind-card{width:105px;height:145px;margin:-72px 0 0 -52px}.mind-card:nth-child(1){transform:translate3d(-38vw,-29vh,-80px)}.mind-card:nth-child(2){transform:translate3d(38vw,-27vh,-140px)}.mind-card:nth-child(3),.mind-card:nth-child(4){opacity:.25}.mind-card:nth-child(5){transform:translate3d(-36vw,30vh,-100px)}.mind-card:nth-child(6){transform:translate3d(37vw,29vh,-150px)}.gateway-copy h1{font-size:clamp(45px,15vw,72px)}.gateway-foot{gap:11px;font-size:8px}.gateway-actions{flex-direction:column;max-width:260px;margin:auto}}
+    @media(max-width:700px){.mind-flow{min-height:500px}.flow-viewport{height:420px}.flow-tilt{transform:translate(-50%,-50%) rotateX(-7deg) scale(.62)}.flow-track,.flow-card{width:300px;height:300px}.flow-card{margin:0}}
 </style>
 </head>
 <body>
@@ -166,7 +169,7 @@
     <main class="gateway-copy"><div class="gateway-copy-inner">
       <span class="eyebrow">MINDSET1000.COM · INVITE ONLY</span>
       <h1>생각의 터널을 지나<span>당신에게 필요한 관점을 만나세요.</span></h1>
-      <p>만남과 대화에 고민이 있다면, 소개팅에서 회사 미팅, 경영 전략까지 1,000명의 현자와 함께 해결하세요.</p>
+      <p>만남과 대화에 고민이 있다면... 소개팅에서 회사미팅, 경영전략까지 1000명의 현자와 함께 해결하세요.</p>
       <div class="gateway-actions"><button id="enterMindset" class="gateway-enter">나의 자문 공간으로 들어가기 →</button><button id="previewMinds" class="gateway-link">현자 네트워크 둘러보기</button></div>
     </div></main>
     <div class="gateway-foot"><span>초대 전용</span><span>작가 실시간 참여</span><span>일정·대화 맥락 보호</span></div>
@@ -194,17 +197,17 @@
         <section class="mind-flow" aria-label="1,000명의 현자 Coverflow">
           <div class="flow-head"><div><h2>지금 연결 가능한 현자</h2><p>얼굴을 선택하면 구독 작가가 같은 세션에 함께 참여합니다.</p></div><span class="flow-count"><span class="live-dot"></span>1,000 ONLINE</span></div>
           <button class="flow-arrow flow-prev" aria-label="이전 현자">←</button>
-          <div class="flow-viewport"><div class="flow-track" id="mindFlow">
-            <button class="flow-card" data-person="lincoln"><div class="portrait p-lincoln"></div><span>에이브러햄 링컨<small>리더십 · 통합</small></span></button>
-            <button class="flow-card" data-person="adler"><div class="portrait p-adler"></div><span>알프레드 아들러<small>관계 · 심리</small></span></button>
-            <button class="flow-card" data-person="sun"><div class="portrait p-sun"></div><span>손자<small>전략 · 판단</small></span></button>
-            <button class="flow-card" data-person="nietzsche"><div class="portrait p-nie"></div><span>프리드리히 니체<small>기준 · 의지</small></span></button>
-            <button class="flow-card" data-person="lincoln"><div class="portrait p-lincoln"></div><span>세종대왕<small>창조 · 소통</small></span></button>
-            <button class="flow-card" data-person="sun"><div class="portrait p-sun"></div><span>공자<small>관계 · 윤리</small></span></button>
-            <button class="flow-card" data-person="adler"><div class="portrait p-adler"></div><span>버지니아 울프<small>창작 · 내면</small></span></button>
-            <button class="flow-card" data-person="nietzsche"><div class="portrait p-nie"></div><span>셜록 홈즈<small>관찰 · 추론</small></span></button>
-            <button class="flow-card" data-person="lincoln"><div class="portrait p-lincoln"></div><span>스티브 잡스<small>제품 · 집중</small></span></button>
-          </div></div>
+          <div class="flow-viewport"><div class="flow-tilt"><div class="flow-track" id="mindFlow">
+            <button class="flow-card" data-person="lincoln"><span class="flow-face flow-front"><span class="portrait p-lincoln"></span><span>에이브러햄 링컨<small>리더십 · 통합</small></span></span><span class="flow-face flow-back"><span class="portrait p-lincoln"></span></span></button>
+            <button class="flow-card" data-person="adler"><span class="flow-face flow-front"><span class="portrait p-adler"></span><span>알프레드 아들러<small>관계 · 심리</small></span></span><span class="flow-face flow-back"><span class="portrait p-adler"></span></span></button>
+            <button class="flow-card" data-person="sun"><span class="flow-face flow-front"><span class="portrait p-sun"></span><span>손자<small>전략 · 판단</small></span></span><span class="flow-face flow-back"><span class="portrait p-sun"></span></span></button>
+            <button class="flow-card" data-person="nietzsche"><span class="flow-face flow-front"><span class="portrait p-nie"></span><span>프리드리히 니체<small>기준 · 의지</small></span></span><span class="flow-face flow-back"><span class="portrait p-nie"></span></span></button>
+            <button class="flow-card" data-person="lincoln"><span class="flow-face flow-front"><span class="portrait p-lincoln"></span><span>세종대왕<small>창조 · 소통</small></span></span><span class="flow-face flow-back"><span class="portrait p-lincoln"></span></span></button>
+            <button class="flow-card" data-person="sun"><span class="flow-face flow-front"><span class="portrait p-sun"></span><span>공자<small>관계 · 윤리</small></span></span><span class="flow-face flow-back"><span class="portrait p-sun"></span></span></button>
+            <button class="flow-card" data-person="adler"><span class="flow-face flow-front"><span class="portrait p-adler"></span><span>버지니아 울프<small>창작 · 내면</small></span></span><span class="flow-face flow-back"><span class="portrait p-adler"></span></span></button>
+            <button class="flow-card" data-person="nietzsche"><span class="flow-face flow-front"><span class="portrait p-nie"></span><span>셜록 홈즈<small>관찰 · 추론</small></span></span><span class="flow-face flow-back"><span class="portrait p-nie"></span></span></button>
+            <button class="flow-card" data-person="lincoln"><span class="flow-face flow-front"><span class="portrait p-lincoln"></span><span>스티브 잡스<small>제품 · 집중</small></span></span><span class="flow-face flow-back"><span class="portrait p-lincoln"></span></span></button>
+          </div></div></div>
           <button class="flow-arrow flow-next" aria-label="다음 현자">→</button>
           <div class="flow-dots" id="flowDots" aria-hidden="true"></div>
         </section>
@@ -569,10 +572,8 @@
     const finishGateway=()=>{
       const gateway=$("#gateway");
       window.dispatchEvent(new Event("mindset:tunnel-complete"));
-      show("intro");
       gateway.classList.remove("entering","autoplay");
       $("#enterMindset").disabled=false;
-      setTimeout(()=>moveFlow(1),180);
     };
     let gatewayTimer=setTimeout(finishGateway,8000);
     window.addEventListener("mindset:tunnel-ready",()=>{
@@ -580,47 +581,56 @@
       gatewayTimer=setTimeout(finishGateway,3200);
     },{once:true});
     $("#enterMindset").onclick=()=>{
-      const gateway=$("#gateway");
-      if(gateway.classList.contains("entering"))return;
-      $("#enterMindset").disabled=true;
-      gateway.classList.add("entering");
-      setTimeout(finishGateway,3200);
+      show("intro");
+      renderFlow();
+      restartFlow();
     };
     $("#previewMinds").onclick=()=>show("library");
-    const flowCards=[...$$(".flow-card")],flowViewport=$(".flow-viewport"),flowDots=$("#flowDots");
-    let flowIndex=3,flowTimer,flowStartX=0,flowDragging=false,flowMoved=false;
-    flowCards.forEach(()=>flowDots.insertAdjacentHTML("beforeend","<i></i>"));
-    const flowDotItems=[...flowDots.children];
-    function renderFlow(){
-      flowCards.forEach((card,index)=>{
-        let offset=index-flowIndex;
-        if(offset>flowCards.length/2)offset-=flowCards.length;
-        if(offset<-flowCards.length/2)offset+=flowCards.length;
-        const distance=Math.abs(offset),mobile=innerWidth<700;
-        const x=offset*(mobile?104:150),z=-distance*(mobile?125:155),rotation=offset*-43,scale=Math.max(.62,1-distance*.115);
-        card.style.transform=`translate3d(${x}px,0,${z}px) rotateY(${rotation}deg) scale(${scale})`;
-        card.style.opacity=distance>4?"0":String(Math.max(.22,1-distance*.18));
-        card.style.zIndex=String(10-Math.round(distance));
-        card.classList.toggle("active",offset===0);
-        card.tabIndex=offset===0?0:-1;
-        card.setAttribute("aria-hidden",offset===0?"false":"true");
-      });
-      flowDotItems.forEach((dot,index)=>dot.classList.toggle("active",index===flowIndex));
-    }
-    function moveFlow(step){flowIndex=(flowIndex+step+flowCards.length)%flowCards.length;renderFlow();restartFlow()}
-    function restartFlow(){clearInterval(flowTimer);flowTimer=setInterval(()=>{if(!$("#intro").classList.contains("hidden")&&!flowDragging){flowIndex=(flowIndex+1)%flowCards.length;renderFlow()}},1750)}
-    $(".flow-prev").onclick=()=>moveFlow(-1);
-    $(".flow-next").onclick=()=>moveFlow(1);
-    flowCards.forEach((card,index)=>card.onclick=()=>{
-      if(flowMoved)return;
-      if(index!==flowIndex){flowIndex=index;renderFlow();restartFlow();return}
-      selectPerson(card.dataset.person);
+    const flowCards=[...$$(".flow-card")],flowViewport=$(".flow-viewport"),flowTrack=$("#mindFlow");
+    const roundImageWidth=300,roundSpacing=3,roundSpeed=7,roundSensitivity=5;
+    const roundAngle=360/flowCards.length;
+    const roundFactor=1+roundSpacing*.15;
+    const roundRadius=(roundImageWidth*roundFactor)/(2*Math.tan(Math.PI/flowCards.length));
+    const roundDegPerSec=roundSpeed*6;
+    let roundRotY=0,roundVelocity=0,roundLast=0,roundRaf=0,flowMoved=false;
+    const roundDrag={active:false,x:0};
+    flowCards.forEach((card,index)=>{
+      card.style.transform=`rotateY(${index*roundAngle}deg) translateZ(${roundRadius}px)`;
+      card.onclick=()=>{if(!flowMoved)selectPerson(card.dataset.person)};
     });
-    flowViewport.onpointerdown=e=>{flowDragging=true;flowMoved=false;flowStartX=e.clientX;flowViewport.classList.add("dragging");flowViewport.setPointerCapture(e.pointerId);clearInterval(flowTimer)};
-    flowViewport.onpointermove=e=>{if(flowDragging&&Math.abs(e.clientX-flowStartX)>12)flowMoved=true};
-    flowViewport.onpointerup=e=>{if(!flowDragging)return;const delta=e.clientX-flowStartX;flowDragging=false;flowViewport.classList.remove("dragging");if(Math.abs(delta)>42)moveFlow(delta<0?1:-1);else restartFlow();setTimeout(()=>flowMoved=false,0)};
-    let flowWheelLock=false;
-    flowViewport.onwheel=e=>{e.preventDefault();if(flowWheelLock)return;flowWheelLock=true;moveFlow((e.deltaY||e.deltaX)>0?1:-1);setTimeout(()=>flowWheelLock=false,420)};
+    function renderFlow(){
+      flowTrack.style.transform=`translateZ(${-roundRadius}px) rotateY(${roundRotY}deg)`;
+    }
+    function drawRound(now){
+      const dt=roundLast?Math.min((now-roundLast)/1000,.1):0;
+      roundLast=now;
+      if(!roundDrag.active){
+        if(Math.abs(roundVelocity)>.01){roundRotY+=roundVelocity*dt;roundVelocity*=.94}
+        else roundRotY+=roundDegPerSec*dt;
+      }
+      renderFlow();
+      roundRaf=requestAnimationFrame(drawRound);
+    }
+    function restartFlow(){if(!roundRaf)roundRaf=requestAnimationFrame(drawRound)}
+    flowViewport.onpointerdown=e=>{
+      flowViewport.setPointerCapture?.(e.pointerId);
+      roundDrag.active=true;roundDrag.x=e.clientX;roundVelocity=0;flowMoved=false;
+      flowViewport.classList.add("dragging");
+    };
+    flowViewport.onpointermove=e=>{
+      if(!roundDrag.active)return;
+      const dx=e.clientX-roundDrag.x;roundDrag.x=e.clientX;
+      const k=.3*roundSensitivity;
+      roundRotY+=dx*k;roundVelocity=dx*k*60;
+      if(Math.abs(dx)>2)flowMoved=true;
+    };
+    const releaseRound=e=>{
+      flowViewport.releasePointerCapture?.(e.pointerId);
+      roundDrag.active=false;flowViewport.classList.remove("dragging");
+      setTimeout(()=>flowMoved=false,0);
+    };
+    flowViewport.onpointerup=releaseRound;
+    flowViewport.onpointercancel=releaseRound;
     renderFlow();restartFlow();
     $("#homeBtn").onclick=()=>show("intro");
     function askFromHome(){const q=$("#homeQuestion").value.trim();if(!q){$("#homeQuestion").focus();return}$("#questionInput").value=q;$("#questionEcho").textContent="“"+q+"”";$("#roundQuestion").textContent=q;$("#thinking").classList.remove("hidden");setTimeout(()=>{$("#thinking").classList.add("hidden");show("results")},1200)}
