@@ -78,6 +78,7 @@
     .mind-flow:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 51%,#17302d66,transparent 42%);pointer-events:none}
     .flow-head{position:relative;z-index:12;display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:0}.flow-head h2{font:850 clamp(19px,2vw,27px) Pretendard,sans-serif;margin:0;letter-spacing:-.045em}.flow-head p{margin:5px 0 0;color:#8fa5b7;font-size:11px}.flow-count{font-size:10px;color:#72dfc7;font-weight:800;letter-spacing:.08em}
     .flow-viewport{position:relative;height:560px;overflow:hidden;perspective:3000px;touch-action:none;cursor:grab}.flow-viewport.dragging{cursor:grabbing}
+    .flow-intro{max-width:940px;margin:-7px auto 34px;padding:0 24px;color:#344054;font-size:clamp(15px,1.35vw,19px);font-weight:650;line-height:1.75;letter-spacing:-.025em;text-align:center;text-wrap:balance}
     .flow-tilt{position:absolute;left:50%;top:50%;width:300px;height:300px;transform:translate(-50%,-50%) rotateX(-7deg);transform-style:preserve-3d}
     .flow-track{position:relative;width:300px;height:300px;transform-style:preserve-3d;will-change:transform}
     .flow-card{position:absolute;inset:0;width:300px;height:300px;padding:0;border:0;background:transparent;cursor:pointer;transform-style:preserve-3d;overflow:visible}
@@ -154,7 +155,7 @@
     @media(prefers-reduced-motion:reduce){.tunnel-ring,.mind-card{animation:none}.mindset-gateway.entering .tunnel-stage,.mindset-gateway.entering .gateway-backdrop,.mindset-gateway.entering:after{animation-duration:.01ms}}
     @media(max-width:900px){.catalog-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:700px){.ask-panel{min-height:560px;background-position:62% center}.ask-panel:before{background:linear-gradient(180deg,rgba(8,19,39,.94),rgba(8,19,39,.64))}.ask-content{width:auto;padding:40px 25px}.trust-strip{grid-template-columns:1fr}.home-grid{display:block}.daily-advisor{margin-top:16px}.mind-flow{margin:-25px -15px 24px;padding:22px 15px 25px;min-height:350px}.flow-head{padding:0 8px}.flow-head p{max-width:240px}.flow-count{display:none}.flow-viewport{height:270px}.flow-card{width:145px;height:200px;margin:-100px 0 0 -72px}.flow-arrow{top:175px;width:36px;height:36px}.flow-prev{left:8px}.flow-next{right:8px}.catalog-head{align-items:start}.catalog-tools{grid-template-columns:1fr}.catalog-grid{grid-template-columns:1fr}}
     @media(max-width:700px){.mind-card{width:105px;height:145px;margin:-72px 0 0 -52px}.mind-card:nth-child(1){transform:translate3d(-38vw,-29vh,-80px)}.mind-card:nth-child(2){transform:translate3d(38vw,-27vh,-140px)}.mind-card:nth-child(3),.mind-card:nth-child(4){opacity:.25}.mind-card:nth-child(5){transform:translate3d(-36vw,30vh,-100px)}.mind-card:nth-child(6){transform:translate3d(37vw,29vh,-150px)}.gateway-copy h1{font-size:clamp(45px,15vw,72px)}.gateway-foot{gap:11px;font-size:8px}.gateway-actions{flex-direction:column;max-width:260px;margin:auto}}
-    @media(max-width:700px){.mind-flow{min-height:500px}.flow-viewport{height:420px}.flow-tilt{transform:translate(-50%,-50%) rotateX(-7deg) scale(.62)}.flow-track,.flow-card{width:300px;height:300px}.flow-card{margin:0}}
+    @media(max-width:700px){.mind-flow{min-height:500px}.flow-viewport{height:420px}.flow-tilt{transform:translate(-50%,-50%) rotateX(-7deg) scale(.62)}.flow-track,.flow-card{width:300px;height:300px}.flow-card{margin:0}.flow-intro{margin:-8px auto 28px;padding:0 10px;font-size:14px;line-height:1.65}}
 </style>
 </head>
 <body>
@@ -211,6 +212,7 @@
           <button class="flow-arrow flow-next" aria-label="다음 현자">→</button>
           <div class="flow-dots" id="flowDots" aria-hidden="true"></div>
         </section>
+        <p class="flow-intro">만남과 대화에 고민이 있다면... 소개팅에서 회사미팅, 경영전략까지 1000명의 현자와 함께 해결하세요.</p>
         <div class="welcome"><div><h1>혼자 고민하지 않아도 됩니다.</h1><p>구독 작가와 현자들의 관점을 한 공간에서 만나보세요.</p></div><span class="date-stamp"><span class="live-dot"></span>1,000 MINDS ONLINE</span></div>
         <div class="home-grid">
           <section class="ask-panel">
@@ -285,7 +287,7 @@
           <input id="catalogSearch" type="search" placeholder="이름, 분야 또는 고민으로 검색" aria-label="현자 검색">
           <select id="catalogCategory" aria-label="현자 분야"><option value="전체">전체 분야</option></select>
         </div>
-        <div class="catalog-meta"><span id="catalogResultCount">1,000개 관점</span><span>24개씩 표시</span></div>
+        <div class="catalog-meta"><span id="catalogResultCount">1,000개 관점</span><span>Pantheon 1.0 기반 · 24개씩 표시</span></div>
         <div id="catalogGrid" class="catalog-grid"></div>
         <button id="catalogMore" class="catalog-more">현자 더 보기</button>
       </section>
@@ -539,7 +541,7 @@
       ["헨리 데이비드 소로","철학","자기 삶의 기준과 양심에 따른 단순한 실천을 강조한 사상가.","nietzsche"]
     ];
     const advisorLenses=["본질","결단","관계","갈등","리더십","창조","실행","회복","협상","윤리","집중","변화","학습","설득","권력","조직","감정","미래","전략","성찰"];
-    const advisorCatalog=advisorSeeds.flatMap((seed,seedIndex)=>advisorLenses.map((lens,lensIndex)=>({
+    let advisorCatalog=advisorSeeds.flatMap((seed,seedIndex)=>advisorLenses.map((lens,lensIndex)=>({
       id:seedIndex*advisorLenses.length+lensIndex+1,name:seed[0],category:seed[1],bio:seed[2],persona:seed[3],lens,
       intro:`${seed[2]} ${lens}의 관점에서 지금 상황의 다음 행동을 함께 정리합니다.`
     })));
@@ -550,17 +552,17 @@
     function selectCatalogAdvisor(profile){
       selectPerson(profile.persona);
       $("#roomPersonaName").textContent=profile.name;
-      $("#roomPersonaMeta").textContent=`${profile.category} · ${profile.lens} 관점`;
-      $("#roomTitle").textContent=`${profile.name}와의 ${profile.lens} 자문`;
-      addBubble("persona",`${profile.name} · 연결됨`,`저는 ${profile.lens}의 관점에서 함께 보겠습니다. ${profile.intro}`);
+      $("#roomPersonaMeta").textContent=`${profile.category} · ${profile.occupation||profile.lens} 관점`;
+      $("#roomTitle").textContent=`${profile.name}와의 ${profile.occupation||profile.lens} 자문`;
+      addBubble("persona",`${profile.name} · 연결됨`,`저는 ${profile.occupation||profile.lens}의 관점에서 함께 보겠습니다. ${profile.intro}`);
     }
     function renderCatalog(reset=false){
       if(reset)catalogLimit=24;
       const query=$("#catalogSearch").value.trim().toLowerCase(),category=$("#catalogCategory").value;
-      catalogFiltered=advisorCatalog.filter(p=>(category==="전체"||p.category===category)&&(!query||`${p.name} ${p.category} ${p.lens} ${p.intro}`.toLowerCase().includes(query)));
+      catalogFiltered=advisorCatalog.filter(p=>(category==="전체"||p.category===category)&&(!query||`${p.name} ${p.category} ${p.occupation||p.lens} ${p.intro}`.toLowerCase().includes(query)));
       $("#catalogResultCount").textContent=`${catalogFiltered.length.toLocaleString()}개 관점`;
       const portraitMap={sun:"p-sun",nietzsche:"p-nie",adler:"p-adler",lincoln:"p-lincoln"};
-      $("#catalogGrid").innerHTML=catalogFiltered.length?catalogFiltered.slice(0,catalogLimit).map(p=>`<button class="catalog-card" data-advisor-id="${p.id}"><span class="catalog-avatar ${portraitMap[p.persona]}"></span><span class="catalog-copy"><strong>${p.name}</strong><em>${p.category} · ${p.lens}</em><p>${p.intro}</p><span class="catalog-select">이 현자와 대화하기 →</span></span></button>`).join(""):`<div class="catalog-empty">검색 조건에 맞는 현자가 없습니다.</div>`;
+      $("#catalogGrid").innerHTML=catalogFiltered.length?catalogFiltered.slice(0,catalogLimit).map(p=>`<button class="catalog-card" data-advisor-id="${p.id}"><span class="catalog-avatar ${portraitMap[p.persona]}"></span><span class="catalog-copy"><strong>${p.name}</strong><em>${p.category} · ${p.occupation||p.lens}</em><p>${p.intro}</p><span class="catalog-select">이 현자와 대화하기 →</span></span></button>`).join(""):`<div class="catalog-empty">검색 조건에 맞는 현자가 없습니다.</div>`;
       $("#catalogMore").classList.toggle("hidden",catalogLimit>=catalogFiltered.length);
     }
     [...new Set(advisorSeeds.map(s=>s[1]))].sort().forEach(category=>$("#catalogCategory").insertAdjacentHTML("beforeend",`<option value="${category}">${category}</option>`));
@@ -569,6 +571,21 @@
     $("#catalogMore").onclick=()=>{catalogLimit+=24;renderCatalog()};
     $("#catalogGrid").onclick=e=>{const card=e.target.closest("[data-advisor-id]");if(!card)return;const profile=advisorCatalog.find(p=>p.id===Number(card.dataset.advisorId));if(profile)selectCatalogAdvisor(profile)};
     renderCatalog();
+    const catalogPersona=category=>category.includes("리더십")?"lincoln":category.includes("과학")||category.includes("경영")?"sun":category.includes("철학")||category.includes("예술")?"nietzsche":"adler";
+    async function loadActualAdvisors(){
+      try{
+        const response=await fetch("/advisors-1000.json");
+        if(!response.ok)throw new Error("catalog");
+        const data=await response.json();
+        if(data.count!==1000||data.records.length!==1000)throw new Error("count");
+        advisorCatalog=data.records.map(profile=>({...profile,persona:catalogPersona(profile.category)}));
+        catalogFiltered=advisorCatalog;
+        $("#catalogCategory").innerHTML='<option value="전체">전체 분야</option>';
+        [...new Set(advisorCatalog.map(profile=>profile.category))].sort().forEach(category=>$("#catalogCategory").insertAdjacentHTML("beforeend",`<option value="${category}">${category}</option>`));
+        renderCatalog(true);
+      }catch(error){console.warn("실제 현자 목록을 불러오지 못해 기본 목록을 표시합니다.",error)}
+    }
+    loadActualAdvisors();
     const finishGateway=()=>{
       const gateway=$("#gateway");
       window.dispatchEvent(new Event("mindset:tunnel-complete"));
