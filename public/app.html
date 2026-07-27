@@ -157,7 +157,7 @@
     @media(max-width:700px){.mind-card{width:105px;height:145px;margin:-72px 0 0 -52px}.mind-card:nth-child(1){transform:translate3d(-38vw,-29vh,-80px)}.mind-card:nth-child(2){transform:translate3d(38vw,-27vh,-140px)}.mind-card:nth-child(3),.mind-card:nth-child(4){opacity:.25}.mind-card:nth-child(5){transform:translate3d(-36vw,30vh,-100px)}.mind-card:nth-child(6){transform:translate3d(37vw,29vh,-150px)}.gateway-copy h1{font-size:clamp(45px,15vw,72px)}.gateway-foot{gap:11px;font-size:8px}.gateway-actions{flex-direction:column;max-width:260px;margin:auto}}
     @media(max-width:700px){.mind-flow{min-height:500px}.flow-viewport{height:420px}.flow-tilt{transform:translate(-50%,-50%) rotateX(-7deg) scale(.62)}.flow-track,.flow-card{width:300px;height:300px}.flow-card{margin:0}.flow-intro{margin:-8px auto 28px;padding:0 10px;font-size:14px;line-height:1.65}}
 </style>
-<link rel="stylesheet" href="modern-refresh.css?v=1">
+<link rel="stylesheet" href="modern-refresh.css?v=2">
 </head>
 <body>
   <div class="grain"></div>
@@ -177,7 +177,71 @@
     <div class="gateway-foot"><span>초대 전용</span><span>작가 실시간 참여</span><span>일정·대화 맥락 보호</span></div>
   </section>
 
-  <section id="intro" class="screen app-home hidden" aria-label="Mindset 1000 홈">
+  <section id="intro" class="screen app-home modern-home hidden" aria-label="Mindset 1000 홈">
+    <aside class="side-nav">
+      <div class="side-brand"><span class="brand-mark">∴</span><span>MINDSET 1000</span></div>
+      <span class="nav-label">WORKSPACE</span>
+      <button class="nav-item active"><span class="nav-ink">NOW</span><span>오늘의 관점</span></button>
+      <button class="nav-item" id="sideRound"><span class="nav-ink">LIVE</span><span>원탁 회의</span></button>
+      <button class="nav-item" id="sidePeople"><span class="nav-ink">1000</span><span>현자 네트워크</span></button>
+      <button class="nav-item" id="sideShelf"><span class="nav-ink">ASK</span><span>새로운 질문</span></button>
+      <span class="nav-label" style="margin-top:16px">LIBRARY</span>
+      <button class="nav-item"><span class="nav-ink">LOG</span><span>대화 기록</span></button>
+      <button class="nav-item"><span class="nav-ink">SAVE</span><span>저장한 인사이트</span></button>
+      <div class="side-bottom"><div class="reader"><span class="reader-seal">ME</span><div><b>지혜의 여행자</b><small><span class="live-dot"></span>담당 작가 연결됨</small></div></div></div>
+    </aside>
+    <div class="home-content modern-content">
+      <header class="home-top">
+        <p>오늘의 관점 <span>· 2026년 7월 27일</span></p>
+        <div class="top-actions"><span class="modern-online"><i class="live-dot"></i>1,000 minds online</span><a class="ghost-btn" href="/en" style="text-decoration:none">EN</a><button class="icon-button" aria-label="설정">···</button></div>
+      </header>
+      <main class="modern-main">
+        <section class="modern-hero">
+          <div class="modern-hero-copy">
+            <span class="modern-badge"><i>AI</i> PERSONAL ADVISORY NETWORK</span>
+            <h1>질문을 던지면,<br><em>1,000개의 시선이</em><br><mark>움직입니다.</mark></h1>
+            <p>역사 속 가장 날카로운 생각들과 지금의 고민을 연결하세요. 필요한 관점만 골라 실행 가능한 다음 선택으로 바꿔드립니다.</p>
+            <div class="home-search modern-search"><span>∴</span><input id="homeQuestion" aria-label="오늘의 고민" placeholder="지금 함께 풀고 싶은 고민을 적어주세요."><button id="homeAsk">관점 찾기 →</button></div>
+            <div class="modern-chips"><button>팀을 설득하고 싶어요</button><button>중요한 결정을 앞뒀어요</button><button>관계가 어렵게 느껴져요</button></div>
+            <div class="modern-mode-label"><b>어떤 맥락으로 상담할까요?</b><span>필요한 자료를 바로 연결합니다</span></div>
+            <div class="advisory-modes" aria-label="상담 카테고리">
+              <button class="advisory-mode" data-home-mode="schedule"><span>◷</span><span><b>일정 준비</b><small>만남 전 행동과 대사 설계</small></span><span>→</span></button>
+              <button class="advisory-mode" data-home-mode="sns"><span>#</span><span><b>SNS 대화 분석</b><small>카톡·문자·DM의 다음 답장</small></span><span>→</span></button>
+              <button class="advisory-mode" data-home-mode="decision"><span>◇</span><span><b>의사결정</b><small>여러 관점으로 선택지 비교</small></span><span>→</span></button>
+              <button class="advisory-mode" data-home-mode="round"><span>◎</span><span><b>원탁 회의</b><small>여러 현자의 토론과 결론</small></span><span>→</span></button>
+            </div>
+          </div>
+          <div class="modern-network" aria-label="실시간 관점 네트워크">
+            <div class="network-top"><span>LIVE PERSPECTIVE MAP</span><b>● CONNECTED</b></div>
+            <div class="network-grid"></div><div class="network-orbit"><div class="network-core"><b>1000</b><small>MINDS</small></div></div>
+            <button class="network-mind nm1" data-modern-person="sun"><strong>孫</strong><small>손자 · 전략</small></button>
+            <button class="network-mind nm2" data-modern-person="nietzsche"><strong>N</strong><small>니체 · 기준</small></button>
+            <button class="network-mind nm3" data-modern-person="adler"><strong>A</strong><small>아들러 · 관계</small></button>
+            <button class="network-mind nm4" data-modern-person="lincoln"><strong>L</strong><small>링컨 · 통합</small></button>
+            <div class="network-foot"><span><b>질문에 반응하는 관점</b><small>상황 · 감정 · 목표를 함께 분석합니다</small></span><strong>04</strong></div>
+          </div>
+        </section>
+        <section class="modern-advisor-section">
+          <div class="modern-section-head"><div><h2>지금 연결 가능한 현자</h2><p>오늘의 고민에 잘 맞는 관점을 먼저 보여드려요.</p></div><button id="exploreShelf">모두 보기 ↗</button></div>
+          <div class="modern-advisors">
+            <button class="modern-advisor" data-modern-person="sun"><span class="advisor-no">01</span><span class="advisor-portrait p-sun"></span><b>손자</b><small>전략 · 판단 · 경쟁</small><q>“싸우기 전에 전장을 선택하라.”</q><span class="advisor-match"><i style="width:96%"></i><b>96% match</b></span></button>
+            <button class="modern-advisor" data-modern-person="nietzsche"><span class="advisor-no">02</span><span class="advisor-portrait p-nie"></span><b>프리드리히 니체</b><small>기준 · 의지 · 성장</small><q>“타인의 평가가 당신의 기준이 되게 하지 마라.”</q><span class="advisor-match"><i style="width:89%"></i><b>89% match</b></span></button>
+            <button class="modern-advisor" data-modern-person="adler"><span class="advisor-no">03</span><span class="advisor-portrait p-adler"></span><b>알프레드 아들러</b><small>관계 · 심리 · 용기</small><q>“문제와 사람을 분리하면 다음 행동이 보인다.”</q><span class="advisor-match"><i style="width:84%"></i><b>84% match</b></span></button>
+            <button class="modern-advisor" data-modern-person="lincoln"><span class="advisor-no">04</span><span class="advisor-portrait p-lincoln"></span><b>에이브러햄 링컨</b><small>리더십 · 통합 · 설득</small><q>“반대자를 없애지 말고 동료로 만들어라.”</q><span class="advisor-match"><i style="width:78%"></i><b>78% match</b></span></button>
+          </div>
+        </section>
+        <section class="modern-lower">
+          <div class="home-card"><div class="card-head"><h3>이어가기</h3><button id="allRecords">전체 기록 보기</button></div><div class="recent-list"><button class="recent-item" data-home-person="sun"><span class="recent-mini">孫</span><span><b>팀장이 내 아이디어를 계속 무시한다</b><small>손자와 나눈 전략 자문 · 7개의 인사이트</small></span><time>어제</time></button><button class="recent-item" data-home-person="adler"><span class="recent-mini">A</span><span><b>동료의 말에 자꾸 감정이 흔들린다</b><small>아들러와 나눈 관계 자문 · 4개의 인사이트</small></span><time>3일 전</time></button></div></div>
+          <button class="modern-insight" id="dailyAdvisor"><span>오늘의 문장</span><q>“좋은 질문은 이미 절반의 선택이다.”</q><small>소크라테스 · 관점 열기 →</small></button>
+        </section>
+      </main>
+    </div>
+    <nav class="mobile-nav"><button><b>NOW</b>오늘</button><button id="mobilePeople"><b>1000</b>현자</button><button id="mobileRound"><b>LIVE</b>회의</button><button><b>LOG</b>기록</button></nav>
+    <div class="flow-compat" aria-hidden="true"><div class="flow-viewport"><div class="flow-track" id="mindFlow"><button class="flow-card" data-person="lincoln"></button><button class="flow-card" data-person="adler"></button><button class="flow-card" data-person="sun"></button><button class="flow-card" data-person="nietzsche"></button><button class="flow-card" data-person="lincoln"></button><button class="flow-card" data-person="sun"></button><button class="flow-card" data-person="adler"></button><button class="flow-card" data-person="nietzsche"></button><button class="flow-card" data-person="lincoln"></button></div></div><div id="flowDots"></div></div>
+  </section>
+
+  <template id="legacyHome">
+  <section id="introLegacy" class="screen app-home hidden" aria-label="이전 홈 화면">
     <aside class="side-nav">
       <div class="side-brand"><span class="brand-mark">1000</span><span>MINDSET 1000</span></div>
       <span class="nav-label">ADVISORY</span>
@@ -255,8 +319,9 @@
         </div>
       </main>
     </div>
-    <nav class="mobile-nav"><button><b>NOW</b>대화</button><button id="mobilePeople"><b>1000</b>현자</button><button id="mobileRound"><b>LIVE</b>회의</button><button><b>LOG</b>기록</button></nav>
+    <nav class="mobile-nav"><button><b>NOW</b>대화</button><button id="legacyMobilePeople"><b>1000</b>현자</button><button id="legacyMobileRound"><b>LIVE</b>회의</button><button><b>LOG</b>기록</button></nav>
   </section>
+  </template>
 
   <section id="library" class="screen library hidden">
     <header class="topbar">
@@ -664,6 +729,8 @@
       if(mode==='decision'){$("#homeQuestion").value='중요한 선택을 여러 관점으로 비교하고 싶습니다.';$("#homeQuestion").focus();return}
       if(mode==='round'){$("#roundQuestion").textContent='최근 고민을 여러 현자의 관점으로 함께 살펴봅니다.';$("#roundtable").classList.remove('hidden');document.body.style.overflow='hidden'}
     });
+    $$(".modern-chips button").forEach(button=>button.onclick=()=>{$("#homeQuestion").value=button.textContent;$("#homeQuestion").focus()});
+    $$('[data-modern-person]').forEach(button=>button.onclick=()=>selectPerson(button.dataset.modernPerson));
     $("#dailyAdvisor").onclick=()=>selectPerson("sun");
     $$("[data-home-person]").forEach(b=>b.onclick=()=>selectPerson(b.dataset.homePerson));
     ["#sidePeople","#sideShelf","#mobilePeople","#exploreShelf"].forEach(s=>$(s).onclick=()=>show("library"));
