@@ -660,6 +660,9 @@
       window.dispatchEvent(new Event("mindset:tunnel-complete"));
       gateway.classList.remove("entering","autoplay");
       $("#enterMindset").disabled=false;
+      show("intro");
+      renderFlow();
+      restartFlow();
     };
     let gatewayTimer=setTimeout(finishGateway,8000);
     window.addEventListener("mindset:tunnel-ready",()=>{
