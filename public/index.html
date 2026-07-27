@@ -655,7 +655,10 @@
       }catch(error){console.warn("실제 현자 목록을 불러오지 못해 기본 목록을 표시합니다.",error)}
     }
     loadActualAdvisors();
+    let gatewayFinished=false;
     const finishGateway=()=>{
+      if(gatewayFinished)return;
+      gatewayFinished=true;
       const gateway=$("#gateway");
       window.dispatchEvent(new Event("mindset:tunnel-complete"));
       gateway.classList.remove("entering","autoplay");
@@ -665,11 +668,22 @@
       restartFlow();
     };
     const tunnelPlayDuration=6000;
-    let gatewayTimer=setTimeout(finishGateway,10000);
-    window.addEventListener("mindset:tunnel-ready",()=>{
+    let gatewayTimer=0;
+    const scheduleTunnelExit=()=>{
       clearTimeout(gatewayTimer);
-      gatewayTimer=setTimeout(finishGateway,tunnelPlayDuration);
-    },{once:true});
+      if(document.visibilityState==="visible"){
+        gatewayTimer=setTimeout(finishGateway,tunnelPlayDuration);
+        return;
+      }
+      const startWhenVisible=()=>{
+        if(document.visibilityState!=="visible")return;
+        document.removeEventListener("visibilitychange",startWhenVisible);
+        gatewayTimer=setTimeout(finishGateway,tunnelPlayDuration);
+      };
+      document.addEventListener("visibilitychange",startWhenVisible);
+    };
+    gatewayTimer=setTimeout(scheduleTunnelExit,10000);
+    window.addEventListener("mindset:tunnel-ready",scheduleTunnelExit,{once:true});
     $("#enterMindset").onclick=()=>{
       show("intro");
       renderFlow();
