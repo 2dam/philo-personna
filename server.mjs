@@ -62,12 +62,14 @@ async function serve(request, response) {
     const filePath = join(publicDir, safePath);
     if (!filePath.startsWith(publicDir)) return json(response, { error: "not found" }, 404);
     const data = await readFile(filePath);
-    response.writeHead(200, { "content-type": types[extname(filePath).toLowerCase()] || "application/octet-stream", "cache-control": "public, max-age=300" });
+    const extension = extname(filePath).toLowerCase();
+    const cacheControl = extension === ".html" ? "no-store, no-cache, must-revalidate" : "public, max-age=300";
+    response.writeHead(200, { "content-type": types[extension] || "application/octet-stream", "cache-control": cacheControl });
     response.end(data);
   } catch {
     try {
       const fallback = await readFile(join(publicDir, "index.html"));
-      response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
+      response.writeHead(200, { "content-type": "text/html; charset=utf-8", "cache-control": "no-store, no-cache, must-revalidate" });
       response.end(fallback);
     } catch {
       json(response, { error: "not found" }, 404);
