@@ -18,19 +18,19 @@ const canvas = document.querySelector("#galleryTunnelCanvas");
 
 if (frame && canvas) {
   const images = [
-    "assets/portraits-atlas.png#sun-tzu",
-    "assets/portraits-atlas.png#nietzsche",
-    "assets/portraits-atlas.png#adler",
-    "assets/portraits-atlas.png#lincoln",
-    "assets/portraits-atlas.png#sun-tzu-2",
-    "assets/portraits-atlas.png#nietzsche-2",
-    "assets/portraits-atlas.png#adler-2",
-    "assets/portraits-atlas.png#lincoln-2",
+    "portraits-atlas.png#sun-tzu",
+    "portraits-atlas.png#nietzsche",
+    "portraits-atlas.png#adler",
+    "portraits-atlas.png#lincoln",
+    "portraits-atlas.png#sun-tzu-2",
+    "portraits-atlas.png#nietzsche-2",
+    "portraits-atlas.png#adler-2",
+    "portraits-atlas.png#lincoln-2",
   ];
-  const palette = ["#132238", "#1f4f53", "#8c6f3f", "#34475f", "#376f67", "#66533a"];
-  const background = "#071225";
-  const lineColor = "#8fe0cf";
-  const lineOpacity = 42;
+  const palette = ["#171913", "#2b2940", "#5e53be", "#3d4b2a", "#3e4338", "#20231d"];
+  const background = "#060805";
+  const lineColor = "#d9ff6b";
+  const lineOpacity = 46;
   const grid = 4;
   const speed = 100;
   const fade = 100;

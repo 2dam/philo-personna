@@ -1,0 +1,106 @@
+/* Mindset 1000 modern refresh
+   Keeps the original Three.js gateway and application behavior intact. */
+:root{
+  --paper:#f4f5f1;
+  --paper2:#e9ebe4;
+  --ink:#141611;
+  --muted:#70746b;
+  --gold:#d9ff6b;
+  --gold2:#6d5dfc;
+  --dark:#171913;
+  --line:#dfe1da;
+  --serif:"Iowan Old Style","Noto Serif KR",serif;
+  --sans:Inter,Pretendard,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
+}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans)}
+.grain{opacity:.018}
+
+/* Keep the moving square tunnel as the opening experience. */
+.mindset-gateway{background:#060805;color:#fff}
+.gateway-backdrop{background:radial-gradient(circle at 50% 46%,#252a1e 0,#080a06 60%,#050604 100%);opacity:1}
+.gateway-backdrop:after{background:radial-gradient(circle at 50% 47%,transparent 0 17%,#05070455 49%,#050704 91%)}
+.gallery-tunnel{background:#060805}
+.gateway-logo .brand-mark,.side-brand .brand-mark{border:0;border-radius:12px;background:var(--gold);color:#141611;box-shadow:none}
+.gateway-status{border-color:#d9ff6b40;background:#11150dbd;color:#dce6cf}
+.gateway-copy .eyebrow{color:var(--gold)}
+.gateway-copy h1{font-weight:780;letter-spacing:-.065em}
+.gateway-copy h1 span{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--gold)}
+.gateway-copy p{color:#c5cabd}
+.gateway-enter{background:var(--gold);color:#141611;border-radius:15px;box-shadow:0 16px 45px #0009;font-family:var(--sans)}
+.gateway-enter:hover{background:#e5ff94}
+.gateway-link{border-radius:15px;background:#ffffff0d;border-color:#ffffff30}
+.gateway-foot{color:#969c90}
+
+/* Workspace shell */
+.app-home{grid-template-columns:238px minmax(0,1fr);background:var(--paper)}
+.side-nav{background:#171913;color:#fff;border:0;padding:28px 20px 22px}
+.side-brand{font-family:var(--sans);color:#fff;font-weight:850;letter-spacing:-.02em}
+.side-brand .brand-mark{width:38px;height:38px;transform:rotate(-5deg)}
+.nav-label{color:#73776d;font-size:9px;letter-spacing:.18em}
+.nav-item{border:0;border-radius:13px;color:#a9ada3;padding:12px;margin-bottom:4px;transition:.2s}
+.nav-item:hover,.nav-item.active{background:#292c24;color:#fff;border:0;box-shadow:inset 3px 0 var(--gold)}
+.nav-item.active .nav-ink{background:var(--gold);color:#141611}
+.nav-ink{width:28px;height:25px;border:1px solid #454940;border-radius:8px;display:grid;place-items:center;font:800 8px var(--sans);color:#aeb2a8}
+.side-bottom{border-color:#30332c}
+.reader-seal{border:0;border-radius:50%;background:linear-gradient(135deg,#8b7eff,var(--gold));color:#171913;font-weight:900}
+.reader b{font-family:var(--sans);color:#fff}.reader small{color:#858a7f}
+.home-top{height:88px;padding:0 clamp(22px,4vw,62px);border-color:var(--line);background:rgba(244,245,241,.9);backdrop-filter:blur(18px)}
+.home-top>p{font-family:var(--sans);font-size:12px;color:var(--ink)}
+.home-top>p span{color:var(--muted)}
+.icon-button{border:1px solid var(--line);border-radius:12px;background:#ffffffc9;color:var(--ink)}
+.home-main{max-width:1380px;padding:28px clamp(22px,4vw,58px) 70px}
+
+/* Coverflow remains, now framed as a premium live network. */
+.mind-flow{margin:0 0 30px;padding:25px 34px 18px;min-height:540px;border:0;border-radius:30px;background:#171913;box-shadow:0 20px 60px #17191322;overflow:hidden}
+.mind-flow:before{background:radial-gradient(circle at 50% 49%,#6d5dfc3d,transparent 42%),radial-gradient(circle at 18% 110%,#d9ff6b38,transparent 28%)}
+.flow-head h2{font-weight:800}.flow-head p{color:#999f93}.flow-count{color:var(--gold)}
+.flow-viewport{height:450px}
+.flow-face{border-radius:24px;background:#292c24;box-shadow:0 18px 55px #0008}
+.flow-face>span:not(.portrait){background:linear-gradient(transparent,#11140ef2)}
+.flow-face small{color:var(--gold)}
+.flow-intro{color:#4f544a;font-size:15px}
+
+.welcome{margin:33px 0 18px}.welcome h1{font-family:var(--sans);font-size:clamp(30px,3.4vw,48px);font-weight:800;letter-spacing:-.055em}.welcome p{font-size:13px}.date-stamp{font-family:var(--sans);color:var(--gold2);font-weight:800;font-size:10px}
+.home-grid{grid-template-columns:minmax(0,1.45fr) minmax(270px,.55fr);gap:16px}
+.ask-panel{min-height:560px;border:1px solid #30342c;border-radius:28px;padding:0;background:radial-gradient(circle at 92% 4%,#6d5dfc 0 21%,transparent 21.2%),radial-gradient(circle at 1% 102%,#d9ff6b 0 26%,transparent 26.2%),#1b1d17;box-shadow:0 22px 65px #17191320}
+.ask-panel:before{background-image:linear-gradient(#ffffff10 1px,transparent 1px),linear-gradient(90deg,#ffffff10 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(130deg,#000,transparent 75%)}
+.ask-content{width:min(680px,75%);max-width:none;padding:48px;color:#fff}
+.ask-content .eyebrow{color:var(--gold);font:800 10px var(--sans)}
+.ask-content h2{font-family:var(--sans);font-size:clamp(35px,3.8vw,57px);font-weight:780;line-height:1.05;letter-spacing:-.06em}
+.ask-content>p{max-width:570px;color:#bdc2b7;line-height:1.7}
+.home-search{border:1px solid #ffffff30;border-radius:18px;background:#fff;padding:7px;box-shadow:0 14px 45px #0005}
+.home-search input{font-family:var(--sans);color:var(--ink);font-size:13px}
+.home-search button{border-radius:12px;background:var(--ink);color:#fff;font-family:var(--sans);font-weight:800}
+.home-search button:hover{background:var(--gold2)}
+
+.advisory-modes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.advisory-mode{border:1px solid #ffffff20;border-radius:15px;background:#ffffff0b;color:#fff;padding:12px;display:grid;grid-template-columns:36px 1fr auto;align-items:center;gap:10px;text-align:left;transition:.2s;backdrop-filter:blur(12px)}
+.advisory-mode:hover{transform:translateY(-2px);border-color:#d9ff6b88;background:#ffffff15}
+.advisory-mode>span:first-child{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:#ffffff13;color:var(--gold);font-size:14px}
+.advisory-mode b{display:block;font-size:10px}.advisory-mode small{display:block;color:#9fa59a;font-size:8px;margin-top:3px}.advisory-mode>span:last-child{color:#959b90;font-size:11px}
+.daily-advisor,.home-card{border:1px solid var(--line);border-radius:24px;background:#fff;box-shadow:0 12px 38px #1719130d;overflow:hidden}
+.daily-advisor{min-height:560px}.daily-badge{border-radius:999px;background:#171913;color:var(--gold)}
+.daily-copy{background:#fff;padding:20px}.daily-copy b{font-family:var(--sans)}.daily-copy p{font-family:var(--serif)}
+.trust-strip{gap:8px}.trust-item{border:1px solid var(--line);border-radius:17px;background:#fff}.trust-item b{font-family:var(--sans)}
+.home-lower{gap:16px}.home-card{padding:23px}.card-head h3{font-family:var(--sans);font-weight:800}.card-head button{color:var(--gold2);font-weight:800}
+.recent-item{border:1px solid #eceee8;border-radius:16px;background:#f8f9f6}.recent-item:hover{border-color:#aaa0ff;transform:translateY(-1px)}
+.recent-mini,.shelf-emblem{border:0;border-radius:12px;background:#e9f6d7;color:#577d23;font-family:var(--sans)}
+.unlock{border-radius:20px}.catalog-card,.portrait-card,.match-card{border-radius:20px;overflow:hidden}
+.mobile-nav{background:#171913;border-radius:18px}.mobile-nav b{color:var(--gold)}
+
+@media(max-width:900px){
+  .mind-flow{border-radius:22px;padding-inline:18px}
+  .home-grid{grid-template-columns:1fr}.daily-advisor{min-height:430px}
+  .ask-content{width:min(760px,90%)}
+}
+@media(max-width:700px){
+  .home-top{height:68px}.home-main{padding:22px 15px 90px}
+  .mind-flow{margin:0 0 24px;min-height:450px;padding:20px 14px}.flow-viewport{height:360px}
+  .welcome h1{font-size:34px}.date-stamp{display:none}
+  .ask-panel{min-height:690px;background:radial-gradient(circle at 100% 0,#6d5dfc 0 18%,transparent 18.2%),radial-gradient(circle at 0 100%,#d9ff6b 0 20%,transparent 20.2%),#1b1d17}
+  .ask-panel:before{background-image:linear-gradient(#ffffff0d 1px,transparent 1px),linear-gradient(90deg,#ffffff0d 1px,transparent 1px);background-size:34px 34px}
+  .ask-content{width:auto;padding:34px 22px}.ask-content h2{font-size:40px}
+  .home-search{display:grid;grid-template-columns:1fr}.home-search button{padding:13px;margin-top:6px}
+  .advisory-modes{grid-template-columns:1fr}.advisory-mode{padding:11px}
+  .daily-advisor{min-height:420px}.trust-strip{grid-template-columns:1fr}
+}
