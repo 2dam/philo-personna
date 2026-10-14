@@ -419,7 +419,7 @@
       <button class="back" data-go="results">← 자문위원 바꾸기</button>
       <div class="selected-persona">
         <div id="roomPersonaThumb" class="persona-thumb p-nie"></div>
-        <div><h2 id="roomPersonaName">니체</h2><p id="roomPersonaMeta">철학자 · 1844—1900</p><span class="live-pill">대화 가능</span></div>
+        <div><h2 id="roomPersonaName" data-persona="nietzsche">니체</h2><p id="roomPersonaMeta">철학자 · 1844—1900</p><span class="live-pill">대화 가능</span></div>
       </div>
       <section class="session-section"><h3>이 세션의 참여자</h3>
         <div class="member"><span class="member-avatar">나</span><span><b>지혜의 여행자</b><small>구독자 · 접속 중</small></span><i class="member-status"></i></div>
@@ -636,7 +636,7 @@
     let catalogLimit=24,catalogFiltered=advisorCatalog;
     function show(id){screens.forEach(x=>$("#"+x).classList.toggle("hidden",x!==id));window.scrollTo(0,0)}
     let activePersona="nietzsche";
-    function selectPerson(id){const p=people[id];activePersona=id;$("#roomPersonaThumb").className="persona-thumb "+p.portrait;$("#roomPersonaName").textContent=p.name;$("#roomPersonaMeta").textContent=p.meta;$("#roomTitle").textContent=`${p.name}와의 전략 상담`;show("sessionRoom");loadWorkspace()}
+    function selectPerson(id){const p=people[id];activePersona=id;$("#roomPersonaName").dataset.persona=id;$("#roomPersonaThumb").className="persona-thumb "+p.portrait;$("#roomPersonaName").textContent=p.name;$("#roomPersonaMeta").textContent=p.meta;$("#roomTitle").textContent=`${p.name}와의 전략 상담`;show("sessionRoom");loadWorkspace()}
     function selectCatalogAdvisor(profile){
       selectPerson(profile.persona);
       $("#roomPersonaName").textContent=profile.name;
@@ -815,7 +815,7 @@
       if("serviceWorker" in navigator&&location.protocol.startsWith("http"))addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(error=>console.info("오프라인 앱 셸 등록 실패",error)));
     })();
   </script>
-  <script src="./chat-client.js?v=1"></script>
+  <script src="./chat-client.js?v=2"></script>
 </body>
 </html>
 

@@ -14,6 +14,8 @@
   let pendingMessageId = "";
 
   function currentPersona() {
+    const personaId = document.querySelector("#roomPersonaName")?.dataset.persona;
+    if (["sun", "nietzsche", "adler", "lincoln"].includes(personaId)) return personaId;
     const name = document.querySelector("#roomPersonaName")?.textContent || "";
     return personaByName.find(([, pattern]) => pattern.test(name))?.[0] || "nietzsche";
   }
