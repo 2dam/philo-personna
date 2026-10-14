@@ -18,6 +18,23 @@ const personas = {
   adler: "알프레드 아들러 (관계와 용기)",
   lincoln: "에이브러햄 링컨 (설득과 통합)",
 };
+const allowedPersonaIds = new Set(Object.keys(personas));
+
+function normalizeAdvisor(advisor) {
+  if (!advisor || typeof advisor !== "object") return null;
+  const id = Number.isInteger(Number(advisor.id)) && Number(advisor.id) > 0 ? Number(advisor.id) : null;
+  const name = typeof advisor.name === "string" ? advisor.name.trim().slice(0, 120) : "";
+  const category = typeof advisor.category === "string" ? advisor.category.trim().slice(0, 80) : "";
+  const bio = typeof advisor.bio === "string" ? advisor.bio.trim().slice(0, 500) : "";
+  const lens = typeof advisor.lens === "string" ? advisor.lens.trim().slice(0, 80) : "";
+  const occupation = typeof advisor.occupation === "string" ? advisor.occupation.trim().slice(0, 100) : "";
+  const industry = typeof advisor.industry === "string" ? advisor.industry.trim().slice(0, 100) : "";
+  const country = typeof advisor.country === "string" ? advisor.country.trim().slice(0, 100) : "";
+  const birthYear = Number.isFinite(Number(advisor.birthYear)) ? Number(advisor.birthYear) : null;
+  const personaId = typeof advisor.persona === "string" && allowedPersonaIds.has(advisor.persona) ? advisor.persona : "nietzsche";
+  if (!name) return null;
+  return { id, name, category, bio, lens, occupation, industry, country, birthYear, personaId };
+}
 
 const types = {
   ".html": "text/html; charset=utf-8",
@@ -181,13 +198,15 @@ async function handleWorkspace(request, response, url) {
   }
 }
 
-function makeInstructions(persona, state) {
+function makeInstructions(persona, state, advisor) {
   const selected = personas[persona] || personas.nietzsche;
   const context = [];
   if (state?.schedule) context.push(`일정 정보: ${JSON.stringify(state.schedule)}`);
   if (state?.social) context.push(`대화 분석 자료: ${JSON.stringify(state.social)}`);
   return [
-    `당신은 Mindset 1000의 한국어 자문 파트너이며, ${selected}의 사고방식을 바탕으로 조언합니다.`,
+    advisor
+      ? `당신은 Mindset 1000의 ${advisor.name} 전담 한국어 자문 파트너입니다. 이번 응답의 선택 인물은 정확히 ${advisor.name}${advisor.id ? ` (카탈로그 ${advisor.id}번)` : ""}입니다. 분야: ${advisor.category || "미지정"}; 직업: ${advisor.occupation || "미지정"}; 세부 분야: ${advisor.industry || "미지정"}; 활동 지역: ${advisor.country || "미지정"}; 출생 연도: ${advisor.birthYear ?? "미상"}; 핵심 관점: ${advisor.lens || "이 인물의 알려진 사상과 전문 분야"}. 프로필: ${advisor.bio || "추가 소개 없음"}. 답변은 이 선택 인물의 알려진 생애와 사상, 전문 분야에서 구별되는 관점을 사용하세요. 프로필로 확인되지 않는 구체적인 주장을 지어내지 말고, 알려진 정보가 부족하면 그 한계를 밝히세요. ${personas[advisor.personaId]}는 내부 기본 관점 분류일 뿐입니다. 답변을 그 인물의 조언처럼 만들거나 이름을 대체하지 말고, 응답 화자는 항상 ${advisor.name}으로 유지하세요.`
+      : `당신은 Mindset 1000의 한국어 자문 파트너이며, ${selected}의 사고방식을 바탕으로 조언합니다.`,
     "역사적 인물을 실제로 흉내 내거나 그 인물의 직접 인용인 것처럼 꾸미지 말고, 그 관점을 현대의 상황에 적용하세요.",
     "이전 대화의 맥락을 이어받아 답하세요. 사용자의 말을 요약한 뒤, 이유를 설명하고 지금 실행할 수 있는 구체적인 다음 행동이나 문장을 제안하세요.",
     "관련 정보가 부족하면 한 번에 초점을 둔 후속 질문을 하나 하세요. 질문을 이미 받은 뒤에는 같은 질문이나 일반적인 문장을 반복하지 마세요.",
@@ -196,7 +215,7 @@ function makeInstructions(persona, state) {
   ].filter(Boolean).join("\n\n");
 }
 
-async function createModelReply({ persona, state, history }) {
+async function createModelReply({ persona, state, history, advisor }) {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) throw Object.assign(new Error("AI_API_NOT_CONFIGURED"), { status: 503 });
   const response = await fetch("https://api.openai.com/v1/responses", {
@@ -204,7 +223,7 @@ async function createModelReply({ persona, state, history }) {
     headers: { authorization: `Bearer ${apiKey}`, "content-type": "application/json" },
     body: JSON.stringify({
       model: process.env.OPENAI_MODEL || "gpt-6-luna",
-      instructions: makeInstructions(persona, state),
+      instructions: makeInstructions(persona, state, advisor),
       input: history.map((message) => ({
         role: message.role === "subscriber" ? "user" : "assistant",
         content: message.body,
@@ -233,6 +252,7 @@ async function handleChat(request, response) {
   if (request.method !== "POST") return json(response, { error: "지원하지 않는 요청입니다." }, 405);
   const body = await readBody(request);
   const { sessionId, persona, message, clientMessageId } = body;
+  const advisor = normalizeAdvisor(body.advisor);
   if (!validateSessionId(sessionId)) return json(response, { error: "대화 ID가 올바르지 않습니다." }, 400);
   if (typeof clientMessageId !== "string" || !/^[a-f0-9-]{36}$/i.test(clientMessageId)) return json(response, { error: "메시지 ID가 올바르지 않습니다." }, 400);
   if (typeof message !== "string" || !message.trim() || message.length > 3000) return json(response, { error: "메시지는 1~3,000자로 입력해 주세요." }, 400);
@@ -278,8 +298,9 @@ async function handleChat(request, response) {
       persona,
       state: stateResult.rows[0]?.state || {},
       history: historyResult.rows,
+      advisor,
     });
-    const displayName = personas[persona] || personas.nietzsche;
+    const displayName = advisor ? advisor.name : (personas[persona] || personas.nietzsche);
     const assistantResult = await client.query(`INSERT INTO workspace_messages
       (id, session_id, reply_to_id, role, display_name, body)
       VALUES ($1, $2, $3, 'persona', $4, $5)
