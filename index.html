@@ -815,6 +815,7 @@
       if("serviceWorker" in navigator&&location.protocol.startsWith("http"))addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(error=>console.info("오프라인 앱 셸 등록 실패",error)));
     })();
   </script>
+  <script src="./chat-client.js?v=1"></script>
 </body>
 </html>
 

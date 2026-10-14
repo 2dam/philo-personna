@@ -25,3 +25,16 @@
 - Android/데스크톱: HTTPS 사이트를 Chrome 또는 지원 브라우저로 열고 **앱 설치**를 선택합니다.
 - iPhone/iPad: Safari에서 사이트를 열고 **공유 → 홈 화면에 추가**를 선택합니다.
 - 앱 셸은 오프라인에서도 열리지만 상담 세션 API는 네트워크 연결이 필요합니다.
+
+
+## Enable real conversations and saved history
+
+The deployed pages send chat requests to the Render service at `https://mindset1000.onrender.com`. The server calls the OpenAI Responses API and saves conversation messages and session context in PostgreSQL. The API key stays on the server and must never be added to HTML or JavaScript.
+
+In the Render service environment, set:
+
+- `OPENAI_API_KEY`: an API key from the OpenAI Platform. API usage is billed separately from ChatGPT subscriptions.
+- `DATABASE_URL`: the connection string for a PostgreSQL database. Render's service filesystem is temporary, so in-memory or file-only history will not survive restarts.
+- `OPENAI_MODEL`: optional; defaults to `gpt-6-luna`.
+
+After saving the environment variables, redeploy `mindset1000`. Check `https://mindset1000.onrender.com/api/health`; `chatReady` should be `true`. GitHub Pages remains the public frontend, while its chat requests use the Render API. Conversation history is separated by advisor and saved in the browser's session ID; clearing that browser's local storage starts a new conversation.
