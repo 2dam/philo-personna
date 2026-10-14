@@ -1,0 +1,31 @@
+{
+  "id": "./",
+  "name": "Mindset 1000 — 현자 네트워크",
+  "short_name": "Mindset 1000",
+  "description": "1,000명의 지성과 함께 다음 선택을 찾는 자문 공간",
+  "lang": "ko",
+  "dir": "ltr",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "any",
+  "background_color": "#071225",
+  "theme_color": "#111d34",
+  "categories": [
+    "productivity",
+    "education",
+    "lifestyle"
+  ],
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
