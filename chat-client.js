@@ -14,13 +14,37 @@
   let pendingMessageId = "";
 
   function currentPersona() {
-    const personaId = document.querySelector("#roomPersonaName")?.dataset.persona;
+    const heading = document.querySelector("#roomPersonaName");
+    const personaId = heading?.dataset.persona;
     if (["sun", "nietzsche", "adler", "lincoln"].includes(personaId)) return personaId;
-    const name = document.querySelector("#roomPersonaName")?.textContent || "";
+    const name = heading?.textContent || "";
     return personaByName.find(([, pattern]) => pattern.test(name))?.[0] || "nietzsche";
   }
 
+  function currentAdvisor() {
+    const heading = document.querySelector("#roomPersonaName");
+    if (!heading) return null;
+    try {
+      const profile = JSON.parse(heading.dataset.advisorProfile || "{}");
+      if (profile.name) return {
+        id: Number(profile.id) || null,
+        name: String(profile.name).slice(0, 120),
+        category: String(profile.category || "").slice(0, 80),
+        occupation: String(profile.occupation || "").slice(0, 100),
+        industry: String(profile.industry || "").slice(0, 100),
+        country: String(profile.country || "").slice(0, 100),
+        birthYear: Number.isFinite(Number(profile.birthYear)) ? Number(profile.birthYear) : null,
+        bio: String(profile.intro || profile.bio || "").slice(0, 500),
+        lens: String(profile.lens || "").slice(0, 80),
+        persona: currentPersona(),
+      };
+    } catch { /* Use the visible selected name as a compatibility fallback. */ }
+    return { name: heading.textContent.trim(), category: "", lens: "", persona: currentPersona() };
+  }
+
   function sessionIdFor(persona = currentPersona()) {
+    const advisorSession = document.querySelector("#roomPersonaName")?.dataset.advisorSession;
+    if (advisorSession && persona === currentPersona()) return advisorSession;
     let sessions = {};
     try { sessions = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); } catch { sessions = {}; }
     if (!sessions[persona]) {
@@ -104,6 +128,7 @@
           sessionId: sessionIdFor(),
           clientMessageId: pendingMessageId,
           persona: currentPersona(),
+          advisor: currentAdvisor(),
           message: text,
         }),
       });
