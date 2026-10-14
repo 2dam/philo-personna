@@ -124,6 +124,8 @@
     .gateway-actions{display:flex;align-items:center;gap:9px}
     .install-app{border:1px solid #ffffff38;border-radius:99px;background:#ffffff12;color:#eff8ff;padding:9px 14px;font-size:11px;font-weight:750;backdrop-filter:blur(12px)}
     .install-app:hover{background:#ffffff24;border-color:#72dfc7}
+    .install-home{border:1px solid #cfe7e2;border-radius:999px;background:#eaf5f2;color:#207d71;padding:8px 12px;font-size:10px;font-weight:800;white-space:nowrap}
+    .install-home:hover{background:#dcefeb;border-color:#9ed4c8}
     .install-help{position:fixed;z-index:90;inset:0;display:grid;place-items:center;padding:22px;background:#071225b8;backdrop-filter:blur(8px)}
     .install-help-card{width:min(440px,100%);border:1px solid #dfe6ee;border-radius:22px;background:#fff;padding:26px;color:#17233b;box-shadow:0 24px 80px #07122555}
     .install-help-card h2{margin:0 0 10px;font-size:20px}.install-help-card p{margin:0;color:#58677a;font-size:14px;line-height:1.7}.install-help-card button{display:block;margin:20px 0 0 auto;border:0;border-radius:10px;background:#207d71;color:white;padding:10px 18px;font-weight:750}
@@ -207,7 +209,7 @@
     <div class="home-content modern-content">
       <header class="home-top">
         <p>오늘의 관점 <span>· 2026년 7월 27일</span></p>
-        <div class="top-actions"><span class="modern-online"><i class="live-dot"></i>1,000 minds online</span><a class="ghost-btn" href="./en.html" style="text-decoration:none">EN</a><button class="icon-button" aria-label="설정">···</button></div>
+        <div class="top-actions"><span class="modern-online"><i class="live-dot"></i>1,000 minds online</span><button id="installAppHome" class="install-home" type="button" aria-label="Mindset 1000 홈 화면에 추가">앱 설치</button><a class="ghost-btn" href="./en.html" style="text-decoration:none">EN</a><button class="icon-button" aria-label="설정">···</button></div>
       </header>
       <main class="modern-main">
         <section class="modern-hero">
@@ -802,14 +804,14 @@
   <script type="module" src="gallery-tunnel.js?v=5"></script>
   <script>
     (()=>{
-      const button=document.getElementById("installApp");let promptEvent=null;
+      const buttons=[document.getElementById("installApp"),document.getElementById("installAppHome")].filter(Boolean);let promptEvent=null;
       const ios=/iphone|ipad|ipod/i.test(navigator.userAgent)&&!window.MSStream;
       const standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
-      const help=(title,message)=>{const overlay=document.createElement("div");overlay.className="install-help";overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.innerHTML=`<section class="install-help-card"><h2>${title}</h2><p>${message}</p><button type="button">확인</button></section>`;overlay.addEventListener("click",event=>{if(event.target===overlay||event.target.closest("button"))overlay.remove()});document.body.append(overlay);overlay.querySelector("button").focus()};
-      if(standalone)button.hidden=true;
-      addEventListener("beforeinstallprompt",event=>{event.preventDefault();promptEvent=event});
-      addEventListener("appinstalled",()=>{promptEvent=null;button.hidden=true});
-      button.addEventListener("click",async()=>{if(promptEvent){promptEvent.prompt();await promptEvent.userChoice;promptEvent=null;return}if(ios)help("홈 화면에 추가","Safari의 공유 버튼을 누른 다음 ‘홈 화면에 추가’를 선택하세요.");else help("브라우저 메뉴에서 설치","주소창 옆 설치 아이콘 또는 브라우저 메뉴에서 ‘앱 설치’나 ‘홈 화면에 추가’를 선택하세요.")});
+      const help=(title,message)=>{const overlay=document.createElement("div");overlay.className="install-help";overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.innerHTML="<section class=\"install-help-card\"><h2>"+title+"</h2><p>"+message+"</p><button type=\"button\">확인</button></section>";overlay.addEventListener("click",event=>{if(event.target===overlay||event.target.closest("button"))overlay.remove()});document.body.append(overlay);overlay.querySelector("button").focus()};
+      if(standalone)buttons.forEach(button=>button.hidden=true);
+      addEventListener("beforeinstallprompt",event=>{event.preventDefault();promptEvent=event;buttons.forEach(button=>button.hidden=false)});
+      addEventListener("appinstalled",()=>{promptEvent=null;buttons.forEach(button=>button.hidden=true)});
+      buttons.forEach(button=>button.addEventListener("click",async()=>{if(promptEvent){promptEvent.prompt();await promptEvent.userChoice;promptEvent=null;buttons.forEach(item=>item.hidden=true);return}if(ios)help("홈 화면에 추가","Safari의 공유 버튼을 누른 다음 ‘홈 화면에 추가’를 선택하세요.");else help("브라우저 메뉴에서 설치","주소창 옆 설치 아이콘 또는 브라우저 메뉴에서 ‘앱 설치’나 ‘홈 화면에 추가’를 선택하세요.")}));
       if("serviceWorker" in navigator&&location.protocol.startsWith("http"))addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(error=>console.info("오프라인 앱 셸 등록 실패",error)));
     })();
   </script>
