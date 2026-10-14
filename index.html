@@ -3,7 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#1d1814">
+  <meta name="theme-color" content="#111d34">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Mindset 1000">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icons/icon.svg">
   <title>Mindset 1000 — 1,000명의 현자와 함께 만드는 다음 선택</title>
   <meta name="description" content="역사 속 위대한 지성의 관점으로 오늘의 고민을 바라보는 디지털 도서관">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -114,6 +121,13 @@
     .gateway-nav{position:relative;z-index:4;display:flex;justify-content:space-between;align-items:center;padding:28px clamp(22px,4vw,62px)}
     .gateway-logo{display:flex;align-items:center;gap:13px;font-weight:850;letter-spacing:.05em}.gateway-logo small{display:block;color:#8fa5be;font-size:9px;letter-spacing:.18em;margin-top:4px}
     .gateway-status{font-size:11px;color:#bed0df;padding:9px 13px;border:1px solid #ffffff24;border-radius:99px;background:#ffffff0b;backdrop-filter:blur(12px)}
+    .gateway-actions{display:flex;align-items:center;gap:9px}
+    .install-app{border:1px solid #ffffff38;border-radius:99px;background:#ffffff12;color:#eff8ff;padding:9px 14px;font-size:11px;font-weight:750;backdrop-filter:blur(12px)}
+    .install-app:hover{background:#ffffff24;border-color:#72dfc7}
+    .install-help{position:fixed;z-index:90;inset:0;display:grid;place-items:center;padding:22px;background:#071225b8;backdrop-filter:blur(8px)}
+    .install-help-card{width:min(440px,100%);border:1px solid #dfe6ee;border-radius:22px;background:#fff;padding:26px;color:#17233b;box-shadow:0 24px 80px #07122555}
+    .install-help-card h2{margin:0 0 10px;font-size:20px}.install-help-card p{margin:0;color:#58677a;font-size:14px;line-height:1.7}.install-help-card button{display:block;margin:20px 0 0 auto;border:0;border-radius:10px;background:#207d71;color:white;padding:10px 18px;font-weight:750}
+    @media(max-width:700px){.gateway-nav{padding:20px 16px}.gateway-status{font-size:9px;padding:8px 10px}.install-app{padding:8px 10px;font-size:10px}.gateway-logo{gap:8px;font-size:12px}.gateway-logo small{font-size:7px}}
     .gateway-copy{position:relative;z-index:3;display:flex;min-height:calc(100svh - 95px);align-items:center;justify-content:center;text-align:center;padding:40px 22px 100px}
     .gateway-copy-inner{max-width:840px}
     .gateway-copy .eyebrow{color:#72dfc7;font:800 11px Pretendard,sans-serif;letter-spacing:.22em}
@@ -157,7 +171,7 @@
     @media(max-width:700px){.mind-card{width:105px;height:145px;margin:-72px 0 0 -52px}.mind-card:nth-child(1){transform:translate3d(-38vw,-29vh,-80px)}.mind-card:nth-child(2){transform:translate3d(38vw,-27vh,-140px)}.mind-card:nth-child(3),.mind-card:nth-child(4){opacity:.25}.mind-card:nth-child(5){transform:translate3d(-36vw,30vh,-100px)}.mind-card:nth-child(6){transform:translate3d(37vw,29vh,-150px)}.gateway-copy h1{font-size:clamp(45px,15vw,72px)}.gateway-foot{gap:11px;font-size:8px}.gateway-actions{flex-direction:column;max-width:260px;margin:auto}}
     @media(max-width:700px){.mind-flow{min-height:500px}.flow-viewport{height:420px}.flow-tilt{transform:translate(-50%,-50%) rotateX(-7deg) scale(.62)}.flow-track,.flow-card{width:300px;height:300px}.flow-card{margin:0}.flow-intro{margin:-8px auto 28px;padding:0 10px;font-size:14px;line-height:1.65}}
 </style>
-<link rel="stylesheet" href="modern-refresh.css?v=2">
+<link rel="stylesheet" href="modern-refresh.css?v=20261014-2">
 </head>
 <body>
   <div class="grain"></div>
@@ -166,7 +180,7 @@
     <div id="galleryTunnel" class="gallery-tunnel" aria-hidden="true"><canvas id="galleryTunnelCanvas"></canvas></div>
     <header class="gateway-nav">
       <div class="gateway-logo"><span class="brand-mark">1000</span><span>MINDSET 1000<small>PRIVATE ADVISORY NETWORK</small></span></div>
-      <span class="gateway-status"><span class="live-dot"></span>1,000 MINDS ONLINE</span>
+      <div class="gateway-actions"><span class="gateway-status"><span class="live-dot"></span>1,000 MINDS ONLINE</span><button id="installApp" class="install-app" type="button" aria-label="Mindset 1000 홈 화면에 추가">앱 설치</button></div>
     </header>
     <main class="gateway-copy"><div class="gateway-copy-inner">
       <span class="eyebrow">MINDSET1000.COM · INVITE ONLY</span>
@@ -193,7 +207,7 @@
     <div class="home-content modern-content">
       <header class="home-top">
         <p>오늘의 관점 <span>· 2026년 7월 27일</span></p>
-        <div class="top-actions"><span class="modern-online"><i class="live-dot"></i>1,000 minds online</span><a class="ghost-btn" href="/en" style="text-decoration:none">EN</a><button class="icon-button" aria-label="설정">···</button></div>
+        <div class="top-actions"><span class="modern-online"><i class="live-dot"></i>1,000 minds online</span><a class="ghost-btn" href="./en.html" style="text-decoration:none">EN</a><button class="icon-button" aria-label="설정">···</button></div>
       </header>
       <main class="modern-main">
         <section class="modern-hero">
@@ -257,7 +271,7 @@
     <div class="home-content">
       <header class="home-top">
         <p>MINDSET 1000 <span>· Private Advisory Network</span></p>
-        <div class="top-actions"><a class="ghost-btn" href="/en" style="text-decoration:none">EN</a><button class="icon-button" aria-label="알림">●</button><button class="icon-button" aria-label="설정">•••</button></div>
+        <div class="top-actions"><a class="ghost-btn" href="./en.html" style="text-decoration:none">EN</a><button class="icon-button" aria-label="알림">●</button><button class="icon-button" aria-label="설정">•••</button></div>
       </header>
       <main class="home-main">
         <section class="mind-flow" aria-label="1,000명의 현자 Coverflow">
@@ -786,6 +800,19 @@
     document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("#roundtable").classList.contains("hidden"))$("#closeRound").click()});
   </script>
   <script type="module" src="gallery-tunnel.js?v=5"></script>
+  <script>
+    (()=>{
+      const button=document.getElementById("installApp");let promptEvent=null;
+      const ios=/iphone|ipad|ipod/i.test(navigator.userAgent)&&!window.MSStream;
+      const standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+      const help=(title,message)=>{const overlay=document.createElement("div");overlay.className="install-help";overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.innerHTML=`<section class="install-help-card"><h2>${title}</h2><p>${message}</p><button type="button">확인</button></section>`;overlay.addEventListener("click",event=>{if(event.target===overlay||event.target.closest("button"))overlay.remove()});document.body.append(overlay);overlay.querySelector("button").focus()};
+      if(standalone)button.hidden=true;
+      addEventListener("beforeinstallprompt",event=>{event.preventDefault();promptEvent=event});
+      addEventListener("appinstalled",()=>{promptEvent=null;button.hidden=true});
+      button.addEventListener("click",async()=>{if(promptEvent){promptEvent.prompt();await promptEvent.userChoice;promptEvent=null;return}if(ios)help("홈 화면에 추가","Safari의 공유 버튼을 누른 다음 ‘홈 화면에 추가’를 선택하세요.");else help("브라우저 메뉴에서 설치","주소창 옆 설치 아이콘 또는 브라우저 메뉴에서 ‘앱 설치’나 ‘홈 화면에 추가’를 선택하세요.")});
+      if("serviceWorker" in navigator&&location.protocol.startsWith("http"))addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(error=>console.info("오프라인 앱 셸 등록 실패",error)));
+    })();
+  </script>
 </body>
 </html>
 
